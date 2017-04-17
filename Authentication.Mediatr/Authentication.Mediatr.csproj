@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Authentication.PresentationModels\Authentication.PresentationModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MediatR">
+      <HintPath>..\..\..\Users\John\.nuget\packages\mediatr\2.1.0\lib\netstandard1.1\MediatR.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
