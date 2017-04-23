@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using Authentication.Container;
 using IdentityModel;
 using Microsoft.AspNetCore.Builder;
@@ -33,13 +32,13 @@ namespace Authentication
     public IServiceProvider ConfigureServices(IServiceCollection services)
     {
       services.AddMvc();
-  
       services.AddIdentityServer()
         //.AddSigningCredential()
         .AddTemporarySigningCredential()
         .AddInMemoryClients(Config.GetClients())
         .AddInMemoryApiResources(Config.GetApiResources())
         .AddTestUsers(Config.GetTestUsers());
+
       return applicationContainer = new Container.Container(services);
     }
 

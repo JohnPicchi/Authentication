@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Authentication.Database.Contexts;
-using Authentication.Database.EntityModels;
+using Authentication.Repository;
 
 namespace Authentication.Database
 {
@@ -17,7 +17,7 @@ namespace Authentication.Database
     }
 
     public void Remove<TEntity>(TEntity entity)
-      where TEntity : class, IEntity
+      where TEntity : class, Authentication.Repository.IEntity
     {
       databaseContext.Value.Set<TEntity>()
         .Remove(entity);

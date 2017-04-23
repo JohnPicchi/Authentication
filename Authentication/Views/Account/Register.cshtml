@@ -1,10 +1,11 @@
+@using Microsoft.AspNetCore.Mvc.ModelBinding
 @model Authentication.PresentationModels.ViewModels.RegisterViewModel
 
 <div class="page-header">
   <h1>Registration</h1>
 </div>
 
-<form asp-controller="Account" asp-action="Login" method="post" class="form-horizontal">
+<form asp-controller="Account" asp-action="Register" method="post" class="form-horizontal">
   
   <div class="form-group">
     <label asp-for="FirstName" class="control-label col-sm-2"></label>

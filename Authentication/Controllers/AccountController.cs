@@ -1,29 +1,17 @@
 ﻿using System;
-using Authentication.Core.Contracts;
-using Authentication.Core.Helpers;
-using Authentication.Database;
-using Authentication.Mediatr.Requests;
+using Authentication.Core.Contracts.HandlerContracts;
+using Authentication.Core.Handlers;
 using Authentication.PresentationModels.EditModels;
 using Authentication.PresentationModels.ViewModels;
-using Authentication.Services;
-using IdentityServer4.Services;
-using MediatR;
-using Microsoft.AspNetCore.Antiforgery.Internal;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Authentication.Controllers
 {
   public class AccountController : DefaultController
   {
-    private IIdentityServerInteractionService interactionService;
-    private IMediator mediator;
-    private IPasswordService passwordService;
-
-    public AccountController(IIdentityServerInteractionService interactionService, IMediator mediator, IPasswordService passwordService)
+    public AccountController()
     {
-      this.interactionService = interactionService;
-      this.mediator = mediator;
-      this.passwordService = passwordService;
+
     }
 
     public IActionResult Index()
@@ -34,12 +22,14 @@ namespace Authentication.Controllers
     [HttpGet]
     public IActionResult Register() => View(new RegisterViewModel());
 
-
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Register(RegisterEditModel form)
+    public IActionResult Register(RegisterEditModel form, 
+      [FromServices] IFormHandler<RegisterEditModel> formHandler)
     {
-      return View();
+      return Form(form, formHandler,
+        success: () => View(form as RegisterViewModel),
+        failure: () => View(form as RegisterViewModel));
     }
 
    // [AcceptVerbs(Helpers.Http.Actions.Get, Helpers.Http.Actions.Post)]
@@ -55,18 +45,20 @@ namespace Authentication.Controllers
     [HttpGet]
     public IActionResult Login() => View(new LoginViewModel());
 
-
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Login(LoginEditModel form)
+    public IActionResult Login(LoginEditModel form, 
+      [FromServices] IFormHandler<LoginEditModel> formHandler)
     {
-      return null;
+      return Form(form, formHandler,
+        success: () => RedirectToAction("Logout"),
+        failure: () => View(form as LoginViewModel));
     }
 
     [HttpGet]
     public IActionResult Logout()
     {
-      return View();
+      return Json("Congrats you logged in");
     }
   }
 }

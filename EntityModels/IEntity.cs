@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Authentication.Database
+namespace Authentication.Repository
 {
   public interface IEntity
   {

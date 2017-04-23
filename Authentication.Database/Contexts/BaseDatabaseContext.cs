@@ -3,21 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Authentication.Core.Helpers;
-using Authentication.Database.EntityModels;
 using Microsoft.EntityFrameworkCore;
+using Authentication.Repository;
+using AppContext = Authentication.DomainModels.Models.AppContext;
 
 namespace Authentication.Database.Contexts
 {
-  public abstract class BaseDatabaseContext : DbContext
+  internal abstract class BaseDatabaseContext : DbContext
   {
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-      optionsBuilder.UseSqlServer(Core.AppContext.AppSettings.DbConnectionString, builder =>
-      {
-        builder.EnableRetryOnFailure();
-      });
-    }
-
     public override int SaveChanges()
     {
       SetEntityTimeStamps();

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Authentication.Database.EntityModels;
 
-namespace Authentication.Database
+namespace Authentication.Repository
 {
   public interface IRepository : IDisposable
   {

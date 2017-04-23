@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Authentication.Core.Contracts;
+using Authentication.Core.Contracts.ServiceContracts;
 using Authentication.Services;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Authentication.Container
@@ -52,11 +53,6 @@ namespace Authentication.Container
 
       serviceProvider = new AutofacServiceProvider(autofacContainer);
 
-      
-      using (var scope = autofacContainer.BeginLifetimeScope())
-      {
-        scope.Resolve<IPasswordService>();
-      }
     }
 
     public void Dispose() => autofacContainer.Dispose();

@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using Authentication.Core.Contracts;
-using Authentication.Database;
+﻿using Authentication.Core.Contracts.ServiceContracts;
 
 namespace Authentication.Services
 {
   public class PasswordService : IPasswordService
   {
-    private IRepository repository;
-
-    public PasswordService(IRepository repository)
+    public PasswordService()
     {
-      this.repository = repository;
+
     }
 
     public string HashPassword(string password) => BCrypt.Net.BCrypt.HashPassword(password);

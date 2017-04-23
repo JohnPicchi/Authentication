@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Authentication.Core
+namespace Authentication.DomainModels.Contracts
 {
   public interface IAppSettings
   {

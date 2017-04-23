@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using Authentication.Core.Contracts.HandlerContracts;
+using Authentication.Core.Handlers;
 using Authentication.Database;
 using Autofac;
 using Module = Autofac.Module;
@@ -26,10 +28,27 @@ namespace Authentication.Container.Modules
         .InstancePerLifetimeScope();  //NOT instancePerRequest for dotnet core 
     
       //Repository
-      builder.Register(c => new Repository())
+      builder.Register(c => new Database.Repository())
         .AsImplementedInterfaces()
         .InstancePerLifetimeScope();
 
+      //Form Handlers
+      builder.RegisterAssemblyTypes(assemblies)
+        .Where(t => t.Name.EndsWith("FormHandler"))
+        .AsClosedTypesOf(typeof(IFormHandler<>))
+        .InstancePerLifetimeScope();
+
+      //Request Handlers
+      builder.RegisterAssemblyTypes(assemblies)
+        .Where(t => t.Name.EndsWith("RequestHandler"))
+        .AsClosedTypesOf(typeof(IRequestHandler<,>))
+        .InstancePerLifetimeScope();
+
+      //Notification Handlers
+      builder.RegisterAssemblyTypes(assemblies)
+        .Where(t => t.Name.EndsWith("NotificationHandler"))
+        .AsClosedTypesOf(typeof(INotificationHandler<>))
+        .InstancePerLifetimeScope();
 
       base.Load(builder);
     }

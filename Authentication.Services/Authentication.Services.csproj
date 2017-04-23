@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Authentication.Core\Authentication.Core.csproj" />
-    <ProjectReference Include="..\Authentication.Database\Authentication.Database.csproj" />
   </ItemGroup>
 
 </Project>
