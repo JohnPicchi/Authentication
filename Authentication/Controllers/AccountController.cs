@@ -9,11 +9,6 @@ namespace Authentication.Controllers
 {
   public class AccountController : DefaultController
   {
-    public AccountController()
-    {
-
-    }
-
     public IActionResult Index()
     {
       return View();

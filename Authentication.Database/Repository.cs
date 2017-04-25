@@ -9,7 +9,7 @@ namespace Authentication.Database
 {
   public class Repository : IRepository
   {
-    private readonly Lazy<DatabaseContext> databaseContext = new Lazy<DatabaseContext>(() => new DatabaseContext());
+    private readonly Lazy<DatabaseContext> databaseContext;
 
     public Repository()
     {

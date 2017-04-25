@@ -48,6 +48,11 @@
     <ProjectReference Include="..\Authentication.Services\Authentication.Services.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="System.Configuration">
+      <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.Configuration.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 

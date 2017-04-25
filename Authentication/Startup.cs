@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using Authentication.Container;
+using Authentication.DomainModels.Contracts;
+using Authentication.DomainModels.Models;
 using IdentityModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -38,6 +40,9 @@ namespace Authentication
         .AddInMemoryClients(Config.GetClients())
         .AddInMemoryApiResources(Config.GetApiResources())
         .AddTestUsers(Config.GetTestUsers());
+
+      services.AddOptions();
+      services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
       return applicationContainer = new Container.Container(services);
     }

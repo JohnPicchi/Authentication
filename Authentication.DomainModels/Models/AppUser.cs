@@ -1,8 +1,9 @@
 ﻿using System;
+using Authentication.DomainModels.Contracts;
 
 namespace Authentication.DomainModels.Models
 {
-  public class AppUser
+  public class AppUser : IAppUser
   {
     public string UserId { get; set; }
 

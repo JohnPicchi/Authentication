@@ -2,8 +2,8 @@
 
 namespace Authentication.Core.Contracts.HandlerContracts
 {
-  public interface IFormHandler<TForm>
+  public interface IFormHandler<TForm> : IHandler<TForm, IFormResult>
   {
-    IFormResult Handle(TForm form);
+
   }
 }
