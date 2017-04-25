@@ -1,6 +1,4 @@
-﻿using System;
-using Authentication.Core.Contracts.HandlerContracts;
-using Authentication.Core.Handlers;
+﻿using Authentication.Core.Contracts.HandlerContracts;
 using Authentication.PresentationModels.EditModels;
 using Authentication.PresentationModels.ViewModels;
 using Microsoft.AspNetCore.Mvc;

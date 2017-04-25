@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
@@ -18,7 +16,7 @@ namespace Authentication
         new TestUser
         {
           SubjectId = "123", Username = "john", Password = "john",
-          Claims = new List<Claim>
+          Claims = new List<System.Security.Claims.Claim>
           {
             new Claim("name", "John Picchi"),
             new Claim("email", "0xdante@gmail.com"),

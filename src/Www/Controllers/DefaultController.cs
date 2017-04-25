@@ -1,9 +1,10 @@
-﻿using System;
-using Authentication.Core.Contracts.HandlerContracts;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+using System;
+using Authentication.Core.Contracts.HandlerContracts;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Authentication.Controllers
 {

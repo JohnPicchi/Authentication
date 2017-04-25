@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication", "Authentication\Authentication.csproj", "{B243A93A-108B-4CC4-AE04-0AB44124C4F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication", "Www\Authentication.csproj", "{B243A93A-108B-4CC4-AE04-0AB44124C4F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Container", "Infrastructure\Authentication.Container\Authentication.Container.csproj", "{5FAD4724-441F-44B5-AE4E-2066F186FB87}"
 	ProjectSection(ProjectDependencies) = postProject
