@@ -1,6 +1,6 @@
 ﻿namespace Authentication.Core.Contracts.HandlerContracts
 {
-  public interface INotificationHandler<TMessage> : IHandler<TMessage>
+  public interface INotificationHandler<TMessage> : IRequestHandler<TMessage>
     where TMessage: INotification
   {
 

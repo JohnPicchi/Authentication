@@ -1,4 +1,4 @@
-﻿namespace Authentication.Core.Handlers.FormHandlers
+﻿namespace Authentication.Core.Handlers.RequestHandlers.FormResults
 {
   public interface IFormResult
   {

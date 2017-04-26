@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Text;
 using Authentication.Core.Contracts.HandlerContracts;
 using Authentication.Core.Handlers;
+using Authentication.Core.Requests;
 using Authentication.Database;
 using Autofac;
 using Module = Autofac.Module;
@@ -32,10 +33,14 @@ namespace Authentication.Container.Modules
         .AsImplementedInterfaces()
         .InstancePerLifetimeScope();
 
-      //Form Handlers
+      //Requests
       builder.RegisterAssemblyTypes(assemblies)
-        .Where(t => t.Name.EndsWith("FormHandler"))
-        .AsClosedTypesOf(typeof(IFormHandler<>))
+        .Where(t => t.Name.EndsWith("Request"))
+        .AsClosedTypesOf(typeof(IRequest<,>))
+        .InstancePerLifetimeScope();
+
+      builder.RegisterGeneric(typeof(FormResultRequest<>))
+        .As(typeof(IFormResultRequest<>))
         .InstancePerLifetimeScope();
 
       //Request Handlers

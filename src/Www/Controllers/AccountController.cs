@@ -1,4 +1,5 @@
 ﻿using Authentication.Core.Contracts.HandlerContracts;
+using Authentication.Core.Requests;
 using Authentication.PresentationModels.EditModels;
 using Authentication.PresentationModels.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,9 @@ namespace Authentication.Controllers
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Register(RegisterEditModel form, 
-      [FromServices] IFormHandler<RegisterEditModel> formHandler)
+      [FromServices] IFormResultRequest<RegisterEditModel> request)
     {
-      return Form(form, formHandler,
+      return Form(form, request,
         success: () => View(form as RegisterViewModel),
         failure: () => View(form as RegisterViewModel));
     }
@@ -41,9 +42,9 @@ namespace Authentication.Controllers
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Login(LoginEditModel form, 
-      [FromServices] IFormHandler<LoginEditModel> formHandler)
+      [FromServices] IFormResultRequest<LoginEditModel> request)
     {
-      return Form(form, formHandler,
+      return Form(form, request,
         success: () => RedirectToAction("Logout"),
         failure: () => View(form as LoginViewModel));
     }
