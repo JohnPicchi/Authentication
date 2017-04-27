@@ -29,5 +29,10 @@ namespace Authentication.Repository.DataModels
     /// The type of the value (boolean, string, etc..)
     /// </summary>
     public string ValueType { get; set; }
+
+    /// <summary>
+    /// The authority who issued this claim
+    /// </summary>
+    public string Issuer { get; set; }
   }
 }

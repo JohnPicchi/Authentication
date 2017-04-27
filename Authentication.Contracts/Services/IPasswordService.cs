@@ -1,4 +1,4 @@
-﻿namespace Authentication.Core.Contracts.ServiceContracts
+﻿namespace Authentication.Contracts.Services
 {
   public interface IPasswordService
   {

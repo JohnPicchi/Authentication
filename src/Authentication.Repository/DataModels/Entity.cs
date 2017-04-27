@@ -2,7 +2,7 @@
 
 namespace Authentication.Repository.DataModels
 {
-  public class Entity<TEntity> : IEntity
+  public abstract class Entity<TEntity> : IEntity
   {
     public TEntity Id { get; set; }
 

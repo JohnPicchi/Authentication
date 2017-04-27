@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Reflection;
 using System.Text;
-using Authentication.Core.Contracts.HandlerContracts;
-using Authentication.Core.Handlers;
+using Authentication.Core.Contracts.Handlers;
+using Authentication.Core.Contracts.Notifications;
+using Authentication.Core.Contracts.Requests;
+using Authentication.Core.Notifications;
 using Authentication.Core.Requests;
-using Authentication.Database;
 using Autofac;
 using Module = Autofac.Module;
 
@@ -22,18 +24,22 @@ namespace Authentication.Container.Modules
         Assembly.Load(new AssemblyName {Name = "Authentication.Services"}),
       };
     
-      //Register Application/Domain Services
+      ////////////////////////////////////////////////
+      // Register Services, Stores, & Repository
+      ///////////////////////////////////////////////
       builder.RegisterAssemblyTypes(assemblies)
         .Where(t => t.Name.EndsWith("Service"))
         .AsImplementedInterfaces()
         .InstancePerLifetimeScope();  //NOT instancePerRequest for dotnet core 
     
-      //Repository
       builder.Register(c => new Database.Repository())
         .AsImplementedInterfaces()
         .InstancePerLifetimeScope();
 
-      //Requests
+
+      /////////////////////////////////////////////
+      // Requests & Notifications
+      ////////////////////////////////////////////
       builder.RegisterAssemblyTypes(assemblies)
         .Where(t => t.Name.EndsWith("Request"))
         .AsClosedTypesOf(typeof(IRequest<,>))
@@ -43,13 +49,19 @@ namespace Authentication.Container.Modules
         .As(typeof(IFormResultRequest<>))
         .InstancePerLifetimeScope();
 
-      //Request Handlers
+      builder.RegisterGeneric(typeof(Notification<>))
+        .As(typeof(INotification<>))
+        .InstancePerLifetimeScope();
+
+
+      ///////////////////////////////////////////
+      // Handlers
+      //////////////////////////////////////////
       builder.RegisterAssemblyTypes(assemblies)
         .Where(t => t.Name.EndsWith("RequestHandler"))
         .AsClosedTypesOf(typeof(IRequestHandler<,>))
         .InstancePerLifetimeScope();
 
-      //Notification Handlers
       builder.RegisterAssemblyTypes(assemblies)
         .Where(t => t.Name.EndsWith("NotificationHandler"))
         .AsClosedTypesOf(typeof(INotificationHandler<>))

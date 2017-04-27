@@ -1,13 +1,7 @@
-﻿namespace Authentication.Core.Handlers.RequestHandlers.FormResults
+﻿using Authentication.Core.Contracts;
+
+namespace Authentication.Core.Handlers.RequestHandlers.FormResultRequests
 {
-  public interface IFormResult
-  {
-    bool Success { get; }
-
-    string ErrorMessage { get; }
-  }
-
-
   public class FormResult : IFormResult
   {
     public bool Success { get; set; }

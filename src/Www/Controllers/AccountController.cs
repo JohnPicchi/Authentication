@@ -1,5 +1,4 @@
-﻿using Authentication.Core.Contracts.HandlerContracts;
-using Authentication.Core.Requests;
+﻿using Authentication.Core.Contracts.Requests;
 using Authentication.PresentationModels.EditModels;
 using Authentication.PresentationModels.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +9,9 @@ namespace Authentication.Controllers
   {
     public IActionResult Index()
     {
+      var test = nameof(Login);
       return View();
+
     }
 
     [HttpGet]
@@ -45,7 +46,7 @@ namespace Authentication.Controllers
       [FromServices] IFormResultRequest<LoginEditModel> request)
     {
       return Form(form, request,
-        success: () => RedirectToAction("Logout"),
+        success: () => RedirectToAction(nameof(AccountController.Logout)),
         failure: () => View(form as LoginViewModel));
     }
 

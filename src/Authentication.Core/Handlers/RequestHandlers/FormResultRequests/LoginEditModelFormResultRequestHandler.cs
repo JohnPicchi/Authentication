@@ -1,8 +1,8 @@
-﻿using Authentication.Core.Contracts.HandlerContracts;
-using Authentication.Core.Handlers.RequestHandlers.FormResults;
+﻿using Authentication.Core.Contracts;
+using Authentication.Core.Contracts.Handlers;
 using Authentication.PresentationModels.EditModels;
 
-namespace Authentication.Core.Handlers.RequestHandlers.FormResultRequestHandlers
+namespace Authentication.Core.Handlers.RequestHandlers.FormResultRequests
 {
   public class LoginEditModelFormResultRequestHandler : IFormResultRequestHandler<LoginEditModel>
   {

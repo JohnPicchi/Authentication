@@ -16,10 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\StoreContracts\" />
+    <Folder Include="Contracts\Stores\" />
     <Folder Include="Handlers\NotificationHandlers\" />
     <Folder Include="Handlers\RequestHandlers\ViewModels\" />
-    <Folder Include="Notifications\" />
   </ItemGroup>
 
   <ItemGroup>

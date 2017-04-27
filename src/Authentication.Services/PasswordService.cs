@@ -1,4 +1,4 @@
-﻿using Authentication.Core.Contracts.ServiceContracts;
+﻿using Authentication.Core.Contracts.Services;
 
 namespace Authentication.Services
 {

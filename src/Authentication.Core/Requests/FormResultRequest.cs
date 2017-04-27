@@ -1,12 +1,9 @@
-﻿using Authentication.Core.Contracts.HandlerContracts;
-using Authentication.Core.Handlers.RequestHandlers.FormResults;
+﻿using Authentication.Core.Contracts;
+using Authentication.Core.Contracts.Handlers;
+using Authentication.Core.Contracts.Requests;
 
 namespace Authentication.Core.Requests
 {
-  public interface IFormResultRequest<TRequest> : IRequest<IFormResult, TRequest>
-  {
-  }
-
   public class FormResultRequest<TForm> :  IFormResultRequest<TForm>
   {
     private readonly IFormResultRequestHandler<TForm> requestHandler;

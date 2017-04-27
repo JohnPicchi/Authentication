@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Authentication.Database.EntityModelConfigurations
+namespace Authentication.Database
 {
   internal abstract class EntityTypeConfiguration<TEntity>
     where TEntity : class
