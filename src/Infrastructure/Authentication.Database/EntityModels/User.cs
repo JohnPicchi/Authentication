@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Authentication.Repository.DataModels
+namespace Authentication.Database.EntityModels
 {
   public class User : Entity<Guid>
   {
@@ -60,6 +60,6 @@ namespace Authentication.Repository.DataModels
     /// <summary>
     /// The user's identity claims
     /// </summary>
-    public List<Claim> Claims { get; set; }
+    public List<Database.EntityModels.Claim> Claims { get; set; }
   }
 }

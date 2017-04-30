@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Authentication.Repository.DataModels;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Claim = Authentication.Database.EntityModels.Claim;
 
 namespace Authentication.Database.EntityModelConfigurations
 {

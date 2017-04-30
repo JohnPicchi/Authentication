@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Authentication.Core.Helpers;
-using Authentication.Repository;
+using Authentication.Core.Contracts;
+using Authentication.Utilities.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.Database.Contexts

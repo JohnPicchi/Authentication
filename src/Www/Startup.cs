@@ -1,5 +1,5 @@
 ﻿using System;
-using Authentication.DomainModels.Models;
+using Authentication.Domain.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -38,7 +38,7 @@ namespace Authentication
         .AddTestUsers(Config.GetTestUsers());
 
       services.AddOptions();
-      services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+      services.Configure<ApplicationSettings>(Configuration.GetSection("AppSettings"));
 
       return applicationContainer = new Container.Container(services);
     }

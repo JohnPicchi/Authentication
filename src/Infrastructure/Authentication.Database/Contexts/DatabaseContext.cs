@@ -2,28 +2,28 @@
 using System.Collections.Generic;
 using System.Text;
 using Authentication.Database.EntityModelConfigurations;
-using Authentication.DomainModels.Contracts;
-using Authentication.DomainModels.Models;
-using Authentication.Repository.DataModels;
+using Authentication.Domain.ModelContracts;
+using Authentication.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
-using AppContext = Authentication.DomainModels.Models.AppContext;
+using Claim = Authentication.Database.EntityModels.Claim;
+using User = Authentication.Database.EntityModels.User;
 
 namespace Authentication.Database.Contexts
 {
   internal class DatabaseContext : BaseDatabaseContext
   {
-    private IAppSettings appSettings;
+    private IApplicationSettings applicationSettings;
 
-    public DatabaseContext(IAppSettings appSettings)
+    public DatabaseContext(IApplicationSettings applicationSettings)
     {
-      this.appSettings = appSettings;
+      this.applicationSettings = applicationSettings;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-      optionsBuilder.UseSqlServer(appSettings.DbConnectionString, builder =>
+      optionsBuilder.UseSqlServer(applicationSettings.DbConnectionString, builder =>
       {
         builder.EnableRetryOnFailure();
       });
@@ -54,9 +54,9 @@ namespace Authentication.Database.Contexts
         .AddEnvironmentVariables();
       var configuration = builder.Build();
 
-      var appSettings = new AppSettings();
-      configuration.GetSection("AppSettings").Bind(appSettings);
-      return new DatabaseContext(appSettings);
+      var applicationSettings = new ApplicationSettings();
+      configuration.GetSection("AppSettings").Bind(applicationSettings);
+      return new DatabaseContext(applicationSettings);
     }
   }
 }

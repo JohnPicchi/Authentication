@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Authentication.Core.Helpers
+﻿namespace Authentication.Utilities.Helpers
 {
   public static partial class Helpers
   {

@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace Authentication.Repository.DataModels
+
+namespace Authentication.Database.EntityModels
 {
   public class Claim : Entity<Guid>
   {

@@ -1,6 +1,7 @@
 ﻿using System;
+using Authentication.Core.Contracts;
 
-namespace Authentication.Repository.DataModels
+namespace Authentication.Database.EntityModels
 {
   public abstract class Entity<TEntity> : IEntity
   {

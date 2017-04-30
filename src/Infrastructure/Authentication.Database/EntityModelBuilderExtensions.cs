@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Authentication.Core.Contracts;
 using Authentication.Database.EntityModelConfigurations;
-using Authentication.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.Database

@@ -15,9 +15,9 @@
 
  
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Authentication.Utilities\Authentication.Utilities.csproj" />
     <ProjectReference Include="..\..\Authentication.Core\Authentication.Core.csproj" />
-    <ProjectReference Include="..\..\Authentication.DomainModels\Authentication.DomainModels.csproj" />
-    <ProjectReference Include="..\..\Authentication.Repository\Authentication.Repository.csproj" />
+    <ProjectReference Include="..\..\Authentication.DomainModels\Authentication.Domain.csproj" />
   </ItemGroup>
 
 </Project>
