@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using Authentication.Domain;
 using Authentication.PresistenceModels;
-using Authentication.Utilities.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.Database.Contexts
