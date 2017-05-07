@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Authentication.Core.Contracts;
+using Authentication.Domain;
+using Authentication.PresistenceModels;
 using Authentication.Utilities.Helpers;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,15 +19,15 @@ namespace Authentication.Database.Contexts
 
     private void SetEntityTimeStamps()
     {
-      ChangeTracker.Entries<IEntity>()
+      ChangeTracker.Entries<IPersistedEntity>()
         .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified)
         .ToList()
         .ForEach(e =>
         {
           if (e.State == EntityState.Added)
-            e.Entity.DateCreated = Helpers.DateTime.EstNow;
+            e.Entity.DateCreated = DateTime.UtcNow;
           else
-            e.Entity.DateUpdated = Helpers.DateTime.EstNow;
+            e.Entity.DateUpdated = DateTime.UtcNow;
         });
     }
   }

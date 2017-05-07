@@ -1,4 +1,4 @@
-﻿using Authentication.Core.Contracts.Requests;
+﻿using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.EditModels;
 using Authentication.PresentationModels.ViewModels;
 using Microsoft.AspNetCore.Mvc;

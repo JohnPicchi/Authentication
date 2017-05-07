@@ -1,23 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Authentication.Core.Contracts;
 using Authentication.Database.Contexts;
+using Authentication.Domain;
 
 namespace Authentication.Database
 {
-  public class Repository : IRepository
+  public class Repository<TEntity> : IRepository<TEntity>
+    where TEntity : class
   {
     private readonly Lazy<DatabaseContext> databaseContext;
 
-    public Repository()
-    {
-
-    }
-
-    public void Remove<TEntity>(TEntity entity)
-      where TEntity : class, IEntity
+    public void Remove(TEntity entity)
     {
       databaseContext.Value.Set<TEntity>()
         .Remove(entity);
@@ -25,8 +18,7 @@ namespace Authentication.Database
       databaseContext.Value.SaveChanges();
     }
 
-    public TEntity Add<TEntity>(TEntity entity)
-      where TEntity : class, IEntity
+    public TEntity Add(TEntity entity)
     {
       var result = databaseContext.Value.Set<TEntity>()
         .Add(entity)
@@ -36,21 +28,18 @@ namespace Authentication.Database
       return result;
     }
 
-    public TEntity Get<TEntity>(params object[] keyValues)
-      where TEntity : class, IEntity
+    public TEntity Get(params object[] keyValues)
     {
       return databaseContext.Value.Set<TEntity>()
         .Find(keyValues);
     }
 
-    public IQueryable<TEntity> Query<TEntity>()
-      where TEntity : class, IEntity
+    public IQueryable Query()
     {
       return databaseContext.Value.Set<TEntity>().AsQueryable();
     }
 
-    public int Count<TEntity>()
-      where TEntity : class, IEntity
+    public int Count()
     {
       return databaseContext.Value.Set<TEntity>()
         .Count();

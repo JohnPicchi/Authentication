@@ -1,5 +1,5 @@
 ﻿using System;
-using Authentication.Core.Contracts.Requests;
+using Authentication.Core.Requests.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Authentication.Controllers

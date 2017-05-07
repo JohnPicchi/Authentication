@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Authentication.DomainModels\Authentication.Domain.csproj" />
-    <ProjectReference Include="..\..\Authentication.Services\Authentication.Services.csproj" />
     <ProjectReference Include="..\Authentication.Database\Authentication.Database.csproj" />
   </ItemGroup>
 

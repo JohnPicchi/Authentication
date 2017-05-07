@@ -1,5 +1,5 @@
 ﻿using System;
-using Authentication.Domain.Models;
+using Authentication.Core.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

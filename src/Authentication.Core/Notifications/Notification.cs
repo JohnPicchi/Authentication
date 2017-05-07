@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Authentication.Core.Contracts.Handlers;
-using Authentication.Core.Contracts.Notifications;
+using Authentication.Core.NotificationHandlers.Contracts;
+using Authentication.Core.Notifications.Contracts;
 
 namespace Authentication.Core.Notifications
 {

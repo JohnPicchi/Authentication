@@ -1,6 +1,5 @@
-﻿using Authentication.Core.Contracts;
-using Authentication.Core.Contracts.Handlers;
-using Authentication.Core.Contracts.Requests;
+﻿using Authentication.Core.RequestHandlers.Contracts;
+using Authentication.Core.Requests.Contracts;
 
 namespace Authentication.Core.Requests
 {
