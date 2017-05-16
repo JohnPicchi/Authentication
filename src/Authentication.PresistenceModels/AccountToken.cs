@@ -16,7 +16,7 @@ namespace Authentication.PresistenceModels
     /// The foreign key of the account who
     /// the token belongs to
     /// </summary>
-    public Guid AccountId { get; set; }
+    public string AccountId { get; set; }
 
     /// <summary>
     /// The value of the token

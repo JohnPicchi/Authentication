@@ -13,7 +13,7 @@ namespace Authentication.PresistenceModels
     /// The foreign key of the Account for
     /// who this user belongs to
     /// </summary>
-    public Guid AccountId { get; set; }
+    public string AccountId { get; set; }
 
     /// <summary>
     /// The user's firstname

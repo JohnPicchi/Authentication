@@ -4,12 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Authentication.PresistenceModels
 {
-  public class Account : PersistedEntity<Guid>
+  public class Account : PersistedEntity<string>
   {
-    /// <summary>
-    /// The account's username
-    /// </summary>
-    public string Username { get; set; }
 
     /// <summary>
     /// The user's hashed password
@@ -27,16 +23,6 @@ namespace Authentication.PresistenceModels
     public User User { get; set; }
 
     /// <summary>
-    /// Locks the account so the user cannot login
-    /// </summary>
-    public bool? IsLocked { get; set; }
-
-    /// <summary>
-    /// The user has verified their email address
-    /// </summary>
-    public bool? IsVerified { get; set; }
-
-    /// <summary>
     /// The tokens belonging to this account
     /// </summary>
     public List<AccountToken> Tokens { get; set; }
@@ -45,5 +31,6 @@ namespace Authentication.PresistenceModels
     /// The claims belonging to this account
     /// </summary>
     public List<Claim> Claims { get; set; }
+
   }
 }

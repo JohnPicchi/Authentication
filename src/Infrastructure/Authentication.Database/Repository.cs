@@ -1,53 +1,48 @@
 ﻿using System;
 using System.Linq;
+using Authentication.Core.Models.Contracts;
+using Authentication.Core.ServiceContracts;
 using Authentication.Database.Contexts;
-using Authentication.Domain;
+using Authentication.PresistenceModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.Database
 {
   public class Repository<TEntity> : IRepository<TEntity>
-    where TEntity : class
+    where TEntity : class, IPersistedEntity
   {
     private readonly Lazy<DatabaseContext> databaseContext;
 
+    public Repository(IApplicationSettings applicationSettings)
+    {
+      databaseContext = new Lazy<DatabaseContext>(() => new DatabaseContext(applicationSettings));
+    }
+
     public void Remove(TEntity entity)
     {
-      databaseContext.Value.Set<TEntity>()
-        .Remove(entity);
-
+      databaseContext.Value.Set<TEntity>().Remove(entity);
       databaseContext.Value.SaveChanges();
     }
 
     public TEntity Add(TEntity entity)
     {
-      var result = databaseContext.Value.Set<TEntity>()
-        .Add(entity)
-        .Entity;
-
+      var persistedEntity = databaseContext.Value.Set<TEntity>().Add(entity).Entity;
       databaseContext.Value.SaveChanges();
-      return result;
+      return persistedEntity;
     }
 
     public TEntity Get(params object[] keyValues)
     {
-      return databaseContext.Value.Set<TEntity>()
-        .Find(keyValues);
+      return databaseContext.Value.Set<TEntity>().Find(keyValues);
     }
 
-    public IQueryable Query()
+    public IQueryable<TEntity> Query()
     {
-      return databaseContext.Value.Set<TEntity>().AsQueryable();
+      return databaseContext.Value.Set<TEntity>();
     }
+    
+    public int Count() => databaseContext.Value.Set<TEntity>().Count();
 
-    public int Count()
-    {
-      return databaseContext.Value.Set<TEntity>()
-        .Count();
-    }
-
-    public void Dispose()
-    {
-      databaseContext.Value.Dispose();
-    }
+    public void Dispose() => databaseContext.Value.Dispose();
   }
 }

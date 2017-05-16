@@ -10,7 +10,7 @@ namespace Authentication.Database.EntityModelConfigurations
   {
     public override void Configure(EntityTypeBuilder<Account> builder)
     {
-      builder.Property(p => p.Username)
+      builder.Property(p => p.Id)
         .IsRequired(true)
         .HasMaxLength(64)
         .IsUnicode(false);
@@ -33,12 +33,6 @@ namespace Authentication.Database.EntityModelConfigurations
       builder.HasMany(p => p.Claims)
         .WithOne(p => p.Account)
         .HasForeignKey(p => p.AccountId);
-
-      builder.Property(p => p.IsLocked)
-        .IsRequired(false);
-
-      builder.Property(p => p.IsVerified)
-        .IsRequired(false);
     }
   }
 }

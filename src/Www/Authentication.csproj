@@ -47,7 +47,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Authentication.Core\Authentication.Core.csproj" />
     <ProjectReference Include="..\Authentication.PresentationModels\Authentication.PresentationModels.csproj" />
-    <ProjectReference Include="..\Authentication.Services\Authentication.Services.csproj" />
     <ProjectReference Include="..\Infrastructure\Authentication.Container\Authentication.Container.csproj" />
   </ItemGroup>
   <ItemGroup>

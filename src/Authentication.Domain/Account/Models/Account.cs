@@ -3,25 +3,29 @@ using System.Collections.Generic;
 
 namespace Authentication.Domain.Account.Models
 {
-  public class Account : Entity<Guid>
+  public class Account
   {
-    public string Username { get; set; }
+
+    #region Properties
+
+    public string Id { get; set; }
 
     public string Password { get; set; }
 
-    public IEnumerable<Token> Tokens { get; set; }
+    public User User { get; set; }
 
     public AccountProperties Properties { get; set; }
 
+    public IEnumerable<Token> Tokens { get; set; }
+
     public bool IsAuthenticated { get; private set; }
 
-    public bool IsLocked { get; set; }
+    #endregion Properties
 
-    public bool IsVerified { get; set; }
 
     public bool Authenticate(string password)
     {
-      if (IsLocked)
+      if (Properties.Locked)
         return false;
 
       if (password == Password)
@@ -42,12 +46,12 @@ namespace Authentication.Domain.Account.Models
 
       Properties.FailedLoginAttempts += 1;
       if (Properties.FailedLoginAttempts >= 5)    //TODO: Failed Login # needs to be added to DB
-        IsLocked = true;
+        Properties.Locked = true;
       
       return false;
     }
 
-    public bool ValidateToken(string token, string tokenKind)
+    public bool ValidateToken(string token, TokenKind tokenKind)
     {
       return false;
     }

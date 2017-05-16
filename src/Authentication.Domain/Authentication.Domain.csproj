@@ -4,9 +4,4 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Account\Factories\Contracts\" />
-    <Folder Include="Account\Services\Contracts\" />
-  </ItemGroup>
-
 </Project>

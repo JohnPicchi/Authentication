@@ -3,6 +3,13 @@ using System.Collections.Generic;
 
 namespace Authentication.Domain.Account.Models
 {
+  public enum MutliFactorAuthKind
+  {
+    None = 0,
+    Email = 1,
+    Sms = 2
+  }
+
   public class AccountProperties
   {
     public int FailedLoginAttempts { get; set; }
@@ -13,10 +20,14 @@ namespace Authentication.Domain.Account.Models
 
     public bool ResetPassword { get; set; }
 
-    public List<string> PasswordHistory { get; set; }
+    public bool Locked { get; set; }
+
+    public DateTime? LockExpiration { get; set; }
+
+    public bool Verified { get; set; }
 
     public Guid OpenConnectId { get; set; }
 
-    public int MultiFactorAuthKind { get; set; }
+    public MutliFactorAuthKind MultiFactorAuthKind { get; set; }
   }
 }

@@ -9,7 +9,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Authentication.Database\Authentication.Database.csproj" />
+    <ProjectReference Include="..\..\Authentication.Core\Authentication.Core.csproj" />
+    <ProjectReference Include="..\..\Authentication.PresistenceModels\Authentication.PresistenceModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Options">
+      <HintPath>..\..\..\..\..\Users\John\.nuget\packages\microsoft.extensions.options\1.1.1\lib\netstandard1.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

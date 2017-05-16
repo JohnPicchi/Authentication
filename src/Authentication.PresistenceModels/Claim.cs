@@ -13,7 +13,7 @@ namespace Authentication.PresistenceModels
     ///  The foreign key of the account
     /// who owns this claim
     /// </summary>
-    public Guid AccountId { get; set; }
+    public string AccountId { get; set; }
 
     /// <summary>
     /// The type of claim

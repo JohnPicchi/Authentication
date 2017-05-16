@@ -9,8 +9,6 @@ using Authentication.Core.Notifications.Contracts;
 using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests;
 using Authentication.Core.Requests.Contracts;
-using Authentication.Database;
-using Authentication.Domain;
 using Autofac;
 using Module = Autofac.Module;
 
@@ -28,16 +26,16 @@ namespace Authentication.Container.Modules
       };
     
       ////////////////////////////////////////////////
-      // Register Services, & Repositories
+      // Register Services & Repositories
       ///////////////////////////////////////////////
       builder.RegisterAssemblyTypes(assemblies)
         .Where(t => t.Name.EndsWith("Service"))
         .AsImplementedInterfaces()
         .InstancePerLifetimeScope();  //NOT instancePerRequest for dotnet core 
     
-      builder.RegisterGeneric(typeof(Repository<>))
-        .As(typeof(IRepository<>))
-        .InstancePerLifetimeScope();
+      //builder.RegisterGeneric(typeof(Repository<>))
+      //  .As(typeof(IRepository<>))
+      //  .InstancePerLifetimeScope();
 
 
       /////////////////////////////////////////////

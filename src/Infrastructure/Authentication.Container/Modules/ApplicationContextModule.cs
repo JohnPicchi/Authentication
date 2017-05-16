@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Authentication.Core.Models;
 using Authentication.Core.Models.Contracts;
-using Authentication.Domain.Account.Models;
+using Authentication.PresistenceModels;
 using Autofac;
 using Microsoft.Extensions.Options;
 using ApplicationContext = Authentication.Core.Models.ApplicationContext;
