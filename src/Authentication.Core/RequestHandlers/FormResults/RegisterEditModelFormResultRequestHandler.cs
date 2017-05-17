@@ -23,30 +23,23 @@ namespace Authentication.Core.RequestHandlers.FormResults
         var account = new Account
         {
           Id = registerEditModel.Email,
-          Password = registerEditModel.Password,
-          User = new User
-          {
-            FirstName = registerEditModel.FirstName,
-            LastName = registerEditModel.LastName,
-            Email = registerEditModel.Email,
-          }
+          Password = registerEditModel.Password
         };
 
         accountRepository.Add(account);
 
         return FormResult.Ok;
       }
-
       return FormResult.Fail("Registration failure. An error was encountered while registering the account.");
     }
 
     private bool RegistrationIsValid(RegisterEditModel registerEditModel)
     {
-      if (!registerEditModel.Email.HasValue() && registerEditModel.Password.HasValue())
-        if (!accountRepository.AccountExists(registerEditModel.Email))
-          return true;
-
-      return false;
+      return registerEditModel.Email.HasValue()
+            && registerEditModel.Password.HasValue()
+            && registerEditModel.ConfirmPassword.HasValue()
+            && registerEditModel.Password == registerEditModel.ConfirmPassword
+            && !accountRepository.AccountExists(registerEditModel.Email);
     }
   }
 }

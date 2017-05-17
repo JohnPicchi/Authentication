@@ -30,6 +30,5 @@ namespace Authentication.PresistenceModels
     /// The claims belonging to this account
     /// </summary>
     public List<Claim> Claims { get; set; }
-
   }
 }

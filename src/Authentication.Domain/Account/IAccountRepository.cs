@@ -4,7 +4,7 @@
   {
     bool AccountExists(string accountId);
 
-    Models.Account Add(Models.Account account);
+    void Add(Models.Account account);
 
     Models.Account Find(string accountId);
 

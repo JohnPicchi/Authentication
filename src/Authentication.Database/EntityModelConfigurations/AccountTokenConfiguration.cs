@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Authentication.PresistenceModels;
+using Authentication.Utilities.Helpers;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Authentication.Database.EntityModelConfigurations
@@ -25,6 +26,7 @@ namespace Authentication.Database.EntityModelConfigurations
         .IsRequired(true);
 
       builder.Property(p => p.Value)
+        .HasMaxLength(Helper.MaxLength.AccountToken)
         .IsRequired(true);
     }
   }

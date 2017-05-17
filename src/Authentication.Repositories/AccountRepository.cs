@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Authentication.Core.Models.Contracts;
-using Authentication.Core.ServiceContracts;
 using Authentication.Database;
 using Authentication.Domain.Account;
 using Authentication.Domain.Account.Models;
@@ -17,9 +16,15 @@ namespace Authentication.Repositories
 
     public bool AccountExists(string accountId) => Query().Any(a => a.Id == accountId);
 
-    public Account Add(Account account)
+    public void Add(Account account)
     {
-      throw new System.NotImplementedException();
+      var persistedAccount = new PresistenceModels.Account()
+      {
+        Id = account.Id,
+        Password = account.Password
+      };
+
+      base.Add(persistedAccount);
     }
 
     public Account Find(string accountId)

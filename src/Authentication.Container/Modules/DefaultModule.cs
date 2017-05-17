@@ -23,6 +23,7 @@ namespace Authentication.Container.Modules
         Assembly.Load(new AssemblyName {Name = "Authentication.Database"}),
         Assembly.Load(new AssemblyName {Name = "Authentication.Core"}),
         Assembly.Load(new AssemblyName {Name = "Authentication.Services"}),
+        Assembly.Load(new AssemblyName {Name = "Authentication.Repositories"}),
       };
     
       ////////////////////////////////////////////////

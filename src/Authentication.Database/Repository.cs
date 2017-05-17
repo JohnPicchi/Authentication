@@ -6,7 +6,7 @@ using Authentication.PresistenceModels;
 
 namespace Authentication.Database
 {
-  public abstract class Repository<TEntity>
+  public abstract class Repository<TEntity> : IDisposable
     where TEntity : class, IEntity
   {
     private readonly Lazy<DatabaseContext> databaseContext;
@@ -41,6 +41,6 @@ namespace Authentication.Database
     
     protected virtual int Count() => databaseContext.Value.Set<TEntity>().Count();
 
-    public void Dispose() => databaseContext.Value.Dispose();
+    public virtual void Dispose() => databaseContext.Value.Dispose();
   }
 }

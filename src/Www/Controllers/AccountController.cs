@@ -1,4 +1,5 @@
 ﻿using Authentication.Core.Requests.Contracts;
+using Authentication.Domain.Account;
 using Authentication.PresentationModels.EditModels;
 using Authentication.PresentationModels.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -7,11 +8,16 @@ namespace Authentication.Controllers
 {
   public class AccountController : DefaultController
   {
+    private readonly IAccountRepository accountRepository;
+
+    public AccountController(IAccountRepository accountRepository)
+    {
+      this.accountRepository = accountRepository;
+    }
+
     public IActionResult Index()
     {
-      var test = nameof(Login);
       return View();
-
     }
 
     [HttpGet]
@@ -27,15 +33,13 @@ namespace Authentication.Controllers
         failure: () => View(form as RegisterViewModel));
     }
 
-   // [AcceptVerbs(Helpers.Http.Actions.Get, Helpers.Http.Actions.Post)]
-   // public IActionResult VerifyEmail(string email)
-   // {
-   //   if (!_userRepository.VerifyEmail(email))
-   //   {
-   //     return Json(data: $"Email {email} is already in use.");
-   //   }
-   //   return Json(data: true);
-   // }
+    [AcceptVerbs("GET", "POST")]
+    public IActionResult CheckAccountId(string email)
+    {
+      return accountRepository.AccountExists(email) 
+        ? Json(data: $"Account already exists")
+        : Json(data: true);
+    }
 
     [HttpGet]
     public IActionResult Login() => View(new LoginViewModel());

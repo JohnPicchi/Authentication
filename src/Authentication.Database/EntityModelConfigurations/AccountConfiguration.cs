@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Authentication.PresistenceModels;
+using Authentication.Utilities.Helpers;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Authentication.Database.EntityModelConfigurations
@@ -12,12 +13,12 @@ namespace Authentication.Database.EntityModelConfigurations
     {
       builder.Property(p => p.Id)
         .IsRequired(true)
-        .HasMaxLength(64)
+        .HasMaxLength(Helper.MaxLength.Email)
         .IsUnicode(false);
 
       builder.Property(p => p.Password)
         .IsRequired(true)
-        .HasMaxLength(64)
+        .HasMaxLength(Helper.MaxLength.Password)
         .IsUnicode(false);
 
       builder.HasOne(p => p.Properties)

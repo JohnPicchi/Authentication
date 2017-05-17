@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Authentication.PresistenceModels;
+using Authentication.Utilities.Helpers;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Authentication.Database.EntityModelConfigurations
@@ -17,23 +18,23 @@ namespace Authentication.Database.EntityModelConfigurations
 
       builder.Property(p => p.Type)
         .IsRequired(true)
-        .HasMaxLength(128)
+        .HasMaxLength(Helper.MaxLength.ClaimType)
         .IsUnicode(false);
 
       builder.Property(p => p.Value)
         .IsRequired(true)
-        .HasMaxLength(128)
+        .HasMaxLength(Helper.MaxLength.ClaimValue)
         .IsUnicode(false);
 
       builder.Property(p => p.ValueType)
         .IsRequired(true)
-        .HasMaxLength(128)
+        .HasMaxLength(Helper.MaxLength.ClaimValueType)
         .IsUnicode(false);
 
       builder.Property(p => p.Issuer)
         .IsRequired(true)
-        .HasMaxLength(128)
-        .IsUnicode();
+        .HasMaxLength(Helper.MaxLength.ClaimIssuer)
+        .IsUnicode(false);
     }
   }
 }

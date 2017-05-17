@@ -12,8 +12,6 @@ namespace Authentication.Domain.Account.Models
 
     public string Password { get; set; }
 
-    public User User { get; set; }
-
     public AccountProperties Properties { get; set; }
 
     public IEnumerable<Token> Tokens { get; set; }
