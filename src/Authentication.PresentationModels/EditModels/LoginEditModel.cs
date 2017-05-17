@@ -8,12 +8,12 @@ namespace Authentication.PresentationModels.EditModels
 {
   public class LoginEditModel
   {
-    [Required]
+    [Required(ErrorMessage = "Email required")]
     [DataType(DataType.EmailAddress)]
     [MaxLength(Helper.MaxLength.Email, ErrorMessage = "Email address cannot exceed 256 characters")]
     public string Email { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "Password required")]
     [DataType(DataType.Password)]
     [MaxLength(Helper.MaxLength.Password, ErrorMessage = "Password cannot exceed 256 characters")]
     public string Password { get; set; }
