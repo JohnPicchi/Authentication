@@ -32,7 +32,12 @@ namespace Authentication.Container.Modules
         .Where(t => t.Name.EndsWith("Service"))
         .AsImplementedInterfaces()
         .InstancePerLifetimeScope();  //NOT instancePerRequest for dotnet core 
-    
+
+      builder.RegisterAssemblyTypes(assemblies)
+        .Where(t => t.Name.EndsWith("Repository"))
+        .AsImplementedInterfaces()
+        .InstancePerLifetimeScope();
+
       //builder.RegisterGeneric(typeof(Repository<>))
       //  .As(typeof(IRepository<>))
       //  .InstancePerLifetimeScope();

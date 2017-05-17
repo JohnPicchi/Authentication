@@ -22,7 +22,7 @@ namespace Authentication.Repositories
       throw new System.NotImplementedException();
     }
 
-    public Account Find(string username)
+    public Account Find(string accountId)
     {
       throw new System.NotImplementedException();
     }

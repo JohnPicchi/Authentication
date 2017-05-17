@@ -38,6 +38,7 @@ namespace Authentication.Container
         Assembly.Load(new AssemblyName {Name = "Authentication.Database"}),
         Assembly.Load(new AssemblyName {Name = "Authentication.Core"}),
         Assembly.Load(new AssemblyName {Name = "Authentication.Services"}),
+        Assembly.Load(new AssemblyName {Name = "Authentication.Repositories"}),
       };
 
       var assembly = Assembly.Load(new AssemblyName { Name = "Authentication.Container" });

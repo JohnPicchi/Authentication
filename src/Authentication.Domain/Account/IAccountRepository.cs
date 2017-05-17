@@ -6,7 +6,7 @@
 
     Models.Account Add(Models.Account account);
 
-    Models.Account Find(string username);
+    Models.Account Find(string accountId);
 
     void Remove(Models.Account account);
 

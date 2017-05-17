@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Authentication.Core.Models.Contracts;
-using Authentication.Core.ServiceContracts;
 using Authentication.Database.Contexts;
 using Authentication.PresistenceModels;
 

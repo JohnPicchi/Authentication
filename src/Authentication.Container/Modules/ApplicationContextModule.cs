@@ -19,10 +19,10 @@ namespace Authentication.Container.Modules
         .As<IApplicationSettings>()
         .InstancePerLifetimeScope();
     
-      builder.RegisterType<User>()
-        .AsSelf()
-        //.As<IUser>()
-        .InstancePerLifetimeScope();
+     // builder.RegisterType<User>()
+     //   .AsSelf()
+     //   .As<IUser>()
+     //   .InstancePerLifetimeScope();
 
       builder.RegisterType<ApplicationContext>()
         .AsSelf()
