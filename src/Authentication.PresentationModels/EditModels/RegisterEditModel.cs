@@ -11,8 +11,8 @@ namespace Authentication.PresentationModels.EditModels
   public class RegisterEditModel
   {
     [Required]
-    [Remote(action: "CheckAccountId", controller: "Account")]
     [DataType(DataType.EmailAddress)]
+    [Remote(action: "CheckAccountId", controller: "Account")]
     [MaxLength(Helper.MaxLength.Email, ErrorMessage = "Email address cannot exceed 256 characters")]
     public string Email { get; set; }
 
