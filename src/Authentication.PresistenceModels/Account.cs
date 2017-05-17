@@ -4,9 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Authentication.PresistenceModels
 {
-  public class Account : PersistedEntity<string>
+  public class Account : TrackedEntity<string>
   {
-
     /// <summary>
     /// The user's hashed password
     /// </summary>

@@ -5,7 +5,7 @@ using Authentication.Domain.Account.Models;
 
 namespace Authentication.PresistenceModels
 {
-  public class AccountToken : PersistedEntity<Guid>
+  public class AccountToken : Entity<Guid>
   {
     /// <summary>
     /// The account who this token belongs to

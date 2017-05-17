@@ -5,14 +5,14 @@ VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication", "src\Www\Authentication.csproj", "{B243A93A-108B-4CC4-AE04-0AB44124C4F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Container", "src\Infrastructure\Authentication.Container\Authentication.Container.csproj", "{5FAD4724-441F-44B5-AE4E-2066F186FB87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Container", "src\Authentication.Container\Authentication.Container.csproj", "{5FAD4724-441F-44B5-AE4E-2066F186FB87}"
 	ProjectSection(ProjectDependencies) = postProject
 		{BAC77E44-36EB-47A1-8586-26260C6EBE8C} = {BAC77E44-36EB-47A1-8586-26260C6EBE8C}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.PresentationModels", "src\Authentication.PresentationModels\Authentication.PresentationModels.csproj", "{97389616-6557-475C-A085-B64BE7951E08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Database", "src\Infrastructure\Authentication.Database\Authentication.Database.csproj", "{3E85DCEC-C73B-4C79-8E0D-32D1F441DC2B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Database", "src\Authentication.Database\Authentication.Database.csproj", "{3E85DCEC-C73B-4C79-8E0D-32D1F441DC2B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{723D93A8-272F-4880-8F4B-1340F4495004} = {723D93A8-272F-4880-8F4B-1340F4495004}
 	EndProjectSection

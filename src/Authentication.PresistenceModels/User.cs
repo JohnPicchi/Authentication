@@ -2,7 +2,7 @@
 
 namespace Authentication.PresistenceModels
 {
-  public class User : PersistedEntity<Guid>
+  public class User : TrackedEntity<Guid>
   {
     /// <summary>
     /// The account of this user

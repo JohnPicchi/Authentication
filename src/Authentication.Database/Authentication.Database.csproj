@@ -13,10 +13,9 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.1" />
   </ItemGroup>
 
- 
   <ItemGroup>
-    <ProjectReference Include="..\..\Authentication.Core\Authentication.Core.csproj" />
-    <ProjectReference Include="..\..\Authentication.PresistenceModels\Authentication.PresistenceModels.csproj" />
+    <ProjectReference Include="..\Authentication.Core\Authentication.Core.csproj" />
+    <ProjectReference Include="..\Authentication.PresistenceModels\Authentication.PresistenceModels.csproj" />
   </ItemGroup>
 
 </Project>

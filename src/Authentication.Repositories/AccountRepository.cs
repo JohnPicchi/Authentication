@@ -1,21 +1,21 @@
 ﻿using System.Linq;
+using Authentication.Core.Models.Contracts;
 using Authentication.Core.ServiceContracts;
+using Authentication.Database;
 using Authentication.Domain.Account;
 using Authentication.Domain.Account.Models;
 
 
 namespace Authentication.Repositories
 {
-  public class AccountRepository : IAccountRepository
+  public class AccountRepository : Repository<PresistenceModels.Account>, IAccountRepository
   {
-    private readonly IRepository<PresistenceModels.Account> repository;
-
-    public AccountRepository(IRepository<PresistenceModels.Account> repository)
+    public AccountRepository(IApplicationSettings applicationSettings) : base(applicationSettings)
     {
-      this.repository = repository;
+
     }
 
-    public bool UsernameExists(string username) => repository.Query().Any(a => a.Id == username);
+    public bool AccountExists(string accountId) => Query().Any(a => a.Id == accountId);
 
     public Account Add(Account account)
     {

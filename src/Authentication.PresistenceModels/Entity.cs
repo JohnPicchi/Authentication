@@ -2,24 +2,15 @@
 
 namespace Authentication.PresistenceModels
 {
-  public interface IPersistedEntity
-  {
-    DateTime DateCreated { get; set; }
+  public interface IEntity { }
 
-    DateTime? DateUpdated { get; set; }
-  }
-
-  public interface IPersistedEntity<TEntity> : IPersistedEntity
+  public interface IEntity<TEntity> : IEntity
   {
     TEntity Id { get; set; }
   }
 
-  public abstract class PersistedEntity<TEntity> : IPersistedEntity<TEntity>
+  public abstract class Entity<TEntity> : IEntity<TEntity>
   {
     public TEntity Id { get; set; }
-
-    public DateTime DateCreated { get; set; }
-
-    public DateTime? DateUpdated { get; set; }
   }
 }

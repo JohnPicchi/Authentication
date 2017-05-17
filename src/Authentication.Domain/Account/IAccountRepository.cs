@@ -2,7 +2,7 @@
 {
   public interface IAccountRepository
   {
-    bool UsernameExists(string username);
+    bool AccountExists(string accountId);
 
     Models.Account Add(Models.Account account);
 

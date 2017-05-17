@@ -5,7 +5,7 @@ using Authentication.Domain.Account.Models;
 
 namespace Authentication.PresistenceModels
 {
-  public class AccountProperties : PersistedEntity<Guid>
+  public class AccountProperties : TrackedEntity<Guid>
   {
     /// <summary>
     /// The account who these properties

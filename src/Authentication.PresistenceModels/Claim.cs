@@ -2,7 +2,7 @@
 
 namespace Authentication.PresistenceModels
 {
-  public class Claim : PersistedEntity<Guid>
+  public class Claim : TrackedEntity<Guid>
   {
     /// <summary>
     /// The account who owns this claim

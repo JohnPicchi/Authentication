@@ -1,6 +1,5 @@
 ﻿using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
-using Authentication.Core.ServiceContracts;
 using Authentication.Domain.Account;
 using Authentication.Domain.Account.Models;
 using Authentication.PresentationModels.EditModels;
@@ -44,7 +43,7 @@ namespace Authentication.Core.RequestHandlers.FormResults
     private bool RegistrationIsValid(RegisterEditModel registerEditModel)
     {
       if (!registerEditModel.Email.HasValue() && registerEditModel.Password.HasValue())
-        if (!accountRepository.UsernameExists(registerEditModel.Email))
+        if (!accountRepository.AccountExists(registerEditModel.Email))
           return true;
 
       return false;

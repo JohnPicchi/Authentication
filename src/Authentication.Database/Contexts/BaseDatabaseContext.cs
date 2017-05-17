@@ -18,7 +18,7 @@ namespace Authentication.Database.Contexts
 
     private void SetEntityTimeStamps()
     {
-      ChangeTracker.Entries<IPersistedEntity>()
+      ChangeTracker.Entries<ITrackedEntity>()
         .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified)
         .ToList()
         .ForEach(e =>
