@@ -10,6 +10,7 @@ using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests;
 using Authentication.Core.Requests.Contracts;
 using Autofac;
+using AutoMapper;
 using Module = Autofac.Module;
 
 namespace Authentication.Container.Modules
@@ -22,11 +23,10 @@ namespace Authentication.Container.Modules
       {
         Assembly.Load(new AssemblyName {Name = "Authentication.Database"}),
         Assembly.Load(new AssemblyName {Name = "Authentication.Core"}),
-        Assembly.Load(new AssemblyName {Name = "Authentication.Services"}),
         Assembly.Load(new AssemblyName {Name = "Authentication.Repositories"}),
       };
     
-      ////////////////////////////////////////////////
+      ///////////////////////////////////////////////
       // Register Services & Repositories
       ///////////////////////////////////////////////
       builder.RegisterAssemblyTypes(assemblies)
@@ -43,8 +43,22 @@ namespace Authentication.Container.Modules
       //  .As(typeof(IRepository<>))
       //  .InstancePerLifetimeScope();
 
+      ////////////////////////////////////////////
+      // AutoMapper
+      ////////////////////////////////////////////
+      builder.Register(c =>
+        {
+          var mapperConfig = new MapperConfiguration(config =>
+          {
+            config.AddProfiles(ThisAssembly);
+          });
 
-      /////////////////////////////////////////////
+          return new Mapper(mapperConfig);
+        })
+        .As<IMapper>()
+        .SingleInstance();
+
+      ////////////////////////////////////////////
       // Requests & Notifications
       ////////////////////////////////////////////
       builder.RegisterAssemblyTypes(assemblies)
@@ -61,7 +75,7 @@ namespace Authentication.Container.Modules
         .InstancePerLifetimeScope();
 
 
-      ///////////////////////////////////////////
+      //////////////////////////////////////////
       // Handlers
       //////////////////////////////////////////
       builder.RegisterAssemblyTypes(assemblies)

@@ -29,7 +29,7 @@ namespace Authentication.Database
       return persistedEntity;
     }
 
-    protected virtual TEntity Get(params object[] keyValues)
+    protected virtual TEntity Find(params object[] keyValues)
     {
       return databaseContext.Value.Set<TEntity>().Find(keyValues);
     }

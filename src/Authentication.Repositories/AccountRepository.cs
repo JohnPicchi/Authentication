@@ -3,43 +3,36 @@ using Authentication.Core.Models.Contracts;
 using Authentication.Database;
 using Authentication.Domain.Account;
 using Authentication.Domain.Account.Models;
+using AutoMapper;
 
 
 namespace Authentication.Repositories
 {
   public class AccountRepository : Repository<PresistenceModels.Account>, IAccountRepository
   {
-    public AccountRepository(IApplicationSettings applicationSettings) : base(applicationSettings)
-    {
+    private readonly IMapper mapper;
 
+    public AccountRepository(IApplicationSettings applicationSettings, IMapper mapper) : base(applicationSettings)
+    {
+      this.mapper = mapper;
     }
 
     public bool AccountExists(string accountId) => Query().Any(a => a.Id == accountId);
 
     public void Add(Account account)
     {
-      var persistedAccount = new PresistenceModels.Account()
-      {
-        Id = account.Id,
-        Password = account.Password
-      };
-
+      var persistedAccount = mapper.Map<Account, PresistenceModels.Account>(account);
       base.Add(persistedAccount);
     }
 
     public Account Find(string accountId)
     {
-      throw new System.NotImplementedException();
+      var persistedAccount = base.Find(accountId);
+      return  mapper.Map<PresistenceModels.Account, Account>(persistedAccount);
     }
 
-    public void Remove(Account account)
-    {
-      throw new System.NotImplementedException();
-    }
+    public void Remove(Account account) => Remove(account.Id);
 
-    public void Remove(string username)
-    {
-      throw new System.NotImplementedException();
-    }
+    public void Remove(string accountId) => base.Remove(new PresistenceModels.Account { Id = accountId });
   }
 }

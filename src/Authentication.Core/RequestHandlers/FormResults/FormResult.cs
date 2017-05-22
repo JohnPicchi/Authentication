@@ -1,4 +1,5 @@
-﻿using Authentication.Core.Requests.Contracts;
+﻿using System.Collections.Generic;
+using Authentication.Core.Requests.Contracts;
 
 namespace Authentication.Core.RequestHandlers.FormResults
 {
@@ -6,10 +7,16 @@ namespace Authentication.Core.RequestHandlers.FormResults
   {
     public bool Success { get; set; }
 
-    public string ErrorMessage { get; set; }
+    public IList<string> ErrorMessages { get; set; } = new List<string>();
 
-    public static IFormResult Ok => new FormResult { Success = true };
+    public static FormResult Ok => new FormResult {Success = true};
 
-    public static IFormResult Fail(string errorMessage) => new FormResult { Success = false, ErrorMessage = errorMessage };
+    public static FormResult Fail(string errorMessage)
+    {
+      var formResult = new FormResult();
+      formResult.ErrorMessages.Add(errorMessage);
+      formResult.Success = false;
+      return formResult;
+    }
   }
 }

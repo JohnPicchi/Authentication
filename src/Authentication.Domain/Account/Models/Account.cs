@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Authentication.Utilities.ExtensionMethods;
 
 namespace Authentication.Domain.Account.Models
 {
@@ -26,7 +27,7 @@ namespace Authentication.Domain.Account.Models
       if (Properties.Locked)
         return false;
 
-      if (password == Password)
+      if (Password.VerifyHash(password))
       {
         Properties.FailedLoginAttempts = 0;
         if (false)

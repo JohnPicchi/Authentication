@@ -1,4 +1,6 @@
-﻿using Authentication.Core.RequestHandlers.Contracts;
+﻿using System;
+using System.Text;
+using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
 using Authentication.Domain.Account;
 using Authentication.Domain.Account.Models;
@@ -18,28 +20,47 @@ namespace Authentication.Core.RequestHandlers.FormResults
 
     public IFormResult Handle(RegisterEditModel registerEditModel)
     {
-      if (RegistrationIsValid(registerEditModel))
-      {
-        var account = new Account
+      var formResult = RegistrationIsValid(registerEditModel);
+
+      if (formResult.Success)
+        accountRepository.Add(new Account
         {
           Id = registerEditModel.Email,
-          Password = registerEditModel.Password
-        };
+          Password = registerEditModel.Password.Hash()
+        });
 
-        accountRepository.Add(account);
-
-        return FormResult.Ok;
-      }
-      return FormResult.Fail("Registration failure. An error was encountered while registering the account.");
+      return formResult;
     }
 
-    private bool RegistrationIsValid(RegisterEditModel registerEditModel)
+    private IFormResult RegistrationIsValid(RegisterEditModel registerEditModel)
     {
-      return registerEditModel.Email.HasValue()
-            && registerEditModel.Password.HasValue()
-            && registerEditModel.ConfirmPassword.HasValue()
-            && registerEditModel.Password == registerEditModel.ConfirmPassword
-            && !accountRepository.AccountExists(registerEditModel.Email);
+      var formResult = new FormResult{ Success = true };
+
+      if (!registerEditModel.Email.HasValue())
+      {
+        formResult.Success = false;
+        formResult.ErrorMessages.Add("Email is required");
+      }
+
+      if (!registerEditModel.Password.HasValue())
+      {
+        formResult.Success = false;
+        formResult.ErrorMessages.Add("Password is required");
+      }
+
+      if (!registerEditModel.ConfirmPassword.HasValue())
+      {
+        formResult.Success = false;
+        formResult.ErrorMessages.Add("Confirm password is required");
+      }
+
+      if (registerEditModel.Password != registerEditModel.ConfirmPassword)
+      {
+        formResult.Success = false;
+        formResult.ErrorMessages.Add("Passwords do not match");
+      }
+
+      return formResult;
     }
   }
 }

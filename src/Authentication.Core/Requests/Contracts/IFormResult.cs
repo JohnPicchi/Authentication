@@ -1,9 +1,11 @@
-﻿namespace Authentication.Core.Requests.Contracts
+﻿using System.Collections.Generic;
+
+namespace Authentication.Core.Requests.Contracts
 {
   public interface IFormResult
   {
     bool Success { get; }
 
-    string ErrorMessage { get; }
+    IList<string> ErrorMessages { get; }
   }
 }

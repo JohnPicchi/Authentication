@@ -10,6 +10,6 @@
 
     void Remove(Models.Account account);
 
-    void Remove(string username);
+    void Remove(string accountId);
   }
 }

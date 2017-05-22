@@ -1,5 +1,6 @@
 ﻿using System;
 using Authentication.Core.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +26,7 @@ namespace Authentication
 
       Configuration = builder.Build();
     }
+
     // This method gets called by the runtime. Use this method to add services to the container.
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public IServiceProvider ConfigureServices(IServiceCollection services)
@@ -56,7 +58,7 @@ namespace Authentication
 
       if (env.IsDevelopment())
       {
-          app.UseDeveloperExceptionPage();
+        app.UseDeveloperExceptionPage();
       }
 
       app.UseIdentityServer();

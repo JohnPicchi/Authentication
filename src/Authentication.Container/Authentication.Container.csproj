@@ -6,13 +6,13 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.1.0" />
+    <PackageReference Include="AutoMapper" Version="6.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Authentication.Core\Authentication.Core.csproj" />
     <ProjectReference Include="..\Authentication.Database\Authentication.Database.csproj" />
     <ProjectReference Include="..\Authentication.Repositories\Authentication.Repositories.csproj" />
-    <ProjectReference Include="..\Authentication.Services\Authentication.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

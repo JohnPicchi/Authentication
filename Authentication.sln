@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication", "src\Www\Authentication.csproj", "{B243A93A-108B-4CC4-AE04-0AB44124C4F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Container", "src\Authentication.Container\Authentication.Container.csproj", "{5FAD4724-441F-44B5-AE4E-2066F186FB87}"
-	ProjectSection(ProjectDependencies) = postProject
-		{BAC77E44-36EB-47A1-8586-26260C6EBE8C} = {BAC77E44-36EB-47A1-8586-26260C6EBE8C}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.PresentationModels", "src\Authentication.PresentationModels\Authentication.PresentationModels.csproj", "{97389616-6557-475C-A085-B64BE7951E08}"
 EndProject
@@ -18,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Database", "
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Core", "src\Authentication.Core\Authentication.Core.csproj", "{25303F47-E065-441D-AF2D-AF26D8C03040}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Services", "src\Authentication.Services\Authentication.Services.csproj", "{BAC77E44-36EB-47A1-8586-26260C6EBE8C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Domain", "src\Authentication.Domain\Authentication.Domain.csproj", "{723D93A8-272F-4880-8F4B-1340F4495004}"
 EndProject
@@ -63,10 +58,6 @@ Global
 		{25303F47-E065-441D-AF2D-AF26D8C03040}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25303F47-E065-441D-AF2D-AF26D8C03040}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25303F47-E065-441D-AF2D-AF26D8C03040}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BAC77E44-36EB-47A1-8586-26260C6EBE8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BAC77E44-36EB-47A1-8586-26260C6EBE8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BAC77E44-36EB-47A1-8586-26260C6EBE8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BAC77E44-36EB-47A1-8586-26260C6EBE8C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{723D93A8-272F-4880-8F4B-1340F4495004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{723D93A8-272F-4880-8F4B-1340F4495004}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{723D93A8-272F-4880-8F4B-1340F4495004}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -93,7 +84,6 @@ Global
 		{97389616-6557-475C-A085-B64BE7951E08} = {600F3B15-F9BB-44D5-A061-2471F493D3B8}
 		{3E85DCEC-C73B-4C79-8E0D-32D1F441DC2B} = {A82B94DB-3F63-4BD2-A202-DDC848F94243}
 		{25303F47-E065-441D-AF2D-AF26D8C03040} = {600F3B15-F9BB-44D5-A061-2471F493D3B8}
-		{BAC77E44-36EB-47A1-8586-26260C6EBE8C} = {600F3B15-F9BB-44D5-A061-2471F493D3B8}
 		{723D93A8-272F-4880-8F4B-1340F4495004} = {051990A9-1803-479C-B427-C550B0E8D964}
 		{EEAB4580-647F-40E2-B7E0-E4A72A34C9B8} = {A82B94DB-3F63-4BD2-A202-DDC848F94243}
 		{9338BCB6-1C72-4BD0-B741-B529AEEEEBB0} = {A82B94DB-3F63-4BD2-A202-DDC848F94243}
