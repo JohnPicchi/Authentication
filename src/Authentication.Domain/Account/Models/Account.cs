@@ -7,8 +7,6 @@ namespace Authentication.Domain.Account.Models
   public class Account
   {
 
-    #region Properties
-
     public string Id { get; set; }
 
     public string Password { get; set; }
@@ -18,9 +16,6 @@ namespace Authentication.Domain.Account.Models
     public IEnumerable<Token> Tokens { get; set; }
 
     public bool IsAuthenticated { get; private set; }
-
-    #endregion Properties
-
 
     public bool Authenticate(string password)
     {
