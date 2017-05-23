@@ -1,10 +1,12 @@
+@using Authentication.Controllers
+@using Authentication.Utilities.Helpers
 @model Authentication.PresentationModels.ViewModels.RegisterViewModel
 
 <div class="page-header">
   <h1>Registration</h1>
 </div>
 
-<form asp-controller="Account" asp-action="Register" method="post" class="form-horizontal">
+<form asp-controller=@(Helper.NameOfController<AccountController>()) asp-action=@(nameof(AccountController.Register)) method="post" class="form-horizontal">
 
   <div class="form-group">
     <label asp-for="Email" class="control-label col-sm-2"></label>

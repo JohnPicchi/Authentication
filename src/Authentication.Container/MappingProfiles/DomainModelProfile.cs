@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Authentication.Account.Models;
 using AutoMapper;
-using Authentication.Domain.Account.Models;
+using Authentication.PresistenceModels;
+using Properties = Authentication.Account.Models.Properties;
+using Claim = Authentication.Account.Models.Claim;
 
 namespace Authentication.Container.MappingProfiles
 {
@@ -10,11 +13,11 @@ namespace Authentication.Container.MappingProfiles
   {
     public DomainModelProfile()
     {
-      CreateMap<User, PresistenceModels.User>();
-      CreateMap<Token, PresistenceModels.AccountToken>();
-      CreateMap<Claim, PresistenceModels.Claim>();
-      CreateMap<Account, PresistenceModels.Account>();
-      CreateMap<AccountProperties, PresistenceModels.AccountProperties>();
+      CreateMap<User.Models.User, PresistenceModels.User>();
+      CreateMap<Account.Models.Token, PresistenceModels.AccountToken>();
+      CreateMap<Account.Models.Claim, PresistenceModels.Claim>();
+      CreateMap<Account.Models.Account, PresistenceModels.Account>();
+      CreateMap<Account.Models.Properties, PresistenceModels.AccountProperties>();
     }
   }
 }

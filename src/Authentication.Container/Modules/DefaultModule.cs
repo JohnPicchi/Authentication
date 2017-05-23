@@ -24,6 +24,8 @@ namespace Authentication.Container.Modules
         Assembly.Load(new AssemblyName {Name = "Authentication.Database"}),
         Assembly.Load(new AssemblyName {Name = "Authentication.Core"}),
         Assembly.Load(new AssemblyName {Name = "Authentication.Repositories"}),
+        Assembly.Load(new AssemblyName {Name = "Authentication.Account"}),
+        Assembly.Load(new AssemblyName {Name = "Authentication.User"}),
       };
     
       ///////////////////////////////////////////////
@@ -36,6 +38,11 @@ namespace Authentication.Container.Modules
 
       builder.RegisterAssemblyTypes(assemblies)
         .Where(t => t.Name.EndsWith("Repository"))
+        .AsImplementedInterfaces()
+        .InstancePerLifetimeScope();
+
+      builder.RegisterAssemblyTypes(assemblies)
+        .Where(t => t.Name.EndsWith("Factory"))
         .AsImplementedInterfaces()
         .InstancePerLifetimeScope();
 

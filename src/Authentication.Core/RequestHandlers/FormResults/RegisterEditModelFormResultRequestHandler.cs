@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Text;
+using Authentication.Account;
 using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
-using Authentication.Domain.Account;
-using Authentication.Domain.Account.Models;
+using Authentication.Domain;
 using Authentication.PresentationModels.EditModels;
 using Authentication.Utilities.ExtensionMethods;
 
@@ -12,10 +12,12 @@ namespace Authentication.Core.RequestHandlers.FormResults
   public class RegisterEditModelFormResultRequestHandler : IFormResultRequestHandler<RegisterEditModel>
   {
     private readonly IAccountRepository accountRepository;
+    private readonly IAccountFactory accountFactory;
 
-    public RegisterEditModelFormResultRequestHandler(IAccountRepository accountRepository)
+    public RegisterEditModelFormResultRequestHandler(IAccountRepository accountRepository, IAccountFactory accountFactory)
     {
       this.accountRepository = accountRepository;
+      this.accountFactory = accountFactory;
     }
 
     public IFormResult Handle(RegisterEditModel registerEditModel)
@@ -23,11 +25,11 @@ namespace Authentication.Core.RequestHandlers.FormResults
       var formResult = RegistrationIsValid(registerEditModel);
 
       if (formResult.Success)
-        accountRepository.Add(new Account
-        {
-          Id = registerEditModel.Email,
-          Password = registerEditModel.Password.Hash()
-        });
+      {
+        var account = accountFactory.Create(registerEditModel.Email, registerEditModel.Password.Hash());
+        accountRepository.Add(account);
+      }
+    
 
       return formResult;
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Authentication.PresistenceModels;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Authentication.Database.EntityModelConfigurations
@@ -28,7 +29,9 @@ namespace Authentication.Database.EntityModelConfigurations
         .IsRequired(false);
 
       builder.Property(p => p.OpenConnectId)
-        .ValueGeneratedOnAdd();
+        .ValueGeneratedOnAdd()
+        .HasComputedColumnSql("NEWID()")
+        .IsRequired(true);
     }
   }
 }

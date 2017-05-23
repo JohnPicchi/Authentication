@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Authentication.Database.Contexts;
-using Authentication.Domain.Account.Models;
+using Authentication.Account.Models;
 
 namespace Authentication.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20170519032026_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20170523044805_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,7 +20,7 @@ namespace Authentication.Database.Migrations
 
             modelBuilder.Entity("Authentication.PresistenceModels.Account", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(256)
                         .IsUnicode(false);
@@ -34,6 +34,8 @@ namespace Authentication.Database.Migrations
                         .HasMaxLength(256)
                         .IsUnicode(false);
 
+                    b.Property<string>("Username");
+
                     b.HasKey("Id");
 
                     b.ToTable("Accounts");
@@ -44,8 +46,7 @@ namespace Authentication.Database.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AccountId")
-                        .IsRequired();
+                    b.Property<Guid>("AccountId");
 
                     b.Property<DateTime?>("CurrentLogin");
 
@@ -64,7 +65,8 @@ namespace Authentication.Database.Migrations
                     b.Property<int>("MutliFactorAuthKind");
 
                     b.Property<Guid>("OpenConnectId")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasComputedColumnSql("NEWID()");
 
                     b.Property<bool?>("ResetPassword");
 
@@ -83,8 +85,7 @@ namespace Authentication.Database.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AccountId")
-                        .IsRequired();
+                    b.Property<Guid>("AccountId");
 
                     b.Property<DateTime>("CreationTime");
 
@@ -108,8 +109,7 @@ namespace Authentication.Database.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AccountId")
-                        .IsRequired();
+                    b.Property<Guid>("AccountId");
 
                     b.Property<DateTime>("DateCreated");
 
@@ -147,7 +147,7 @@ namespace Authentication.Database.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AccountId");
+                    b.Property<Guid>("AccountId");
 
                     b.Property<DateTime>("DateCreated");
 
@@ -205,7 +205,8 @@ namespace Authentication.Database.Migrations
                 {
                     b.HasOne("Authentication.PresistenceModels.Account", "Account")
                         .WithOne("User")
-                        .HasForeignKey("Authentication.PresistenceModels.User", "AccountId");
+                        .HasForeignKey("Authentication.PresistenceModels.User", "AccountId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
         }
     }

@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Authentication.Database.EntityModelConfigurations
 {
-  public class AccountConfiguration : EntityTypeConfiguration<Account>
+  public class AccountConfiguration : EntityTypeConfiguration<PresistenceModels.Account>
   {
-    public override void Configure(EntityTypeBuilder<Account> builder)
+    public override void Configure(EntityTypeBuilder<PresistenceModels.Account> builder)
     {
       builder.Property(p => p.Id)
         .IsRequired(true)

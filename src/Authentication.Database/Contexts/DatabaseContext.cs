@@ -29,13 +29,13 @@ namespace Authentication.Database.Contexts
       });
     }
 
-    public DbSet<Account> Accounts { get; set; }
+    public DbSet<PresistenceModels.Account> Accounts { get; set; }
 
     public DbSet<AccountProperties> AccountProperties { get; set; }
 
     public DbSet<AccountToken> AccountTokens { get; set; }
 
-    public DbSet<User> Users { get; set; }
+    public DbSet<PresistenceModels.User> Users { get; set; }
 
     public DbSet<Claim> Claims { get; set; }
 

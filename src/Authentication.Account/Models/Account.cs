@@ -1,19 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using Authentication.Utilities.ExtensionMethods;
+using Authentication.Domain;
+using Authentication.User;
 
-namespace Authentication.Domain.Account.Models
+
+namespace Authentication.Account.Models
 {
-  public class Account
+  public class Account : Entity<Guid>
   {
+    private User.Models.User user;
+    private readonly IUserFactory userFactory;
 
-    public string Id { get; set; }
+    public Account(IUserFactory userFactory)
+    {
+      this.userFactory = userFactory;
+    }
+
+    public string Username { get; set; }
 
     public string Password { get; set; }
 
-    public AccountProperties Properties { get; set; }
+    public Properties Properties { get; set; } = new Properties();
 
-    public IEnumerable<Token> Tokens { get; set; }
+    public User.Models.User User
+    {
+      get => user ?? (user = userFactory.Create());
+      set => user = value;
+    }
+
+    public IList<Token> Tokens { get; set; } = new List<Token>();
 
     public bool IsAuthenticated { get; private set; }
 
@@ -22,7 +37,7 @@ namespace Authentication.Domain.Account.Models
       if (Properties.Locked)
         return false;
 
-      if (Password.VerifyHash(password))
+      if (VerifyPassword(password))
       {
         Properties.FailedLoginAttempts = 0;
         if (false)
@@ -44,6 +59,8 @@ namespace Authentication.Domain.Account.Models
       
       return false;
     }
+
+    private bool VerifyPassword(string password) => BCrypt.Net.BCrypt.Verify(password, Password);
 
     public bool ValidateToken(string token, TokenKind tokenKind)
     {

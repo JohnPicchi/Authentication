@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Authentication.Domain.Account.Models;
+using Authentication.Account.Models;
 
 namespace Authentication.PresistenceModels
 {
@@ -17,7 +17,7 @@ namespace Authentication.PresistenceModels
     /// The foreign key of the Account who
     /// these properties belong to
     /// </summary>
-    public string AccountId { get; set; }
+    public Guid AccountId { get; set; }
 
     /// <summary>
     /// Determines whether or not the user must reset their password

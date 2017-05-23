@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using Authentication.Domain;
 
-namespace Authentication.Domain.Account.Models
+namespace Authentication.Account.Models
 {
   public enum MutliFactorAuthKind
   {
@@ -10,7 +10,7 @@ namespace Authentication.Domain.Account.Models
     Sms = 2
   }
 
-  public class AccountProperties
+  public class Properties : Entity<Guid>
   {
     public int FailedLoginAttempts { get; set; }
 

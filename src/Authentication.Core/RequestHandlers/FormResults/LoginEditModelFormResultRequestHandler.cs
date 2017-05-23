@@ -1,6 +1,6 @@
-﻿using Authentication.Core.RequestHandlers.Contracts;
+﻿using Authentication.Account;
+using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
-using Authentication.Domain.Account;
 using Authentication.PresentationModels.EditModels;
 using Authentication.Utilities.ExtensionMethods;
 
@@ -17,7 +17,6 @@ namespace Authentication.Core.RequestHandlers.FormResults
 
     public IFormResult Handle(LoginEditModel request)
     {
-
       var account = accountRepository.Find(request.Email);
       var test = account.Password.VerifyHash(request.Password);
       

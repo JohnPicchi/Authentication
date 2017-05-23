@@ -32,6 +32,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Repositories
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Utilities", "src\Authentication.Utilities\Authentication.Utilities.csproj", "{79E6F9AB-6A23-46DA-AE4A-F3D79014212C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Account", "src\Authentication.Account\Authentication.Account.csproj", "{22F70280-5922-4AA2-83B9-A92BCC9913BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.User", "src\Authentication.User\Authentication.User.csproj", "{DD6451BD-4C99-4C57-B82C-C1A384B8DDE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +78,14 @@ Global
 		{79E6F9AB-6A23-46DA-AE4A-F3D79014212C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79E6F9AB-6A23-46DA-AE4A-F3D79014212C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79E6F9AB-6A23-46DA-AE4A-F3D79014212C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22F70280-5922-4AA2-83B9-A92BCC9913BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22F70280-5922-4AA2-83B9-A92BCC9913BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22F70280-5922-4AA2-83B9-A92BCC9913BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22F70280-5922-4AA2-83B9-A92BCC9913BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD6451BD-4C99-4C57-B82C-C1A384B8DDE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD6451BD-4C99-4C57-B82C-C1A384B8DDE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD6451BD-4C99-4C57-B82C-C1A384B8DDE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD6451BD-4C99-4C57-B82C-C1A384B8DDE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,5 +100,7 @@ Global
 		{EEAB4580-647F-40E2-B7E0-E4A72A34C9B8} = {A82B94DB-3F63-4BD2-A202-DDC848F94243}
 		{9338BCB6-1C72-4BD0-B741-B529AEEEEBB0} = {A82B94DB-3F63-4BD2-A202-DDC848F94243}
 		{79E6F9AB-6A23-46DA-AE4A-F3D79014212C} = {600F3B15-F9BB-44D5-A061-2471F493D3B8}
+		{22F70280-5922-4AA2-83B9-A92BCC9913BF} = {051990A9-1803-479C-B427-C550B0E8D964}
+		{DD6451BD-4C99-4C57-B82C-C1A384B8DDE2} = {051990A9-1803-479C-B427-C550B0E8D964}
 	EndGlobalSection
 EndGlobal

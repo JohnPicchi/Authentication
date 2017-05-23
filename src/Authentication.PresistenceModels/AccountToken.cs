@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Authentication.Domain.Account.Models;
+using Authentication.Account.Models;
 
 namespace Authentication.PresistenceModels
 {
@@ -16,7 +16,7 @@ namespace Authentication.PresistenceModels
     /// The foreign key of the account who
     /// the token belongs to
     /// </summary>
-    public string AccountId { get; set; }
+    public Guid AccountId { get; set; }
 
     /// <summary>
     /// The value of the token

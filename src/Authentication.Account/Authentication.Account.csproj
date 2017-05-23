@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Authentication.Domain\Authentication.Domain.csproj" />
+    <ProjectReference Include="..\Authentication.User\Authentication.User.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="BCrypt.Net-Core">
       <HintPath>..\..\..\..\Users\John\.nuget\packages\bcrypt.net-core\1.4.0\lib\netstandard1.3\BCrypt.Net-Core.dll</HintPath>
     </Reference>

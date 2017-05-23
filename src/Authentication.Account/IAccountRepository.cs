@@ -1,4 +1,7 @@
-﻿namespace Authentication.Domain.Account
+﻿using System;
+using Authentication.Account.Models;
+
+namespace Authentication.Account
 {
   public interface IAccountRepository
   {
@@ -10,6 +13,6 @@
 
     void Remove(Models.Account account);
 
-    void Remove(string accountId);
+    void Remove(Guid accountId);
   }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
+using Authentication.Domain;
 
-namespace Authentication.Domain.Account.Models
+namespace Authentication.Account.Models
 {
   public enum TokenKind
   {
@@ -8,7 +9,7 @@ namespace Authentication.Domain.Account.Models
     MultiFactorAuth = 1
   }
 
-  public class Token
+  public class Token : Entity<Guid>
   {
     public TokenKind Kind { get; set; }
 

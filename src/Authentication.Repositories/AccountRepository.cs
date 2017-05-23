@@ -1,10 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Authentication.Account;
 using Authentication.Core.Models.Contracts;
 using Authentication.Database;
-using Authentication.Domain.Account;
-using Authentication.Domain.Account.Models;
 using AutoMapper;
-
 
 namespace Authentication.Repositories
 {
@@ -17,22 +16,28 @@ namespace Authentication.Repositories
       this.mapper = mapper;
     }
 
-    public bool AccountExists(string accountId) => Query().Any(a => a.Id == accountId);
+    public bool AccountExists(string username) => Query().Any(a => a.Username == username);
 
-    public void Add(Account account)
+    public void Add(Account.Models.Account account)
     {
-      var persistedAccount = mapper.Map<Account, PresistenceModels.Account>(account);
+      var persistedAccount = mapper.Map<Account.Models.Account, PresistenceModels.Account>(account);
       base.Add(persistedAccount);
     }
 
-    public Account Find(string accountId)
+    public Account.Models.Account Find(Guid accountId)
     {
       var persistedAccount = base.Find(accountId);
-      return  mapper.Map<PresistenceModels.Account, Account>(persistedAccount);
+      return mapper.Map<PresistenceModels.Account, Account.Models.Account>(persistedAccount);
     }
 
-    public void Remove(Account account) => Remove(account.Id);
+    public Account.Models.Account Find(string username)
+    {
+      var persistedAccount = Query().FirstOrDefault(a => a.Username == username);
+      return mapper.Map<PresistenceModels.Account, Account.Models.Account>(persistedAccount);
+    }
 
-    public void Remove(string accountId) => base.Remove(new PresistenceModels.Account { Id = accountId });
+    public void Remove(Account.Models.Account account) => Remove(account.Id);
+
+    public void Remove(Guid accountId) => base.Remove(new PresistenceModels.Account { Id = accountId});
   }
 }

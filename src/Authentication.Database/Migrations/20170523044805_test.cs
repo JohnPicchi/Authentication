@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Authentication.Database.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,10 +12,11 @@ namespace Authentication.Database.Migrations
                 name: "Accounts",
                 columns: table => new
                 {
-                    Id = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
+                    Id = table.Column<Guid>(unicode: false, maxLength: 256, nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateUpdated = table.Column<DateTime>(nullable: true),
-                    Password = table.Column<string>(unicode: false, maxLength: 256, nullable: false)
+                    Password = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
+                    Username = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,7 +28,7 @@ namespace Authentication.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    AccountId = table.Column<string>(nullable: false),
+                    AccountId = table.Column<Guid>(nullable: false),
                     CurrentLogin = table.Column<DateTime>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateUpdated = table.Column<DateTime>(nullable: true),
@@ -36,7 +37,7 @@ namespace Authentication.Database.Migrations
                     LockExpiration = table.Column<DateTime>(nullable: true),
                     Locked = table.Column<bool>(nullable: true),
                     MutliFactorAuthKind = table.Column<int>(nullable: false),
-                    OpenConnectId = table.Column<Guid>(nullable: false),
+                    OpenConnectId = table.Column<Guid>(nullable: false, computedColumnSql: "NEWID()"),
                     ResetPassword = table.Column<bool>(nullable: true),
                     Verified = table.Column<bool>(nullable: true)
                 },
@@ -56,7 +57,7 @@ namespace Authentication.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    AccountId = table.Column<string>(nullable: false),
+                    AccountId = table.Column<Guid>(nullable: false),
                     CreationTime = table.Column<DateTime>(nullable: false),
                     ExpirationTime = table.Column<DateTime>(nullable: false),
                     Kind = table.Column<int>(nullable: false),
@@ -78,7 +79,7 @@ namespace Authentication.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    AccountId = table.Column<string>(nullable: false),
+                    AccountId = table.Column<Guid>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateUpdated = table.Column<DateTime>(nullable: true),
                     Issuer = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
@@ -102,7 +103,7 @@ namespace Authentication.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    AccountId = table.Column<string>(nullable: true),
+                    AccountId = table.Column<Guid>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateUpdated = table.Column<DateTime>(nullable: true),
                     Email = table.Column<string>(unicode: false, maxLength: 256, nullable: true),
@@ -118,7 +119,7 @@ namespace Authentication.Database.Migrations
                         column: x => x.AccountId,
                         principalTable: "Accounts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

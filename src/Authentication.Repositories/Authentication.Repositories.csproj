@@ -12,6 +12,7 @@
     <ProjectReference Include="..\Authentication.Core\Authentication.Core.csproj" />
     <ProjectReference Include="..\Authentication.PresistenceModels\Authentication.PresistenceModels.csproj" />
     <ProjectReference Include="..\Authentication.Database\Authentication.Database.csproj" />
+    <ProjectReference Include="..\Authentication.User\Authentication.User.csproj" />
   </ItemGroup>
 
 </Project>

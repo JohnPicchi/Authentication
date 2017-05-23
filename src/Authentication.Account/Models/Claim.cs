@@ -1,6 +1,9 @@
-﻿namespace Authentication.Domain.Account.Models
+﻿using System;
+using Authentication.Domain;
+
+namespace Authentication.Account.Models
 {
-  public class Claim
+  public class Claim : Entity<Guid>
   {
     public string Type { get; set; }
 
