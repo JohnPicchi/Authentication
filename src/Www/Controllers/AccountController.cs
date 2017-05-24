@@ -15,11 +15,6 @@ namespace Authentication.Controllers
       this.accountRepository = accountRepository;
     }
 
-    public IActionResult Index()
-    {
-      return View();
-    }
-
     [HttpGet]
     public IActionResult Register() => View(new RegisterViewModel());
 
@@ -37,7 +32,7 @@ namespace Authentication.Controllers
     public IActionResult CheckAccountId(string email)
     {
       return accountRepository.AccountExists(email) 
-        ? Json(data: $"Account already exists")
+        ? Json(data: "Account already exists")
         : Json(data: true);
     }
 
@@ -57,7 +52,7 @@ namespace Authentication.Controllers
     [HttpGet]
     public IActionResult Logout()
     {
-      return Json("Congrats you logged in");
+      return Json("Congrats you logged out");
     }
   }
 }

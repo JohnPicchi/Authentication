@@ -18,7 +18,7 @@ namespace Authentication.Controllers
         if (formResult.Success)
           return success();
 
-        //ModelState.AddModelError("error", formResult.ErrorMessages);
+        ModelState.AddModelError("error", formResult.ErrorMessage);
       }
       return failure();
     }

@@ -8,12 +8,15 @@ namespace Authentication.Account.Models
 {
   public class Account : Entity<Guid>
   {
-    private User.Models.User user;
     private readonly IUserFactory userFactory;
+    private readonly IUserRepository userRepository;
 
-    public Account(IUserFactory userFactory)
+    private User.Models.User user;
+
+    public Account(IUserFactory userFactory, IUserRepository userRepository)
     {
       this.userFactory = userFactory;
+      this.userRepository = userRepository;
     }
 
     public string Username { get; set; }
@@ -24,7 +27,10 @@ namespace Authentication.Account.Models
 
     public User.Models.User User
     {
-      get => user ?? (user = userFactory.Create());
+      get => user ?? (user = this.IsNew
+               ? userFactory.Create()
+               : null);   //TODO
+
       set => user = value;
     }
 

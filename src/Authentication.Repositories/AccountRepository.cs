@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Linq;
 using Authentication.Account;
+using Authentication.Account.Models;
 using Authentication.Core.Models.Contracts;
 using Authentication.Database;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.Repositories
 {
   public class AccountRepository : Repository<PresistenceModels.Account>, IAccountRepository
   {
     private readonly IMapper mapper;
+    private readonly IAccountFactory accountFactory;
 
-    public AccountRepository(IApplicationSettings applicationSettings, IMapper mapper) : base(applicationSettings)
+    public AccountRepository(IApplicationSettings applicationSettings, IMapper mapper, IAccountFactory accountFactory) : base(applicationSettings)
     {
       this.mapper = mapper;
+      this.accountFactory = accountFactory;
     }
 
     public bool AccountExists(string username) => Query().Any(a => a.Username == username);
@@ -32,8 +36,11 @@ namespace Authentication.Repositories
 
     public Account.Models.Account Find(string username)
     {
-      var persistedAccount = Query().FirstOrDefault(a => a.Username == username);
-      return mapper.Map<PresistenceModels.Account, Account.Models.Account>(persistedAccount);
+      var persistedAccount = Query()
+        .Include(a => a.Properties)
+        .FirstOrDefault(a => a.Username == username);
+
+      return mapper.Map(persistedAccount, accountFactory.Create());
     }
 
     public void Remove(Account.Models.Account account) => Remove(account.Id);

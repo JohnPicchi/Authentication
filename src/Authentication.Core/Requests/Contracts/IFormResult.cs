@@ -6,6 +6,6 @@ namespace Authentication.Core.Requests.Contracts
   {
     bool Success { get; }
 
-    IList<string> ErrorMessages { get; }
+    string ErrorMessage { get; }
   }
 }

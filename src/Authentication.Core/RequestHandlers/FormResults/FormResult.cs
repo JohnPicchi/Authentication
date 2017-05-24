@@ -5,18 +5,13 @@ namespace Authentication.Core.RequestHandlers.FormResults
 {
   public class FormResult : IFormResult
   {
+
     public bool Success { get; set; }
 
-    public IList<string> ErrorMessages { get; set; } = new List<string>();
+    public string ErrorMessage { get; private set; }
 
     public static FormResult Ok => new FormResult {Success = true};
 
-    public static FormResult Fail(string errorMessage)
-    {
-      var formResult = new FormResult();
-      formResult.ErrorMessages.Add(errorMessage);
-      formResult.Success = false;
-      return formResult;
-    }
+    public static FormResult Fail(string errorMessage) => new FormResult {Success = false, ErrorMessage = errorMessage};
   }
 }

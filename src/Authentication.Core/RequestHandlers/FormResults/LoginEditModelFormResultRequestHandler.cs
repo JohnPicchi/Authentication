@@ -18,8 +18,10 @@ namespace Authentication.Core.RequestHandlers.FormResults
     public IFormResult Handle(LoginEditModel request)
     {
       var account = accountRepository.Find(request.Email);
-      var test = account.Password.VerifyHash(request.Password);
-      
+      if (account == null)
+        return FormResult.Fail("Incorrect username or password");
+
+      var isValid = account.Authenticate(request.Password);
 
       return FormResult.Ok;
     }
