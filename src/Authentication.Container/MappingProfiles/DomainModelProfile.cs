@@ -13,7 +13,7 @@ namespace Authentication.Container.MappingProfiles
   {
     public DomainModelProfile()
     {
-      CreateMap<User.Models.User, PresistenceModels.User>();
+      CreateMap<User.Models.User , PresistenceModels.User>();
       CreateMap<Account.Models.Token, PresistenceModels.AccountToken>();
       CreateMap<Account.Models.Claim, PresistenceModels.Claim>();
       CreateMap<Account.Models.Account, PresistenceModels.Account>();

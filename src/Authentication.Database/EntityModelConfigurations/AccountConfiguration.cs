@@ -11,7 +11,7 @@ namespace Authentication.Database.EntityModelConfigurations
   {
     public override void Configure(EntityTypeBuilder<PresistenceModels.Account> builder)
     {
-      builder.Property(p => p.Id)
+      builder.Property(p => p.Username)
         .IsRequired(true)
         .HasMaxLength(Helper.MaxLength.Email)
         .IsUnicode(false);

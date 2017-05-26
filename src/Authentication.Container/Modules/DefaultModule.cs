@@ -41,9 +41,14 @@ namespace Authentication.Container.Modules
         .AsImplementedInterfaces()
         .InstancePerLifetimeScope();
 
+      ///////////////////////////////////////////////
+      // Factories
+      ///////////////////////////////////////////////
       builder.RegisterAssemblyTypes(assemblies)
         .Where(t => t.Name.EndsWith("Factory"))
         .AsImplementedInterfaces()
+        .AsSelf()
+        .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies) // Factory -> Repository -> Factory
         .InstancePerLifetimeScope();
 
       //builder.RegisterGeneric(typeof(Repository<>))

@@ -5,7 +5,6 @@ using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
 using Authentication.Domain;
 using Authentication.PresentationModels.EditModels;
-using Authentication.Utilities.ExtensionMethods;
 
 namespace Authentication.Core.RequestHandlers.FormResults
 {

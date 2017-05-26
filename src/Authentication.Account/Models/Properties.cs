@@ -12,7 +12,7 @@ namespace Authentication.Account.Models
 
   public class Properties : Entity<Guid>
   {
-    public int FailedLoginAttempts { get; set; }
+    public int? FailedLoginAttempts { get; set; }
 
     public DateTime? CurrentLogin { get; set; }
 

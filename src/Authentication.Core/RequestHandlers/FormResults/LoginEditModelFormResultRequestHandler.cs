@@ -1,4 +1,5 @@
-﻿using Authentication.Account;
+﻿using System;
+using Authentication.Account;
 using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.EditModels;
@@ -22,6 +23,12 @@ namespace Authentication.Core.RequestHandlers.FormResults
         return FormResult.Fail("Incorrect username or password");
 
       var isValid = account.Authenticate(request.Password);
+      if (isValid)
+      {
+        account.Properties.FailedLoginAttempts = 100;
+        accountRepository.Update(account);
+      }
+
 
       return FormResult.Ok;
     }

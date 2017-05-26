@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Authentication.Core.Models.Contracts;
 using Authentication.Database.Contexts;
 using Authentication.PresistenceModels;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Authentication.Database
 {
@@ -19,13 +22,15 @@ namespace Authentication.Database
     protected virtual void Remove(TEntity entity)
     {
       databaseContext.Value.Set<TEntity>().Remove(entity);
-      databaseContext.Value.SaveChanges();
     }
 
     protected virtual TEntity Add(TEntity entity)
     {
-      var persistedEntity = databaseContext.Value.Set<TEntity>().Add(entity).Entity;
+      var persistedEntity =  databaseContext.Value.Set<TEntity>().Add(entity).Entity;
+
+      //Save changes so the DB can genereate the identity values
       databaseContext.Value.SaveChanges();
+
       return persistedEntity;
     }
 

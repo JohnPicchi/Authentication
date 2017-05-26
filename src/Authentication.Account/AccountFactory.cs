@@ -14,6 +14,8 @@ namespace Authentication.Account
     private readonly IUserFactory userFactory;
     private IUserRepository userRepository;
 
+    public IAccountRepository AccountRepository { get; set; }
+
     public AccountFactory(IUserFactory userFactory, IUserRepository userRepository)
     {
       this.userFactory = userFactory;
@@ -22,7 +24,7 @@ namespace Authentication.Account
 
     public Models.Account Create()
     {
-      return new Models.Account(userFactory, userRepository);
+      return new Models.Account(AccountRepository, userFactory, userRepository);
     }
 
     public Models.Account Create(string username, string password)
