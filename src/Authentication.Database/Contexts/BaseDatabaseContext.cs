@@ -5,10 +5,12 @@ using System.Text;
 using Authentication.Domain;
 using Authentication.PresistenceModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Logging;
 
 namespace Authentication.Database.Contexts
 {
-  internal abstract class BaseDatabaseContext : DbContext
+  public abstract class BaseDatabaseContext : DbContext
   {
     public override int SaveChanges()
     {

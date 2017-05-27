@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Reflection;
 using System.Text;
+using Authentication.Core.Models.Contracts;
 using Authentication.Core.NotificationHandlers.Contracts;
 using Authentication.Core.Notifications;
 using Authentication.Core.Notifications.Contracts;
 using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests;
 using Authentication.Core.Requests.Contracts;
+using Authentication.Database.Contexts;
 using Autofac;
 using AutoMapper;
 using Module = Autofac.Module;
@@ -54,6 +56,7 @@ namespace Authentication.Container.Modules
       //builder.RegisterGeneric(typeof(Repository<>))
       //  .As(typeof(IRepository<>))
       //  .InstancePerLifetimeScope();
+
 
       ////////////////////////////////////////////
       // AutoMapper

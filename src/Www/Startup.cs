@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Linq;
 using Authentication.Core.Models;
-using AutoMapper;
+using Authentication.Database;
+using Authentication.Database.Contexts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -39,8 +42,11 @@ namespace Authentication
         .AddInMemoryApiResources(Config.GetApiResources())
         .AddTestUsers(Config.GetTestUsers());
 
+      services.AddLogging();
       services.AddOptions();
       services.Configure<ApplicationSettings>(Configuration.GetSection("AppSettings"));
+
+      services.AddDbContext<DatabaseContext>();
 
       return applicationContainer = new Container.Container(services);
     }
@@ -48,18 +54,12 @@ namespace Authentication
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime applicationLifetime)
     {
-      //var log = new LoggerConfiguration()
-      //  .MinimumLevel.Information()
-      //  .WriteTo.LiterateConsole
-      //  .CreateLogger();
-      //loggerFactory.AddSerilog(log);
-
-      loggerFactory.AddConsole();
-
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
+        //loggerFactory.AddConsole(LogLevel.Information);
       }
+      loggerFactory.AddProvider(new DatabaseLoggerProvider());
 
       app.UseIdentityServer();
       app.UseStaticFiles();

@@ -9,7 +9,7 @@ using Authentication.Account.Models;
 namespace Authentication.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20170523044805_test")]
+    [Migration("20170527201827_test")]
     partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,9 +21,7 @@ namespace Authentication.Database.Migrations
             modelBuilder.Entity("Authentication.PresistenceModels.Account", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(256)
-                        .IsUnicode(false);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("DateCreated");
 
@@ -34,7 +32,10 @@ namespace Authentication.Database.Migrations
                         .HasMaxLength(256)
                         .IsUnicode(false);
 
-                    b.Property<string>("Username");
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .IsUnicode(false);
 
                     b.HasKey("Id");
 

@@ -23,11 +23,11 @@ namespace Authentication.Core.RequestHandlers.FormResults
         return FormResult.Fail("Incorrect username or password");
 
       var isValid = account.Authenticate(request.Password);
-      if (isValid)
-      {
-        account.Properties.FailedLoginAttempts = 100;
-        accountRepository.Update(account);
-      }
+     // if (!isValid)
+     //   account.Properties.FailedLoginAttempts += 1;
+
+      accountRepository.Update(account);
+
 
 
       return FormResult.Ok;

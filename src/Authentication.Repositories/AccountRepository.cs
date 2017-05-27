@@ -5,6 +5,7 @@ using Authentication.Account;
 using Authentication.Account.Models;
 using Authentication.Core.Models.Contracts;
 using Authentication.Database;
+using Authentication.Database.Contexts;
 using Authentication.Utilities.ExtensionMethods;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -17,9 +18,9 @@ namespace Authentication.Repositories
     private readonly IAccountFactory accountFactory;
 
     public AccountRepository(
-      IApplicationSettings applicationSettings, 
+      DatabaseContext databaseContext, 
       IMapper mapper, 
-      IAccountFactory accountFactory) : base(applicationSettings)
+      IAccountFactory accountFactory) : base(databaseContext)
     {
       this.mapper = mapper;
       this.accountFactory = accountFactory;
@@ -73,7 +74,7 @@ namespace Authentication.Repositories
         }
         else
           mapper.Map(account, persistedAccount);
-
+        base.Save();
         return true;
       }
       return false;

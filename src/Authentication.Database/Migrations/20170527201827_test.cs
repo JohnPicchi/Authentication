@@ -12,11 +12,11 @@ namespace Authentication.Database.Migrations
                 name: "Accounts",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(unicode: false, maxLength: 256, nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateUpdated = table.Column<DateTime>(nullable: true),
                     Password = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
-                    Username = table.Column<string>(nullable: true)
+                    Username = table.Column<string>(unicode: false, maxLength: 256, nullable: false)
                 },
                 constraints: table =>
                 {

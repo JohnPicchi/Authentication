@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Authentication.Core.Models;
 using Authentication.Core.Models.Contracts;
@@ -8,21 +9,24 @@ using Authentication.PresistenceModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
-
+using Microsoft.Extensions.Logging;
 
 namespace Authentication.Database.Contexts
 {
-  internal class DatabaseContext : BaseDatabaseContext
+  public class DatabaseContext : BaseDatabaseContext
   {
     private IApplicationSettings applicationSettings;
+    private ILoggerFactory loggerFactory;
 
-    public DatabaseContext(IApplicationSettings applicationSettings)
+    public DatabaseContext(IApplicationSettings applicationSettings, ILoggerFactory loggerFactory)
     {
       this.applicationSettings = applicationSettings;
+      this.loggerFactory = loggerFactory;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+      optionsBuilder.UseLoggerFactory(loggerFactory);
       optionsBuilder.UseSqlServer(applicationSettings.DbConnectionString, builder =>
       {
         builder.EnableRetryOnFailure();
@@ -46,26 +50,6 @@ namespace Authentication.Database.Contexts
       modelBuilder.AddConfiguration(new AccountTokenConfiguration());
       modelBuilder.AddConfiguration(new UserConfiguration());
       modelBuilder.AddConfiguration(new ClaimConfiguration());
-    }
-  }
-
-  //Used by Migrations
-  internal class DbContextFactory : IDbContextFactory<DatabaseContext>
-  {
-    public DatabaseContext Create(DbContextFactoryOptions options) => Create(options.ContentRootPath, options.EnvironmentName);
-
-    private DatabaseContext Create(string basePath, string env)
-    {
-      var builder = new Microsoft.Extensions.Configuration.ConfigurationBuilder()
-        .SetBasePath(basePath)
-        .AddJsonFile("appsettings.json")
-        .AddJsonFile($"appsettings.{env}.json", true)
-        .AddEnvironmentVariables();
-      var configuration = builder.Build();
-
-      var applicationSettings = new ApplicationSettings();
-      configuration.GetSection("AppSettings").Bind(applicationSettings);
-      return new DatabaseContext(applicationSettings);
     }
   }
 }

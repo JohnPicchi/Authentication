@@ -20,9 +20,7 @@ namespace Authentication.Database.Migrations
             modelBuilder.Entity("Authentication.PresistenceModels.Account", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(256)
-                        .IsUnicode(false);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("DateCreated");
 
@@ -33,7 +31,10 @@ namespace Authentication.Database.Migrations
                         .HasMaxLength(256)
                         .IsUnicode(false);
 
-                    b.Property<string>("Username");
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .IsUnicode(false);
 
                     b.HasKey("Id");
 
