@@ -22,7 +22,7 @@ namespace Authentication.PresistenceModels
     /// <summary>
     /// Determines whether or not the user must reset their password
     /// </summary>
-    public bool? ResetPassword { get; set; }
+    public bool? PasswordResetRequired { get; set; }
 
     /// <summary>
     /// Number of failed login attempts  before
@@ -33,22 +33,7 @@ namespace Authentication.PresistenceModels
     /// <summary>
     /// The user's unique open connect id
     /// </summary>
-    public Guid OpenConnectId { get; set; }
-
-    /// <summary>
-    /// Locks the account so the user cannot login
-    /// </summary>
-    public bool? Locked { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public DateTime? LockExpiration { get; set; }
-
-    /// <summary>
-    /// The user has verified their email address
-    /// </summary>
-    public bool? Verified { get; set; }
+    public Guid? OpenConnectId { get; set; }
 
     /// <summary>
     /// 
@@ -56,13 +41,13 @@ namespace Authentication.PresistenceModels
     public MutliFactorAuthKind MutliFactorAuthKind { get; set; }
 
     /// <summary>
-    /// The last date/time the user logged in
+    /// The last date/time (in UTC) the user logged in
     /// </summary>
-    public DateTime? LastLogin { get; set; }
+    public DateTime? LastLoginDateTime { get; set; }
 
     /// <summary>
-    /// The last date/time the user logged in
+    /// The last date/time (in UTC) the user logged in
     /// </summary>
-    public DateTime? CurrentLogin { get; set; }
+    public DateTime? CurrentLoginDateTime { get; set; }
   }
 }

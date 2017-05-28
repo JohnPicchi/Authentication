@@ -9,14 +9,16 @@ namespace Authentication.Account.Models
     MultiFactorAuth = 1
   }
 
-  public class Token : Entity<Guid>
+  public class AccountToken : Entity<Guid>
   {
     public TokenKind Kind { get; set; }
 
-    public DateTime CreationTime { get; set; }
+    public DateTime DateCreated { get; set; }
 
-    public DateTime ExpirationTime { get; set; }
+    public DateTime ExpirationDate { get; set; }
 
     public string Value { get; set; }
+
+    public bool IsExpired => ExpirationDate < DateTime.UtcNow;
   }
 }

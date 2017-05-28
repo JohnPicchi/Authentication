@@ -5,9 +5,17 @@ using System.Text;
 
 namespace Authentication.Domain
 {
-  public interface IDomainEntity { }
+  public interface IDomainEntity
+  {
+    bool IsNew { get; }
+  }
 
-  public abstract class Entity <TEntity> : IDomainEntity
+  public interface IDomainEntity<TEntity> : IDomainEntity
+  {
+    TEntity Id { get; }
+  }
+
+  public abstract class Entity <TEntity> : IDomainEntity<TEntity>
   {
     public TEntity Id { get; set; }
 

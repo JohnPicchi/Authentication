@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Authentication.Database.EntityModelConfigurations
 {
-  internal class ClaimConfiguration : EntityTypeConfiguration<Claim>
+  internal class AccountClaimConfiguration : EntityTypeConfiguration<AccountClaim>
   {
-    public override void Configure(EntityTypeBuilder<Claim> builder)
+    public override void Configure(EntityTypeBuilder<AccountClaim> builder)
     {
       builder.HasOne(p => p.Account)
         .WithMany(p => p.Claims)

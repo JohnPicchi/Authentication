@@ -15,6 +15,7 @@ namespace Authentication.Database.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateUpdated = table.Column<DateTime>(nullable: true),
+                    IsVerified = table.Column<bool>(nullable: true),
                     Password = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
                     Username = table.Column<string>(unicode: false, maxLength: 256, nullable: false)
                 },
@@ -24,22 +25,66 @@ namespace Authentication.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AccountClaims",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    AccountId = table.Column<Guid>(nullable: false),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: true),
+                    Issuer = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
+                    Type = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
+                    Value = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
+                    ValueType = table.Column<string>(unicode: false, maxLength: 256, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AccountClaims_Accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AccountLocks",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    AccountId = table.Column<Guid>(nullable: false),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: true),
+                    ExpirationDate = table.Column<DateTime>(nullable: true),
+                    Kind = table.Column<int>(nullable: false),
+                    Message = table.Column<string>(unicode: false, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountLocks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AccountLocks_Accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AccountProperties",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     AccountId = table.Column<Guid>(nullable: false),
-                    CurrentLogin = table.Column<DateTime>(nullable: true),
+                    CurrentLoginDateTime = table.Column<DateTime>(nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateUpdated = table.Column<DateTime>(nullable: true),
                     FailedLoginAttempts = table.Column<int>(nullable: true),
-                    LastLogin = table.Column<DateTime>(nullable: true),
-                    LockExpiration = table.Column<DateTime>(nullable: true),
-                    Locked = table.Column<bool>(nullable: true),
+                    LastLoginDateTime = table.Column<DateTime>(nullable: true),
                     MutliFactorAuthKind = table.Column<int>(nullable: false),
-                    OpenConnectId = table.Column<Guid>(nullable: false, computedColumnSql: "NEWID()"),
-                    ResetPassword = table.Column<bool>(nullable: true),
-                    Verified = table.Column<bool>(nullable: true)
+                    OpenConnectId = table.Column<Guid>(nullable: true),
+                    PasswordResetRequired = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -58,8 +103,8 @@ namespace Authentication.Database.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     AccountId = table.Column<Guid>(nullable: false),
-                    CreationTime = table.Column<DateTime>(nullable: false),
-                    ExpirationTime = table.Column<DateTime>(nullable: false),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    ExpirationDate = table.Column<DateTime>(nullable: false),
                     Kind = table.Column<int>(nullable: false),
                     Value = table.Column<string>(maxLength: 256, nullable: false)
                 },
@@ -68,30 +113,6 @@ namespace Authentication.Database.Migrations
                     table.PrimaryKey("PK_AccountTokens", x => x.Id);
                     table.ForeignKey(
                         name: "FK_AccountTokens_Accounts_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "Accounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Claims",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    AccountId = table.Column<Guid>(nullable: false),
-                    DateCreated = table.Column<DateTime>(nullable: false),
-                    DateUpdated = table.Column<DateTime>(nullable: true),
-                    Issuer = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
-                    Type = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
-                    Value = table.Column<string>(unicode: false, maxLength: 256, nullable: false),
-                    ValueType = table.Column<string>(unicode: false, maxLength: 256, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Claims", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Claims_Accounts_AccountId",
                         column: x => x.AccountId,
                         principalTable: "Accounts",
                         principalColumn: "Id",
@@ -123,6 +144,16 @@ namespace Authentication.Database.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AccountClaims_AccountId",
+                table: "AccountClaims",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccountLocks_AccountId",
+                table: "AccountLocks",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AccountProperties_AccountId",
                 table: "AccountProperties",
                 column: "AccountId",
@@ -131,11 +162,6 @@ namespace Authentication.Database.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_AccountTokens_AccountId",
                 table: "AccountTokens",
-                column: "AccountId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Claims_AccountId",
-                table: "Claims",
                 column: "AccountId");
 
             migrationBuilder.CreateIndex(
@@ -148,13 +174,16 @@ namespace Authentication.Database.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AccountClaims");
+
+            migrationBuilder.DropTable(
+                name: "AccountLocks");
+
+            migrationBuilder.DropTable(
                 name: "AccountProperties");
 
             migrationBuilder.DropTable(
                 name: "AccountTokens");
-
-            migrationBuilder.DropTable(
-                name: "Claims");
 
             migrationBuilder.DropTable(
                 name: "Users");

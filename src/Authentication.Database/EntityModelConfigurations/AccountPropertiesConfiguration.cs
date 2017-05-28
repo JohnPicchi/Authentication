@@ -19,19 +19,17 @@ namespace Authentication.Database.EntityModelConfigurations
       builder.Property(p => p.FailedLoginAttempts)
         .IsRequired(false);
 
-      builder.Property(p => p.CurrentLogin)
+      builder.Property(p => p.CurrentLoginDateTime)
         .IsRequired(false);
 
-      builder.Property(p => p.LastLogin)
+      builder.Property(p => p.LastLoginDateTime)
         .IsRequired(false);
 
-      builder.Property(p => p.ResetPassword)
+      builder.Property(p => p.PasswordResetRequired)
         .IsRequired(false);
 
       builder.Property(p => p.OpenConnectId)
-        .ValueGeneratedOnAdd()
-        .HasComputedColumnSql("NEWID()")
-        .IsRequired(true);
+        .IsRequired(false);
     }
   }
 }

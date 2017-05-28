@@ -17,6 +17,11 @@ namespace Authentication.PresistenceModels
     public string Password { get; set; }
 
     /// <summary>
+    /// The user has verified their email address
+    /// </summary>
+    public bool? IsVerified { get; set; }
+
+    /// <summary>
     /// The account's properties
     /// </summary>
     public AccountProperties Properties { get; set; }
@@ -34,6 +39,11 @@ namespace Authentication.PresistenceModels
     /// <summary>
     /// The claims belonging to this account
     /// </summary>
-    public List<Claim> Claims { get; set; }
+    public List<AccountClaim> Claims { get; set; }
+
+    /// <summary>
+    /// The locks placed on the account
+    /// </summary>
+    public List<AccountLock> Locks { get; set; }
   }
 }

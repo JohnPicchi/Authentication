@@ -31,8 +31,8 @@ namespace Authentication.Account
     {
       var account = Create();
 
-      account.Username = username;
-      account.Password = BCrypt.Net.BCrypt.HashPassword(password);
+      account.SetUsername(username);
+      account.SetPassword(password);
 
       return account;
     }

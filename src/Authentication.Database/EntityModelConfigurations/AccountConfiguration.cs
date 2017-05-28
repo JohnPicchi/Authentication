@@ -34,6 +34,10 @@ namespace Authentication.Database.EntityModelConfigurations
       builder.HasMany(p => p.Claims)
         .WithOne(p => p.Account)
         .HasForeignKey(p => p.AccountId);
+
+      builder.HasMany(p => p.Locks)
+        .WithOne(p => p.Account)
+        .HasForeignKey(p => p.AccountId);
     }
   }
 }

@@ -32,11 +32,11 @@ namespace Authentication.PresistenceModels
     /// <summary>
     /// The date/time (UTC) the token was created
     /// </summary>
-    public DateTime CreationTime { get; set; }
+    public DateTime DateCreated { get; set; }
 
     /// <summary>
     /// The date/time (UTC) the token expires
     /// </summary>
-    public DateTime ExpirationTime { get; set; }
+    public DateTime ExpirationDate { get; set; }
   }
 }

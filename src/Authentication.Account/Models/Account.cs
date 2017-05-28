@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Authentication.Domain;
 using Authentication.User;
 
@@ -13,8 +14,10 @@ namespace Authentication.Account.Models
     private readonly IUserRepository userRepository;
 
     private User.Models.User user;
-    private Properties properties;
-    private IList<Token> tokens;
+    private AccountProperties properties;
+
+    private IList<AccountToken> tokens;
+    private IList<AccountLock> locks;
 
     public Account(
       IAccountRepository accountRepository, 
@@ -26,14 +29,20 @@ namespace Authentication.Account.Models
       this.userRepository = userRepository;
     }
 
-    public string Username { get; set; }
+    public string Username { get; private set; }
+    
+    public string Password { get; private set; }
 
-    public string Password { get; set; }
+    public bool IsAuthenticated { get; private set; }
 
-    public Properties Properties
+    public bool IsLocked => locks.Any(l => l.IsValid);
+
+    public bool IsVerified { get; set; }
+
+    public AccountProperties Properties
     {
       get => properties ?? (properties = this.IsNew
-               ? new Properties()
+               ? new AccountProperties()
                : accountRepository.AccountProperties(this.Id));
 
       set => properties = value;
@@ -48,50 +57,79 @@ namespace Authentication.Account.Models
       set => user = value;
     }
 
-    public IList<Token> Tokens
+    public IEnumerable<AccountToken> Tokens
     {
       get => tokens ?? (tokens = this.IsNew
-               ? new List<Token>()
+               ? new List<AccountToken>()
                : accountRepository.AccountTokens(this.Id));
 
-      set => tokens = value;
-    } 
+      private set => tokens = value.ToList();
+    }
 
-    public bool IsAuthenticated { get; private set; }
-  
-    public bool Authenticate(string password)
+    public IEnumerable<AccountLock> Locks
     {
-      if (Properties.Locked)
-        return false;
+      get => locks ?? (locks = this.IsNew
+               ? new List<AccountLock>()
+               : accountRepository.AccountLocks(this.Id));
 
-      if (VerifyPassword(password))
+      private set => locks = value.ToList();
+    }
+
+    public void AddLock(AccountLock accountLock)
+    {
+      locks.Add(accountLock);
+    }
+
+    public void RemoveLock(AccountLock accountLock)
+    {
+      var index = locks.IndexOf(accountLock);
+      if (index >= 0)
+        locks.RemoveAt(index);
+    }
+
+    public void AddToken(AccountToken token)
+    {
+      tokens.Add(token);
+    }
+
+    public void RemoveToken(AccountToken token)
+    {
+      var index = tokens.IndexOf(token);
+      if(index >= 0)
+        tokens.RemoveAt(index);
+    }
+
+    public AuthenticationResult MutliFactorAuthenticate(string tokenValue)
+    {
+      return AuthenticationResult.Fail;
+    }
+
+    public AuthenticationResult Authenticate(string password)
+    {
+      if (!IsLocked && VerifyPassword(password))
       {
-        Properties.FailedLoginAttempts = 0;
-        if (false)
+        Properties.ResetFailedLoginAttempts();
+        if (Properties.HasMultiFactorAuth)
         {
           //TODO
         }
         else
         {
-          Properties.LastLogin = Properties.CurrentLogin;
-          Properties.CurrentLogin = DateTime.UtcNow;
+          Properties.UpdateLoginTimes();
           IsAuthenticated = true;
-          return true;
+          return AuthenticationResult.Success;
         }
       }
-
-      Properties.FailedLoginAttempts += 1;
-      if (Properties.FailedLoginAttempts >= 5)    //TODO: Failed Login # needs to be added to DB
-        Properties.Locked = true;
-      
-      return false;
+      return AuthenticationResult.Fail;
     }
 
-    public void UpdatePassword(string password) => Password = BCrypt.Net.BCrypt.HashPassword(password);
+    public void SetUsername(string username) => Username = username;
+
+    public void SetPassword(string password) => Password = BCrypt.Net.BCrypt.HashPassword(password);
 
     private bool VerifyPassword(string password) => BCrypt.Net.BCrypt.Verify(password, Password);
 
-    public bool ValidateToken(string token, TokenKind tokenKind)
+    public bool VerifyToken(string tokenValue, TokenKind tokenKind)
     {
       return false;
     }

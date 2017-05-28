@@ -94,6 +94,7 @@ namespace Authentication.Repositories
       var persistedAccount = username.HasValue()
         ? Query().Where(a => a.Username == username)
           .Include(a => a.Properties)
+          .Include(a => a.Locks)
           .SingleOrDefault()
         : null;
 
@@ -102,7 +103,7 @@ namespace Authentication.Repositories
         : mapper.Map(persistedAccount, accountFactory.Create());
     }
 
-    public Properties AccountProperties(Guid accountId)
+    public AccountProperties AccountProperties(Guid accountId)
     {
       var persistedProperties = Query()
         .Select(a => a.Properties)
@@ -110,10 +111,10 @@ namespace Authentication.Repositories
 
       return persistedProperties == null 
         ? null
-        : mapper.Map(persistedProperties, new Properties());
+        : mapper.Map(persistedProperties, new AccountProperties());
     }
 
-    public IList<Token> AccountTokens(Guid accountId)
+    public IList<AccountToken> AccountTokens(Guid accountId)
     {
       var persistedTokens = Query()
         .Where(a => a.Id == accountId)
@@ -121,10 +122,21 @@ namespace Authentication.Repositories
         .Where(a => a.AccountId == accountId)
         .ToList();
 
-      return mapper.Map(persistedTokens, new List<Token>());
+      return mapper.Map(persistedTokens, new List<AccountToken>());
     }
 
-    public Token AccountToken(Guid accountId, TokenKind tokenKind)
+    public IList<AccountLock> AccountLocks(Guid accountId)
+    {
+      var persistedLocks = Query()
+        .Where(a => a.Id == accountId)
+        .SelectMany(a => a.Locks)
+        .Where(a => a.AccountId == accountId)
+        .ToList();
+
+      return mapper.Map(persistedLocks, new List<AccountLock>());
+    }
+
+    public AccountToken AccountToken(Guid accountId, TokenKind tokenKind)
     {
       var persistedTokens = Query()
         .Where(a => a.Id == accountId)
@@ -133,7 +145,7 @@ namespace Authentication.Repositories
 
       return persistedTokens == null
         ? null
-        : mapper.Map(persistedTokens, new Token());
+        : mapper.Map(persistedTokens, new AccountToken());
     }
 
     public void Remove(Account.Models.Account account)

@@ -3,7 +3,7 @@ using Authentication.Domain;
 
 namespace Authentication.Account.Models
 {
-  public class Claim : Entity<Guid>
+  public class AccountClaim : Entity<Guid>
   {
     public string Type { get; set; }
 

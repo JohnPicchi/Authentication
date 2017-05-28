@@ -16,10 +16,10 @@ namespace Authentication.Database.EntityModelConfigurations
         .HasForeignKey(p => p.AccountId)
         .IsRequired(true);
 
-      builder.Property(p => p.CreationTime)
+      builder.Property(p => p.DateCreated)
         .IsRequired(true);
 
-      builder.Property(p => p.ExpirationTime)
+      builder.Property(p => p.ExpirationDate)
         .IsRequired(true);
 
       builder.Property(p => p.Kind)

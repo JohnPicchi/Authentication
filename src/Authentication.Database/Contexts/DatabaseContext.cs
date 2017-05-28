@@ -7,8 +7,6 @@ using Authentication.Core.Models.Contracts;
 using Authentication.Database.EntityModelConfigurations;
 using Authentication.PresistenceModels;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Authentication.Database.Contexts
@@ -39,9 +37,12 @@ namespace Authentication.Database.Contexts
 
     public DbSet<AccountToken> AccountTokens { get; set; }
 
+    public DbSet<AccountClaim> AccountClaims { get; set; }
+
+    public DbSet<AccountLock> AccountLocks { get; set; }
+
     public DbSet<PresistenceModels.User> Users { get; set; }
 
-    public DbSet<Claim> Claims { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -49,7 +50,8 @@ namespace Authentication.Database.Contexts
       modelBuilder.AddConfiguration(new AccountPropertiesConfiguration());
       modelBuilder.AddConfiguration(new AccountTokenConfiguration());
       modelBuilder.AddConfiguration(new UserConfiguration());
-      modelBuilder.AddConfiguration(new ClaimConfiguration());
+      modelBuilder.AddConfiguration(new AccountClaimConfiguration());
+      modelBuilder.AddConfiguration(new AccountLockConfiguration());
     }
   }
 }

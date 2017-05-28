@@ -18,11 +18,13 @@ namespace Authentication.Account
 
     Models.Account Find(Guid accountId);
 
-    Properties AccountProperties(Guid accountId);
+    AccountProperties AccountProperties(Guid accountId);
 
-    IList<Token> AccountTokens(Guid accountId);
+    IList<AccountToken> AccountTokens(Guid accountId);
 
-    Token AccountToken(Guid accountId, TokenKind tokenKind);
+    IList<AccountLock> AccountLocks(Guid accountId);
+
+    AccountToken AccountToken(Guid accountId, TokenKind tokenKind);
 
     void Remove(Models.Account account);
 

@@ -4,8 +4,7 @@ using System.Text;
 using Authentication.Account.Models;
 using AutoMapper;
 using Authentication.PresistenceModels;
-using Properties = Authentication.Account.Models.Properties;
-using Claim = Authentication.Account.Models.Claim;
+
 
 namespace Authentication.Container.MappingProfiles
 {
@@ -13,11 +12,13 @@ namespace Authentication.Container.MappingProfiles
   {
     public DomainModelProfile()
     {
-      CreateMap<User.Models.User , PresistenceModels.User>();
-      CreateMap<Account.Models.Token, PresistenceModels.AccountToken>();
-      CreateMap<Account.Models.Claim, PresistenceModels.Claim>();
+      CreateMap<User.Models.User, PresistenceModels.User>();
+
+      CreateMap<Account.Models.AccountToken, PresistenceModels.AccountToken>();
+      CreateMap<Account.Models.AccountClaim, PresistenceModels.AccountClaim>();
+      CreateMap<Account.Models.AccountLock, PresistenceModels.AccountLock>();
       CreateMap<Account.Models.Account, PresistenceModels.Account>();
-      CreateMap<Account.Models.Properties, PresistenceModels.AccountProperties>();
+      CreateMap<Account.Models.AccountProperties, PresistenceModels.AccountProperties>();
     }
   }
 }
