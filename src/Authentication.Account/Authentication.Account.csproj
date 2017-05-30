@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.0" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0-preview1-25305-02" />
   </ItemGroup>
 
@@ -14,6 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Autofac.Extras.DynamicProxy">
+      <HintPath>..\..\..\..\Users\John\.nuget\packages\autofac.extras.dynamicproxy\4.2.1\lib\netstandard1.3\Autofac.Extras.DynamicProxy.dll</HintPath>
+    </Reference>
     <Reference Include="BCrypt.Net-Core">
       <HintPath>..\..\..\..\Users\John\.nuget\packages\bcrypt.net-core\1.4.0\lib\netstandard1.3\BCrypt.Net-Core.dll</HintPath>
     </Reference>

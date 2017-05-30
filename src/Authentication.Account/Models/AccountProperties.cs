@@ -1,5 +1,6 @@
 ﻿using System;
 using Authentication.Domain;
+using Autofac.Extras.DynamicProxy;
 
 namespace Authentication.Account.Models
 {
@@ -12,23 +13,44 @@ namespace Authentication.Account.Models
 
   public class AccountProperties : Entity<Guid>
   {
+
+    private int failedLoginAttempts;
+    private DateTime? currentLoginDateTime;
+    private DateTime? lastLoginDateTime;
+    private bool passwordResetRequired;
+    private Guid openConnectId;
+    private MutliFactorAuthKind multiFactorAuthKind;
+
     public AccountProperties()
     {
-      
 
     }
 
-    public int FailedLoginAttempts { get; set; }
+    public delegate AccountProperties Factory();
 
-    public void ResetFailedLoginAttempts() => FailedLoginAttempts = 0;
+    public virtual int FailedLoginAttempts
+    {
+      get => failedLoginAttempts;
+      set => (failedLoginAttempts, IsDirty) = (value, true);
+    }
 
-    public DateTime? CurrentLoginDateTime { get; private set; }
+    public virtual void ResetFailedLoginAttempts() => FailedLoginAttempts = 0;
 
-    public DateTime? LastLoginDateTime { get; private set; }
+    public virtual DateTime? CurrentLoginDateTime
+    {
+      get => currentLoginDateTime;
+      private set => (currentLoginDateTime, IsDirty) = (value, true);
+    }
 
-    public bool UpdatedLoginTimes { get; private set; }
+    public virtual DateTime? LastLoginDateTime
+    {
+      get => lastLoginDateTime;
+      private set => (lastLoginDateTime, IsDirty) = (value, true);
+    }
 
-    public void UpdateLoginTimes()
+    public virtual bool UpdatedLoginTimes { get; private set;}
+
+    public virtual void UpdateLoginTimes()
     {
       if (!UpdatedLoginTimes)
       {
@@ -38,12 +60,24 @@ namespace Authentication.Account.Models
       UpdatedLoginTimes = true;
     }
 
-    public bool PasswordResetRequired { get; set; }
+    public virtual bool PasswordResetRequired
+    {
+      get => passwordResetRequired;
+      set => (passwordResetRequired, IsDirty) = (value, true);
+    }
 
-    public Guid OpenConnectId { get; private set; }
+    public virtual Guid OpenConnectId
+    {
+      get => openConnectId;
+      private set => (openConnectId, IsDirty) = (value, true);
+    }
 
-    public MutliFactorAuthKind MultiFactorAuthKind { get; set; }
+    public virtual MutliFactorAuthKind MultiFactorAuthKind
+    {
+      get => multiFactorAuthKind;
+      set => (multiFactorAuthKind, IsDirty) = (value, true);
+    }
 
-    public bool HasMultiFactorAuth => MultiFactorAuthKind != MutliFactorAuthKind.None;
+    public virtual bool HasMultiFactorAuth => MultiFactorAuthKind != MutliFactorAuthKind.None;
   }
 }

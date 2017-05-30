@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Authentication.Account;
+using Authentication.Account.Factories;
 using Authentication.Account.Models;
-using Authentication.Core.Models.Contracts;
+using Authentication.Account.Repositories;
 using Authentication.Database;
 using Authentication.Database.Contexts;
 using Authentication.Utilities.ExtensionMethods;
@@ -15,15 +16,12 @@ namespace Authentication.Repositories
   public class AccountRepository : Repository<PresistenceModels.Account>, IAccountRepository
   {
     private readonly IMapper mapper;
-    private readonly IAccountFactory accountFactory;
+    
+    public IAccountFactory AccountFactory { get; set; }
 
-    public AccountRepository(
-      DatabaseContext databaseContext, 
-      IMapper mapper, 
-      IAccountFactory accountFactory) : base(databaseContext)
+    public AccountRepository(DatabaseContext databaseContext, IMapper mapper) : base(databaseContext)
     {
       this.mapper = mapper;
-      this.accountFactory = accountFactory;
     }
 
     public bool AccountExists(string username)
@@ -84,9 +82,10 @@ namespace Authentication.Repositories
     {
       var persistedAccount = base.Find(accountId);
 
+
       return persistedAccount == null 
         ? null
-        : mapper.Map(persistedAccount, accountFactory.Create());
+        : mapper.Map(persistedAccount, AccountFactory.Create());
     }
 
     public Account.Models.Account Find(string username)
@@ -100,7 +99,7 @@ namespace Authentication.Repositories
 
       return persistedAccount == null
         ? null
-        : mapper.Map(persistedAccount, accountFactory.Create());
+        : mapper.Map(persistedAccount, AccountFactory.Create());
     }
 
     public AccountProperties AccountProperties(Guid accountId)

@@ -5,8 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="Autofac.Extras.DynamicProxy">
+      <HintPath>..\..\..\..\Users\John\.nuget\packages\autofac.extras.dynamicproxy\4.2.1\lib\netstandard1.3\Autofac.Extras.DynamicProxy.dll</HintPath>
+    </Reference>
     <Reference Include="BCrypt.Net-Core">
       <HintPath>..\..\..\..\Users\John\.nuget\packages\bcrypt.net-core\1.4.0\lib\netstandard1.3\BCrypt.Net-Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\..\..\Users\John\.nuget\packages\castle.core\4.0.0\lib\netstandard1.3\Castle.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
 

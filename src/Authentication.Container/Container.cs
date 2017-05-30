@@ -42,7 +42,6 @@ namespace Authentication.Container
       autofacContainer = autofacContainerBuilder.Build();
 
       serviceProvider = new AutofacServiceProvider(autofacContainer);
-
     }
 
     public void Dispose() => autofacContainer.Dispose();

@@ -8,6 +8,8 @@ namespace Authentication.Domain
   public interface IDomainEntity
   {
     bool IsNew { get; }
+
+    bool IsDirty { get; set; }
   }
 
   public interface IDomainEntity<TEntity> : IDomainEntity
@@ -20,5 +22,7 @@ namespace Authentication.Domain
     public TEntity Id { get; set; }
 
     public bool IsNew => Comparer<TEntity>.Default.Compare(default(TEntity), Id) == 0;
+
+    public virtual bool IsDirty { get; set; }
   }
 }

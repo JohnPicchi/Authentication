@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Authentication.Account.Repositories;
 using Authentication.Domain;
 using Authentication.User;
+using Autofac.Extras.DynamicProxy;
 
 
 namespace Authentication.Account.Models
@@ -13,11 +15,13 @@ namespace Authentication.Account.Models
     private readonly IUserFactory userFactory;
     private readonly IUserRepository userRepository;
 
+    private string username;
+    private string password;
+    private bool isVerified;
     private User.Models.User user;
     private AccountProperties properties;
-
-    private IList<AccountToken> tokens;
-    private IList<AccountLock> locks;
+    private IList<AccountToken> tokens = new List<AccountToken>();
+    private IList<AccountLock> locks = new List<AccountLock>();
 
     public Account(
       IAccountRepository accountRepository, 
@@ -29,82 +33,82 @@ namespace Authentication.Account.Models
       this.userRepository = userRepository;
     }
 
-    public string Username { get; private set; }
-    
-    public string Password { get; private set; }
+    public delegate Account Factory(
+      IAccountRepository accountRepository,
+      IUserFactory userFactory,
+      IUserRepository userRepository);
 
-    public bool IsAuthenticated { get; private set; }
+    public virtual string Username
+    {
+      get => username;
+      private set => (username, IsDirty) = (value, true);
+    }
 
-    public bool IsLocked => locks.Any(l => l.IsValid);
+    public virtual string Password
+    {
+      get => password;
+      private set => (password, IsDirty) = (value, true);
+    }
 
-    public bool IsVerified { get; set; }
+    public virtual bool IsVerified
+    {
+      get => isVerified;
+      private set => (isVerified, IsDirty) = (value, true);
+    }
 
-    public AccountProperties Properties
+    public virtual bool IsAuthenticated { get; private set; }
+
+    public virtual bool IsLocked => locks.Any(l => l.IsValid);
+
+    public virtual AccountProperties Properties
     {
       get => properties ?? (properties = this.IsNew
                ? new AccountProperties()
                : accountRepository.AccountProperties(this.Id));
 
-      set => properties = value;
+      set => (properties, IsDirty) = (value, true);
     } 
 
-    public User.Models.User User
+    public virtual User.Models.User User
     {
       get => user ?? (user = this.IsNew
                ? userFactory.Create()
                : null);   //TODO
 
-      set => user = value;
+      set => (user, IsDirty) = (value, true);
     }
 
-    public IEnumerable<AccountToken> Tokens
+    public virtual void AddLock(AccountLock accountLock)
     {
-      get => tokens ?? (tokens = this.IsNew
-               ? new List<AccountToken>()
-               : accountRepository.AccountTokens(this.Id));
-
-      private set => tokens = value.ToList();
+      if(accountLock != null)
+        locks?.Add(accountLock);
     }
 
-    public IEnumerable<AccountLock> Locks
+    public virtual void RemoveLock(AccountLock accountLock)
     {
-      get => locks ?? (locks = this.IsNew
-               ? new List<AccountLock>()
-               : accountRepository.AccountLocks(this.Id));
-
-      private set => locks = value.ToList();
-    }
-
-    public void AddLock(AccountLock accountLock)
-    {
-      locks.Add(accountLock);
-    }
-
-    public void RemoveLock(AccountLock accountLock)
-    {
-      var index = locks.IndexOf(accountLock);
+      var index = locks?.IndexOf(accountLock);
       if (index >= 0)
-        locks.RemoveAt(index);
+        locks.RemoveAt(index.Value);
     }
 
-    public void AddToken(AccountToken token)
+    public virtual void AddToken(AccountToken token)
     {
-      tokens.Add(token);
+      tokens?.Add(token);
     }
 
-    public void RemoveToken(AccountToken token)
+    public virtual void RemoveToken(AccountToken token)
     {
-      var index = tokens.IndexOf(token);
+      var index = tokens?.IndexOf(token);
       if(index >= 0)
-        tokens.RemoveAt(index);
+        tokens.RemoveAt(index.Value);
     }
 
-    public AuthenticationResult MutliFactorAuthenticate(string tokenValue)
+    public virtual AuthenticationResult MutliFactorAuthenticate(string tokenValue)
     {
       return AuthenticationResult.Fail;
     }
 
-    public AuthenticationResult Authenticate(string password)
+    public virtual AuthenticationResult Authenticate(string password)
     {
       if (!IsLocked && VerifyPassword(password))
       {
@@ -123,15 +127,23 @@ namespace Authentication.Account.Models
       return AuthenticationResult.Fail;
     }
 
-    public void SetUsername(string username) => Username = username;
+    public virtual void SetUsername(string username) => Username = username;
 
-    public void SetPassword(string password) => Password = BCrypt.Net.BCrypt.HashPassword(password);
+    public virtual void SetPassword(string password) => Password = BCrypt.Net.BCrypt.HashPassword(password);
 
-    private bool VerifyPassword(string password) => BCrypt.Net.BCrypt.Verify(password, Password);
+    public bool VerifyPassword(string password) => BCrypt.Net.BCrypt.Verify(password, Password);
 
-    public bool VerifyToken(string tokenValue, TokenKind tokenKind)
+    public virtual bool VerifyToken(string tokenValue, TokenKind tokenKind)
     {
       return false;
+    }
+
+    public override bool IsDirty
+    {
+      get =>base.IsDirty || (Properties?.IsDirty ?? false) || (User?.IsDirty ?? false)
+             || (locks?.Any(l => l.IsDirty) ?? false) || (tokens?.Any(t => t.IsDirty) ?? false);
+
+      set => base.IsDirty = value;
     }
   }
 }

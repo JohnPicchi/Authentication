@@ -1,5 +1,6 @@
 ﻿using System;
 using Authentication.Account;
+using Authentication.Account.Repositories;
 using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.EditModels;
@@ -25,7 +26,9 @@ namespace Authentication.Core.RequestHandlers.FormResults
      // if (!isValid)
      //   account.Properties.FailedLoginAttempts += 1;
 
-      accountRepository.Update(account);
+      if(account.IsDirty)
+        accountRepository.Update(account);
+
       return FormResult.Ok;
     }
   }

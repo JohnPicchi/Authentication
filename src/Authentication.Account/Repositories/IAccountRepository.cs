@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Authentication.Account.Models;
 
-namespace Authentication.Account
+namespace Authentication.Account.Repositories
 {
   public interface IAccountRepository
   {

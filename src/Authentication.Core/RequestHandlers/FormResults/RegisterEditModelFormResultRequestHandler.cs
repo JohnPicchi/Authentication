@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Text;
 using Authentication.Account;
+using Authentication.Account.Factories;
 using Authentication.Account.Models;
+using Authentication.Account.Repositories;
 using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
 using Authentication.Domain;

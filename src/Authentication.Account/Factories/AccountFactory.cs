@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Authentication.Account.Repositories;
 using Authentication.Domain;
 using Authentication.User;
 
-namespace Authentication.Account
+namespace Authentication.Account.Factories
 {
   public interface IAccountFactory : IFactory<Models.Account>
   {
@@ -11,20 +11,23 @@ namespace Authentication.Account
 
   public class AccountFactory : IAccountFactory
   {
-    private readonly IUserFactory userFactory;
-    private IUserRepository userRepository;
+    private readonly Models.Account.Factory accountFactory;
+
+    public AccountFactory(Models.Account.Factory accountFactory)
+    {
+      this.accountFactory = accountFactory;
+    }
+
+    public IUserFactory userFactory { get; set; }
+
+    public IUserRepository userRepository { get; set; }
 
     public IAccountRepository AccountRepository { get; set; }
 
-    public AccountFactory(IUserFactory userFactory, IUserRepository userRepository)
-    {
-      this.userFactory = userFactory;
-      this.userRepository = userRepository;
-    }
 
     public Models.Account Create()
     {
-      return new Models.Account(AccountRepository, userFactory, userRepository);
+      return accountFactory.Invoke(AccountRepository, userFactory, userRepository);
     }
 
     public Models.Account Create(string username, string password)

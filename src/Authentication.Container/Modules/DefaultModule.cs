@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Reflection;
 using System.Text;
-using Authentication.Core.Models.Contracts;
 using Authentication.Core.NotificationHandlers.Contracts;
 using Authentication.Core.Notifications;
 using Authentication.Core.Notifications.Contracts;
 using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests;
 using Authentication.Core.Requests.Contracts;
-using Authentication.Database.Contexts;
+using Authentication.Domain;
 using Autofac;
 using AutoMapper;
 using Module = Autofac.Module;
@@ -29,7 +28,15 @@ namespace Authentication.Container.Modules
         Assembly.Load(new AssemblyName {Name = "Authentication.Account"}),
         Assembly.Load(new AssemblyName {Name = "Authentication.User"}),
       };
-    
+
+      builder.RegisterAssemblyTypes(assemblies)
+        .Where(t => t.IsAssignableTo<IDomainEntity>())
+        .As<IDomainEntity>()
+        .AsSelf();
+
+      //builder.Register(c => new DomainTransaction())
+      //  .Named<IInterceptor>("Domain-Transaction");
+
       ///////////////////////////////////////////////
       // Register Services & Repositories
       ///////////////////////////////////////////////
@@ -41,6 +48,7 @@ namespace Authentication.Container.Modules
       builder.RegisterAssemblyTypes(assemblies)
         .Where(t => t.Name.EndsWith("Repository"))
         .AsImplementedInterfaces()
+        .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies)
         .InstancePerLifetimeScope();
 
       ///////////////////////////////////////////////
