@@ -140,7 +140,7 @@ namespace Authentication.Account.Models
 
     public override bool IsDirty
     {
-      get =>base.IsDirty || (Properties?.IsDirty ?? false) || (User?.IsDirty ?? false)
+      get => base.IsDirty || (Properties?.IsDirty ?? false) || (User?.IsDirty ?? false)
              || (locks?.Any(l => l.IsDirty) ?? false) || (tokens?.Any(t => t.IsDirty) ?? false);
 
       set => base.IsDirty = value;
