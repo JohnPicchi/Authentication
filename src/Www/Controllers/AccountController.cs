@@ -49,6 +49,7 @@ namespace Authentication.Controllers
       return Form(form, request,
         success: () =>
         {
+          //TODO
           return accountRepository.Find(form.Email).Properties.HasMultiFactorAuth 
           ? RedirectToAction(nameof(Logout))
           : RedirectToAction(nameof(Register));

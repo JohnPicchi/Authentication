@@ -34,7 +34,7 @@ namespace Authentication.Core.RequestHandlers.FormResults
 
       if (result.Status == AuthenticationStatus.MultiFactor)
       {
-        //TODO: Generate + send email/text with login token
+        //TODO: Generate & send email/text with login token
         return FormResult.Ok;
       }
 

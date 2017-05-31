@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Authentication.Account;
 using Authentication.Account.Factories;
 using Authentication.Account.Models;
 using Authentication.Account.Repositories;
@@ -93,6 +92,7 @@ namespace Authentication.Repositories
       var persistedAccount = username.HasValue()
         ? Query().Where(a => a.Username == username)
           .Include(a => a.Properties)
+          .Include(a => a.Claims)
           .Include(a => a.Locks)
           .SingleOrDefault()
         : null;

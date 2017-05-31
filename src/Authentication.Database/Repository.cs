@@ -4,10 +4,6 @@ using System.Linq;
 using Authentication.Core.Models.Contracts;
 using Authentication.Database.Contexts;
 using Authentication.PresistenceModels;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.Logging;
 
 namespace Authentication.Database
 {
