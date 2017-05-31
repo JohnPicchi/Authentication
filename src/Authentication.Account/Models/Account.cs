@@ -56,7 +56,7 @@ namespace Authentication.Account.Models
     {
       get => user ?? (user = this.IsNew
                ? userFactory.Create()
-               : null);   //TODO
+               : userRepository.FindByAccountId(this.Id));   //TODO
     }
 
     public virtual void AddLock(AccountLock accountLock)
@@ -74,7 +74,8 @@ namespace Authentication.Account.Models
 
     public virtual void AddToken(AccountToken token)
     {
-      tokens?.Add(token);
+      if(token != null)
+        tokens?.Add(token);
     }
 
     public virtual void RemoveToken(AccountToken token)
