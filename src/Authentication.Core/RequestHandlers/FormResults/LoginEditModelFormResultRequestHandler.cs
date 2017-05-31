@@ -11,37 +11,35 @@ namespace Authentication.Core.RequestHandlers.FormResults
   public class LoginEditModelFormResultRequestHandler : IFormResultRequestHandler<LoginEditModel>
   {
     private readonly IAccountRepository accountRepository;
+    private const string LOGIN_ERROR = "Incorrect username and/or password";
 
     public LoginEditModelFormResultRequestHandler(IAccountRepository accountRepository)
     {
       this.accountRepository = accountRepository;
     }
 
-    public IFormResult Handle(LoginEditModel request)
+    public (bool Success, string Message) Handle(LoginEditModel request)
     {
       var account = accountRepository.Find(request.Email);
       if (account == null)
-        return FormResult.Fail("Incorrect username and/or password");
+        return (Success: false, Message: LOGIN_ERROR);
 
       var result = account.Authenticate(request.Password);
-      if (result.Status == AuthenticationStatus.Success)
+      if (result.Status == AuthStatus.Sucess)
       {
         accountRepository.Update(account);
         //TODO: Do Identity server shit here via a request ???
 
-        return FormResult.Ok;
+        return (Success: true, Message: null);
       }
 
-      if (result.Status == AuthenticationStatus.MultiFactor)
+      if (result.Status == AuthStatus.MultiFactor)
       {
         //TODO: Generate & send email/text with login token
-        return FormResult.Ok;
+        return (Success: true, Message: null);
       }
 
-      if (result.Status == AuthenticationStatus.Fail)
-        return FormResult.Fail(result.Message);
-
-      return FormResult.Ok;
+      return (Success: false, Message: result.Message ?? LOGIN_ERROR);
     }
   }
 }

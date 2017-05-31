@@ -12,6 +12,6 @@ namespace Authentication.Core.Requests
       this.requestHandler = requestHandler;
     }
 
-    public IFormResult Handle(TForm request) => requestHandler.Handle(request);
+    public (bool Success, string Message) Handle(TForm request) => requestHandler.Handle(request);
   }
 }
