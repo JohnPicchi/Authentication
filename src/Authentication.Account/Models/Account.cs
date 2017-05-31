@@ -4,20 +4,16 @@ using System.Linq;
 using Authentication.Account.Repositories;
 using Authentication.Domain;
 using Authentication.User;
-using Autofac.Extras.DynamicProxy;
 
 
 namespace Authentication.Account.Models
 {
-  public class Account : Entity<Guid>
+  public class Account : DomainEntity<Guid>
   {
     private readonly IAccountRepository accountRepository;
     private readonly IUserFactory userFactory;
     private readonly IUserRepository userRepository;
 
-    private string username;
-    private string password;
-    private bool isVerified;
     private User.Models.User user;
     private AccountProperties properties;
     private IList<AccountToken> tokens = new List<AccountToken>();
@@ -38,23 +34,11 @@ namespace Authentication.Account.Models
       IUserFactory userFactory,
       IUserRepository userRepository);
 
-    public virtual string Username
-    {
-      get => username;
-      private set => (username, IsDirty) = (value, true);
-    }
+    public virtual string Username { get; private set; }
 
-    public virtual string Password
-    {
-      get => password;
-      private set => (password, IsDirty) = (value, true);
-    }
+    public virtual string Password { get; private set; }
 
-    public virtual bool IsVerified
-    {
-      get => isVerified;
-      private set => (isVerified, IsDirty) = (value, true);
-    }
+    public virtual bool IsVerified { get; set; }
 
     public virtual bool IsAuthenticated { get; private set; }
 
@@ -64,23 +48,23 @@ namespace Authentication.Account.Models
     {
       get => properties ?? (properties = this.IsNew
                ? new AccountProperties()
-               : accountRepository.AccountProperties(this.Id));
+               : accountRepository.AccountProperties(this.Id)) ?? new AccountProperties();
 
-      set => (properties, IsDirty) = (value, true);
+      set => properties = value;
     } 
 
     public virtual User.Models.User User
     {
       get => user ?? (user = this.IsNew
                ? userFactory.Create()
-               : null);   //TODO
+               : userRepository.FindByAccountId(this.Id)) ?? userFactory.Create();
 
-      set => (user, IsDirty) = (value, true);
+      set => user = value;
     }
 
     public virtual void AddLock(AccountLock accountLock)
     {
-      if(accountLock != null)
+      if (accountLock != null)
         locks?.Add(accountLock);
     }
 
@@ -93,7 +77,8 @@ namespace Authentication.Account.Models
 
     public virtual void AddToken(AccountToken token)
     {
-      tokens?.Add(token);
+      if(token != null)
+        tokens?.Add(token);
     }
 
     public virtual void RemoveToken(AccountToken token)
@@ -136,14 +121,6 @@ namespace Authentication.Account.Models
     public virtual bool VerifyToken(string tokenValue, TokenKind tokenKind)
     {
       return false;
-    }
-
-    public override bool IsDirty
-    {
-      get =>base.IsDirty || (Properties?.IsDirty ?? false) || (User?.IsDirty ?? false)
-             || (locks?.Any(l => l.IsDirty) ?? false) || (tokens?.Any(t => t.IsDirty) ?? false);
-
-      set => base.IsDirty = value;
     }
   }
 }

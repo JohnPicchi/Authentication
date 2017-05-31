@@ -13,14 +13,8 @@ namespace Authentication.Account.Models
   }
 
 
-  public class AccountLock : Entity<Guid>
+  public class AccountLock : DomainEntity<Guid>
   {
-    private AccountLockKind kind;
-    private string message;
-    private DateTime? dateCreated;
-    private DateTime? expirationDate;
-
-
     public AccountLock()
     {
       
@@ -28,29 +22,13 @@ namespace Authentication.Account.Models
 
     public delegate AccountLock Factory();
 
-    public virtual AccountLockKind Kind
-    {
-      get => kind;
-      set => (kind, IsDirty) = (value, true);
-    }
+    public virtual AccountLockKind Kind { get; set; }
 
-    public virtual string Message
-    {
-      get => message;
-      set => (message, IsDirty) = (value, true);
-    }
+    public virtual string Message { get; set; }
 
-    public virtual DateTime? DateCreated
-    {
-      get => dateCreated;
-      set => (dateCreated, IsDirty) = (value, true);
-    }
+    public virtual DateTime? DateCreated { get; set; }
 
-    public virtual DateTime? ExpirationDate
-    {
-      get => expirationDate;
-      set => (expirationDate, IsDirty) = (value, true);
-    }
+    public virtual DateTime? ExpirationDate { get; set; }
 
     public virtual bool IsValid => (Kind == AccountLockKind.Permanent) 
                            || (ExpirationDate ?? DateTime.UtcNow) > DateTime.UtcNow.AddSeconds(30);

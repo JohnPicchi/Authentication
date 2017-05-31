@@ -17,12 +17,12 @@ namespace Authentication.Repositories
   {
     private readonly IMapper mapper;
     
-    public IAccountFactory AccountFactory { get; set; }
-
     public AccountRepository(DatabaseContext databaseContext, IMapper mapper) : base(databaseContext)
     {
       this.mapper = mapper;
     }
+
+    public IAccountFactory AccountFactory { get; set; }
 
     public bool AccountExists(string username)
     {
@@ -33,8 +33,10 @@ namespace Authentication.Repositories
     {
       if (account != null)
       {
-        var persistedAccount = mapper.Map<Account.Models.Account, PresistenceModels.Account>(account);
-        account.Id = base.Add(persistedAccount).Id;
+        var persistedAccount = mapper.Map(account, new PresistenceModels.Account());
+        base.Add(persistedAccount);
+        if (account.IsNew)
+          account.Id = persistedAccount.Id;
       }
     }
 
@@ -72,7 +74,6 @@ namespace Authentication.Repositories
         }
         else
           mapper.Map(account, persistedAccount);
-        base.Save();
         return true;
       }
       return false;
@@ -81,7 +82,6 @@ namespace Authentication.Repositories
     public Account.Models.Account Find(Guid accountId)
     {
       var persistedAccount = base.Find(accountId);
-
 
       return persistedAccount == null 
         ? null

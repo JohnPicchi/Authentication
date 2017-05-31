@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Authentication.Domain;
 using Authentication.PresistenceModels;
 using Microsoft.EntityFrameworkCore;
 

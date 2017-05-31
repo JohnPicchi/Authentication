@@ -18,4 +18,10 @@
     <ProjectReference Include="..\Authentication.PresistenceModels\Authentication.PresistenceModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\..\..\Users\John\.nuget\packages\automapper\6.0.2\lib\netstandard1.3\AutoMapper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

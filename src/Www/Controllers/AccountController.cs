@@ -30,6 +30,7 @@ namespace Authentication.Controllers
     }
 
     [AcceptVerbs("GET", "POST")]
+    [ValidateAntiForgeryToken]
     public IActionResult CheckAccountId(string email)
     {
       return accountRepository.AccountExists(email) 
@@ -46,7 +47,12 @@ namespace Authentication.Controllers
       [FromServices] IFormResultRequest<LoginEditModel> request)
     {
       return Form(form, request,
-        success: () => RedirectToAction(nameof(AccountController.Logout)),
+        success: () =>
+        {
+          return accountRepository.Find(form.Email).Properties.HasMultiFactorAuth 
+          ? RedirectToAction(nameof(Logout))
+          : RedirectToAction(nameof(Register));
+        },
         failure: () => View(form as LoginViewModel));
     }
 

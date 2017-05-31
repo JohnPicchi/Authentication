@@ -17,7 +17,7 @@ namespace Authentication.Domain
     TEntity Id { get; }
   }
 
-  public abstract class Entity <TEntity> : IDomainEntity<TEntity>
+  public abstract class DomainEntity <TEntity> : IDomainEntity<TEntity>
   {
     public TEntity Id { get; set; }
 
