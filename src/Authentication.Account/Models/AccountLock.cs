@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Authentication.Domain;
-using Autofac.Extras.DynamicProxy;
 
 namespace Authentication.Account.Models
 {

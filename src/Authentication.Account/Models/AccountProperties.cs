@@ -36,8 +36,8 @@ namespace Authentication.Account.Models
       {
         LastLoginDateTime = CurrentLoginDateTime ?? DateTime.UtcNow;
         CurrentLoginDateTime = DateTime.UtcNow;
+        UpdatedLoginTimes = true;
       }
-      UpdatedLoginTimes = true;
     }
 
     public virtual bool PasswordResetRequired { get; set; }
