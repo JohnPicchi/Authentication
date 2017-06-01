@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Authentication.Account
 {
-  public enum AuthStatus
+  public enum AuthenticationStatus
   {
     Fail = 0,
     Sucess = 1,

@@ -25,7 +25,7 @@ namespace Authentication.Core.RequestHandlers.FormResults
         return (Success: false, Message: INCORRECT_LOGIN);
 
       var result = account.Authenticate(request.Password);
-      if (result.Status == AuthStatus.Sucess)
+      if (result.Status == AuthenticationStatus.Sucess)
       {
         accountRepository.Update(account);
         //TODO: Do Identity server shit here via a request ???
@@ -33,7 +33,7 @@ namespace Authentication.Core.RequestHandlers.FormResults
         return (Success: true, Message: null);
       }
 
-      if (result.Status == AuthStatus.MultiFactor)
+      if (result.Status == AuthenticationStatus.MultiFactor)
       {
         //TODO: Generate & send email/text with login token
         return (Success: true, Message: null);

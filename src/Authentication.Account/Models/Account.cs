@@ -100,13 +100,13 @@ namespace Authentication.Account.Models
         accountTokens.RemoveAt(index.Value);
     }
 
-    public virtual (bool Success, AuthStatus Status, string Message) MutliFactorAuthenticate(string tokenValue)
+    public virtual (AuthenticationStatus Status, string Message) MutliFactorAuthenticate(string tokenValue)
     {
       //return (Success: true, Status: AuthStatus.Sucess, Message: null);
-      return (Success: false, Status: AuthStatus.Fail, Message: "Incorrect token");
+      return (Status: AuthenticationStatus.Fail, Message: "Incorrect token");
     }
 
-    public virtual (bool Success, AuthStatus Status, string Message) Authenticate(string password)
+    public virtual (AuthenticationStatus Status, string Message) Authenticate(string password)
     {
       if (!IsLocked && VerifyPassword(password))
       {
@@ -114,16 +114,16 @@ namespace Authentication.Account.Models
         if (Properties.HasMultiFactorAuth)
         {
           //TODO
-          return (Success: true, Status: AuthStatus.Sucess, Message: null);
+          return (Status: AuthenticationStatus.Sucess, Message: null);
         }
         else
         {
           Properties.UpdateLoginTimes();
           IsAuthenticated = true;
-          return (Success: true, AuthStatus.Sucess, Message: null);
+          return (Status: AuthenticationStatus.Sucess, Message: null);
         }
       }
-      return (Success: false, Status: AuthStatus.Fail, Message: "Incorrect username and/or password");
+      return (Status: AuthenticationStatus.Fail, Message: "Incorrect username and/or password");
     }
 
     public virtual void SetUsername(string username) => Username = username;
