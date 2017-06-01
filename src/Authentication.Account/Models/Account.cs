@@ -103,7 +103,7 @@ namespace Authentication.Account.Models
     public virtual (AuthenticationStatus Status, string Message) MutliFactorAuthenticate(string tokenValue)
     {
       //return (Success: true, Status: AuthStatus.Sucess, Message: null);
-      return (Status: AuthenticationStatus.Fail, Message: "Incorrect token");
+      return (Status: AuthenticationStatus.Fail, Message: "Incorrect token value");
     }
 
     public virtual (AuthenticationStatus Status, string Message) Authenticate(string password)
@@ -114,7 +114,7 @@ namespace Authentication.Account.Models
         if (Properties.HasMultiFactorAuth)
         {
           //TODO
-          return (Status: AuthenticationStatus.Sucess, Message: null);
+          return (Status: AuthenticationStatus.MultiFactor, Message: null);
         }
         else
         {
