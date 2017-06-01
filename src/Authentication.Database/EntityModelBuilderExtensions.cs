@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Authentication.Domain;
 using Authentication.PresistenceModels;
+using Authentication.PresistenceModels.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.Database

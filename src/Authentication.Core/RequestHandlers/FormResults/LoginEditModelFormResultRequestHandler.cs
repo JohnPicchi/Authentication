@@ -11,7 +11,7 @@ namespace Authentication.Core.RequestHandlers.FormResults
   public class LoginEditModelFormResultRequestHandler : IFormResultRequestHandler<LoginEditModel>
   {
     private readonly IAccountRepository accountRepository;
-    private const string LOGIN_ERROR = "Incorrect username and/or password";
+    private const string INCORRECT_LOGIN = "Incorrect username and/or password";
 
     public LoginEditModelFormResultRequestHandler(IAccountRepository accountRepository)
     {
@@ -22,7 +22,7 @@ namespace Authentication.Core.RequestHandlers.FormResults
     {
       var account = accountRepository.Find(request.Email);
       if (account == null)
-        return (Success: false, Message: LOGIN_ERROR);
+        return (Success: false, Message: INCORRECT_LOGIN);
 
       var result = account.Authenticate(request.Password);
       if (result.Status == AuthStatus.Sucess)
@@ -39,7 +39,7 @@ namespace Authentication.Core.RequestHandlers.FormResults
         return (Success: true, Message: null);
       }
 
-      return (Success: false, Message: result.Message ?? LOGIN_ERROR);
+      return (Success: false, Message: result.Message ?? INCORRECT_LOGIN);
     }
   }
 }

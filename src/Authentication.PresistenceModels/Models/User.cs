@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Authentication.PresistenceModels
+namespace Authentication.PresistenceModels.Models
 {
   public class User : TrackedEntity<Guid>
   {

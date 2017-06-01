@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Authentication.Account.Models;
 
 namespace Authentication.Account.Repositories
 {
   public interface IAccountRepository
   {
-    bool AccountExists(string accountId);
+    Task<bool> AccountExistsAsync(string accountId);
 
     void Add(Models.Account account);
 

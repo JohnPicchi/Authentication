@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Authentication.Core.Requests.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,9 +19,26 @@ namespace Authentication.Controllers
         if (formResult.Success)
           return success();
 
-        ModelState.AddModelError("error", formResult.ErrorMessage);
+        ModelState.AddModelError("error", formResult.Message);
       }
       return failure();
+    }
+
+    internal async Task<IActionResult> FormAsync<TForm>(
+      TForm form,
+      IFormResultRequest<TForm> request,
+      Func<Task<IActionResult>> success,
+      Func<Task<IActionResult>> failure)
+    {
+      if (ModelState.IsValid)
+      {
+        var formResult = request.Handle(form);
+        if (formResult.Success)
+          return await success();
+
+        ModelState.AddModelError("error", formResult.Message);
+      }
+      return await failure();
     }
   }
 }

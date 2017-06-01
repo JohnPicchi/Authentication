@@ -6,6 +6,7 @@ using Authentication.Core.Models;
 using Authentication.Core.Models.Contracts;
 using Authentication.Database.EntityModelConfigurations;
 using Authentication.PresistenceModels;
+using Authentication.PresistenceModels.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -31,7 +32,7 @@ namespace Authentication.Database.Contexts
       });
     }
 
-    public DbSet<PresistenceModels.Account> Accounts { get; set; }
+    public DbSet<PresistenceModels.Models.Account> Accounts { get; set; }
 
     public DbSet<AccountProperties> AccountProperties { get; set; }
 
@@ -41,7 +42,7 @@ namespace Authentication.Database.Contexts
 
     public DbSet<AccountLock> AccountLocks { get; set; }
 
-    public DbSet<PresistenceModels.User> Users { get; set; }
+    public DbSet<PresistenceModels.Models.User> Users { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,4 +1,5 @@
-﻿using Authentication.Account;
+﻿using System.Threading.Tasks;
+using Authentication.Account;
 using Authentication.Account.Repositories;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.EditModels;
@@ -30,10 +31,9 @@ namespace Authentication.Controllers
     }
 
     [AcceptVerbs("GET", "POST")]
-    [ValidateAntiForgeryToken]
-    public IActionResult CheckAccountId(string email)
+    public async Task<IActionResult> CheckAccountId(string email)
     {
-      return accountRepository.AccountExists(email) 
+      return await accountRepository.AccountExistsAsync(email) 
         ? Json(data: "Account already exists")
         : Json(data: true);
     }

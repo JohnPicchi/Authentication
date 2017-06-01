@@ -37,6 +37,7 @@ namespace Authentication.Account.Models
     public delegate Account Factory(
       IAccountRepository accountRepository,
       IUserRepository userRepository,
+      IUserFactory userFactory,
       IAccountPropertiesFactory accountPropertiesFactory);
 
     public virtual string Username { get; private set; }
@@ -51,10 +52,16 @@ namespace Authentication.Account.Models
 
     public virtual AccountProperties Properties
     {
-      get => properties ?? (properties = this.IsNew
-               ? accountPropertiesFactory.Create()
-               : accountRepository.AccountProperties(this.Id) 
-               ?? accountPropertiesFactory.Create());
+      get { return properties; }
+
+      set => properties = value;
+    }
+
+    public virtual User.Models.User User
+    {
+      get { return user; }
+
+      set => user = value;
     }
 
     public virtual void AddClaim(AccountClaim accountClaim)

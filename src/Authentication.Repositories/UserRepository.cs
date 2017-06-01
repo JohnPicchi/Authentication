@@ -10,7 +10,7 @@ using AutoMapper;
 
 namespace Authentication.Repositories
 {
-  public class UserRepository : Repository<PresistenceModels.User>, IUserRepository
+  public class UserRepository : Repository<PresistenceModels.Models.User>, IUserRepository
   {
     private readonly IMapper mapper;
 
@@ -25,7 +25,7 @@ namespace Authentication.Repositories
     {
       if (user != null)
       {
-        var persistedUser = mapper.Map(user, new PresistenceModels.User());
+        var persistedUser = mapper.Map(user, new PresistenceModels.Models.User());
         base.Add(persistedUser);
         if (user.IsNew)
           user.Id = persistedUser.Id;
@@ -58,7 +58,7 @@ namespace Authentication.Repositories
         var persistedUser = base.Find(user.Id);
         if (persistedUser == null)
         {
-          persistedUser = new PresistenceModels.User();
+          persistedUser = new PresistenceModels.Models.User();
           mapper.Map(user, persistedUser);
 
           base.Add(persistedUser);
@@ -75,7 +75,7 @@ namespace Authentication.Repositories
       throw new NotImplementedException();
     }
 
-    public void Remove(Guid userId) => base.Remove(new PresistenceModels.User{Id = userId});
+    public void Remove(Guid userId) => base.Remove(new PresistenceModels.Models.User{Id = userId});
 
     public void Remove(User.Models.User user) => Remove(user.Id);
   }

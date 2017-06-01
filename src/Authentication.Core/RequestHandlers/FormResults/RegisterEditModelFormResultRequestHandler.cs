@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection.Metadata;
 using System.Text;
 using Authentication.Account;
 using Authentication.Account.Factories;
@@ -22,13 +23,13 @@ namespace Authentication.Core.RequestHandlers.FormResults
       this.accountFactory = accountFactory;
     }
 
-    public IFormResult Handle(RegisterEditModel registerEditModel)
+    public (bool Success, string Message) Handle(RegisterEditModel registerEditModel)
     {
       var account = accountFactory.Create(registerEditModel.Email, registerEditModel.Password);
       account.AddLock(new AccountLock{Message = "TEST"});
       accountRepository.Add(account);
 
-      return FormResult.Ok;
+      return (Success: true, Message: null);
     }
   }
 }

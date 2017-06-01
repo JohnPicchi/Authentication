@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Authentication.Domain;
 using Authentication.PresistenceModels;
+using Authentication.PresistenceModels.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Logging;

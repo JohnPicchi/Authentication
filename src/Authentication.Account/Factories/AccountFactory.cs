@@ -19,6 +19,7 @@ namespace Authentication.Account.Factories
     }
 
 
+    public IUserFactory UserFactory { get; set; }
 
     public IUserRepository UserRepository { get; set; }
 
@@ -27,10 +28,18 @@ namespace Authentication.Account.Factories
     public IAccountPropertiesFactory AccountPropertiesFactory { get; set; }
 
 
-
     public Models.Account Create()
     {
-      return accountFactory.Invoke(AccountRepository, UserRepository, AccountPropertiesFactory);
+      var account =  accountFactory.Invoke(
+        AccountRepository, 
+        UserRepository, 
+        UserFactory, 
+        AccountPropertiesFactory);
+
+      account.Properties = AccountPropertiesFactory.Create();
+      account.User = UserFactory.Create();
+
+      return account;
     }
 
     public Models.Account Create(string username, string password)

@@ -10,6 +10,7 @@ using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests;
 using Authentication.Core.Requests.Contracts;
 using Authentication.Domain;
+using Authentication.PresistenceModels.MappingProfiles;
 using Autofac;
 using AutoMapper;
 using Module = Autofac.Module;
@@ -20,6 +21,7 @@ namespace Authentication.Container.Modules
   {
     protected override void Load(ContainerBuilder builder)
     {
+
       var assemblies = new[]
       {
         Assembly.Load(new AssemblyName {Name = "Authentication.Database"}),
@@ -73,13 +75,14 @@ namespace Authentication.Container.Modules
         {
           var mapperConfig = new MapperConfiguration(config =>
           {
-            config.AddProfiles(ThisAssembly);
+            config.AddProfiles(typeof(PersistenceModelProfile), typeof(DomainModelProfile));
           });
 
-          return new Mapper(mapperConfig);
+          return mapperConfig.CreateMapper();
         })
         .As<IMapper>()
-        .SingleInstance();
+        .PropertiesAutowired()
+        .InstancePerLifetimeScope();
 
       ////////////////////////////////////////////
       // Requests & Notifications

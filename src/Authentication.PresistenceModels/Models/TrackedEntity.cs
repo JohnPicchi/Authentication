@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Authentication.Domain;
 
-namespace Authentication.PresistenceModels
+namespace Authentication.PresistenceModels.Models
 {
   public interface ITrackedEntity : IEntity
   {

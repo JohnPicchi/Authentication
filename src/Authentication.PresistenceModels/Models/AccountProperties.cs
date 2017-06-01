@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Authentication.Account.Models;
 
-namespace Authentication.PresistenceModels
+namespace Authentication.PresistenceModels.Models
 {
   public class AccountProperties : TrackedEntity<Guid>
   {

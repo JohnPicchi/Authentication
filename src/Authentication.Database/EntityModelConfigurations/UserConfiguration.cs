@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Authentication.Database.EntityModelConfigurations
 {
-  internal class UserConfiguration : EntityTypeConfiguration<PresistenceModels.User>
+  internal class UserConfiguration : EntityTypeConfiguration<PresistenceModels.Models.User>
   {
-    public override void Configure(EntityTypeBuilder<PresistenceModels.User> builder)
+    public override void Configure(EntityTypeBuilder<PresistenceModels.Models.User> builder)
     {
       builder.Property(p => p.FirstName)
         .HasMaxLength(Helper.MaxLength.FirstName)
@@ -33,7 +33,7 @@ namespace Authentication.Database.EntityModelConfigurations
 
       builder.HasOne(p => p.Account)
         .WithOne(p => p.User)
-        .HasForeignKey<PresistenceModels.User>(p => p.AccountId);
+        .HasForeignKey<PresistenceModels.Models.User>(p => p.AccountId);
     }
   }
 }

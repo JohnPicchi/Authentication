@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Authentication.Account.Factories;
 using Authentication.Account.Models;
 using Authentication.Account.Repositories;
@@ -12,10 +13,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.Repositories
 {
-  public class AccountRepository : Repository<PresistenceModels.Account>, IAccountRepository
+  public class AccountRepository : Repository<PresistenceModels.Models.Account>, IAccountRepository
   {
     private readonly IMapper mapper;
-    
+
     public AccountRepository(DatabaseContext databaseContext, IMapper mapper) : base(databaseContext)
     {
       this.mapper = mapper;
@@ -23,16 +24,16 @@ namespace Authentication.Repositories
 
     public IAccountFactory AccountFactory { get; set; }
 
-    public bool AccountExists(string username)
+    public async Task<bool> AccountExistsAsync(string username)
     {
-      return username.HasValue() && Query().Any(a => a.Username == username);
+      return username.HasValue() && await Query().AnyAsync(a => a.Username == username);
     }
 
     public void Add(Account.Models.Account account)
     {
       if (account != null)
       {
-        var persistedAccount = mapper.Map(account, new PresistenceModels.Account());
+        var persistedAccount = mapper.Map(account, new PresistenceModels.Models.Account());
         base.Add(persistedAccount);
         if (account.IsNew)
           account.Id = persistedAccount.Id;
@@ -64,7 +65,7 @@ namespace Authentication.Repositories
         // doesn't exist in the db.....
         if (persistedAccount == null)
         {
-          persistedAccount = new PresistenceModels.Account();
+          persistedAccount = new PresistenceModels.Models.Account();
           mapper.Map(account, persistedAccount);
 
           //Since the domain entity is not new (it has an Id), it needs 
@@ -153,6 +154,6 @@ namespace Authentication.Repositories
         Remove(account.Id);
     }
 
-    public void Remove(Guid accountId) => base.Remove(new PresistenceModels.Account { Id = accountId});
+    public void Remove(Guid accountId) => base.Remove(new PresistenceModels.Models.Account { Id = accountId});
   }
 }

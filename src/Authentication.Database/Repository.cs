@@ -4,6 +4,7 @@ using System.Linq;
 using Authentication.Core.Models.Contracts;
 using Authentication.Database.Contexts;
 using Authentication.PresistenceModels;
+using Authentication.PresistenceModels.Models;
 
 namespace Authentication.Database
 {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Authentication.PresistenceModels;
+using Authentication.PresistenceModels.Models;
 using Authentication.Utilities.Helpers;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

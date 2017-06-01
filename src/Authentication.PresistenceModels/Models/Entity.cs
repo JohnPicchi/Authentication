@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Authentication.PresistenceModels
+﻿namespace Authentication.PresistenceModels.Models
 {
   public interface IEntity { }
 

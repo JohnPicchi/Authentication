@@ -1,5 +1,6 @@
 ﻿using Authentication.Domain;
 using Authentication.PresistenceModels;
+using Authentication.PresistenceModels.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Authentication.Database
