@@ -1,8 +1,7 @@
-﻿using Authentication.Account.Repositories;
-using Authentication.Domain;
+﻿using Authentication.Domain;
 using Authentication.User;
 
-namespace Authentication.Account.Factories
+namespace Authentication.Account
 {
   public interface IAccountFactory : IFactory<Models.Account>
   {
@@ -25,18 +24,14 @@ namespace Authentication.Account.Factories
 
     public IAccountRepository AccountRepository { get; set; }
 
-    public IAccountPropertiesFactory AccountPropertiesFactory { get; set; }
-
 
     public Models.Account Create()
     {
       var account =  accountFactory.Invoke(
         AccountRepository, 
         UserRepository, 
-        UserFactory, 
-        AccountPropertiesFactory);
+        UserFactory);
 
-      account.Properties = AccountPropertiesFactory.Create();
       account.User = UserFactory.Create();
 
       return account;

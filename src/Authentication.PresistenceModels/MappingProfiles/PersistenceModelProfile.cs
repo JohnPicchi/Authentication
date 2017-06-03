@@ -1,5 +1,4 @@
-﻿using Authentication.Account.Factories;
-using Authentication.PresistenceModels.Models;
+﻿using Authentication.PresistenceModels.Models;
 using Authentication.User;
 using AutoMapper;
 
@@ -14,35 +13,17 @@ namespace Authentication.PresistenceModels.MappingProfiles
   {
     public PersistenceModelProfile()
     {
-      CreateMap<Models.User, User.Models.User>()
-        .ConstructUsing(c => UserFactory.Create());
+      CreateMap<Models.User, User.Models.User>();
 
-      CreateMap<Models.Account, Account.Models.Account>()
-        .ConstructUsing(c => AccountFactory.Create());
+      CreateMap<Models.Account, Account.Models.Account>();
 
-      CreateMap<AccountProperties, Account.Models.AccountProperties>()
-        .ConstructUsing(c => AccountPropertiesFactory.Create());
+      CreateMap<AccountProperties, Account.Models.AccountProperties>();
 
-      CreateMap<AccountClaim, Account.Models.AccountClaim>()
-        .ConstructUsing(c => AccountClaimFactory.Create());
+      CreateMap<AccountClaim, Account.Models.AccountClaim>();
 
-      CreateMap<AccountLock, Account.Models.AccountLock>()
-        .ConstructUsing(c => AccountLockFactory.Create());
+      CreateMap<AccountLock, Account.Models.AccountLock>();
 
-      CreateMap<AccountToken, Account.Models.AccountToken>()
-        .ConstructUsing(c => AccountTokenFactory.Create());
+      CreateMap<AccountToken, Account.Models.AccountToken>();
     }
-
-    public IUserFactory UserFactory { get; set; }
-
-    public IAccountFactory AccountFactory { get; set; }
-
-    public IAccountPropertiesFactory AccountPropertiesFactory { get; set; }
-
-    public IAccountClaimFactory AccountClaimFactory { get; set; }
-
-    public IAccountLockFactory AccountLockFactory { get; set; }
-
-    public IAccountTokenFactory AccountTokenFactory { get; set; }
   }
 }

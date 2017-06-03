@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Authentication.Account.Factories;
-using Authentication.Account.Repositories;
 using Authentication.Domain;
 using Authentication.User;
 using Autofac.Extras.DynamicProxy;
@@ -15,7 +13,6 @@ namespace Authentication.Account.Models
     private readonly IAccountRepository accountRepository;
     private readonly IUserFactory userFactory;
     private readonly IUserRepository userRepository;
-    private readonly IAccountPropertiesFactory accountPropertiesFactory;
 
     private User.Models.User user;
     private AccountProperties properties;
@@ -26,19 +23,16 @@ namespace Authentication.Account.Models
 
     public Account(
       IAccountRepository accountRepository, 
-      IUserRepository userRepository,
-      IAccountPropertiesFactory accountPropertiesFactory)
+      IUserRepository userRepository)
     {
       this.accountRepository = accountRepository;
       this.userRepository = userRepository;
-      this.accountPropertiesFactory = accountPropertiesFactory;
     }
 
     public delegate Account Factory(
       IAccountRepository accountRepository,
       IUserRepository userRepository,
-      IUserFactory userFactory,
-      IAccountPropertiesFactory accountPropertiesFactory);
+      IUserFactory userFactory);
 
     public virtual string Username { get; private set; }
 
@@ -100,13 +94,14 @@ namespace Authentication.Account.Models
         accountTokens.RemoveAt(index.Value);
     }
 
-    public virtual (AuthenticationStatus Status, string Message) MutliFactorAuthenticate(string tokenValue)
+    public virtual IAuthenticationResult MutliFactorAuthenticate(string tokenValue)
     {
-      //return (Success: true, Status: AuthStatus.Sucess, Message: null);
-      return (Status: AuthenticationStatus.Fail, Message: "Incorrect token value");
+      //return AuthenticationResult.Success;
+
+      return AuthenticationResult.Fail("Incorrect token value");
     }
 
-    public virtual (AuthenticationStatus Status, string Message) Authenticate(string password)
+    public virtual IAuthenticationResult Authenticate(string password)
     {
       if (!IsLocked && VerifyPassword(password))
       {
@@ -114,16 +109,16 @@ namespace Authentication.Account.Models
         if (Properties.HasMultiFactorAuth)
         {
           //TODO
-          return (Status: AuthenticationStatus.MultiFactor, Message: null);
+          return AuthenticationResult.Success;
         }
         else
         {
           Properties.UpdateLoginTimes();
           IsAuthenticated = true;
-          return (Status: AuthenticationStatus.Sucess, Message: null);
+          return AuthenticationResult.Success;
         }
       }
-      return (Status: AuthenticationStatus.Fail, Message: "Incorrect username and/or password");
+      return AuthenticationResult.Fail("Incorrect username and/or password");
     }
 
     public virtual void SetUsername(string username) => Username = username;

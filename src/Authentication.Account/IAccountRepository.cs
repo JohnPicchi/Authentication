@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Authentication.Account.Models;
 
-namespace Authentication.Account.Repositories
+namespace Authentication.Account
 {
   public interface IAccountRepository
   {

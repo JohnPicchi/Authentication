@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Authentication.Account.Factories;
+using Authentication.Account;
 using Authentication.Account.Models;
-using Authentication.Account.Repositories;
 using Authentication.Database;
 using Authentication.Database.Contexts;
 using Authentication.Utilities.ExtensionMethods;
