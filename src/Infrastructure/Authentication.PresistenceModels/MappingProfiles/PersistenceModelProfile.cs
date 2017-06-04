@@ -1,7 +1,5 @@
 ﻿using Authentication.PresistenceModels.Models;
-using Authentication.User;
 using AutoMapper;
-
 namespace Authentication.PresistenceModels.MappingProfiles
 {
 

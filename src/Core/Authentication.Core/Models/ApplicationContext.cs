@@ -6,6 +6,5 @@ namespace Authentication.Core.Models
   public class ApplicationContext : IApplicationContext
   {
     public IApplicationSettings ApplicationSettings { get; set; }
-
   }
 }

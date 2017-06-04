@@ -16,10 +16,10 @@
 
   <ItemGroup>
     <Reference Include="Autofac.Extras.DynamicProxy">
-      <HintPath>..\..\..\..\Users\John\.nuget\packages\autofac.extras.dynamicproxy\4.2.1\lib\netstandard1.3\Autofac.Extras.DynamicProxy.dll</HintPath>
+      <HintPath>..\..\..\..\..\Users\John\.nuget\packages\autofac.extras.dynamicproxy\4.2.1\lib\netstandard1.3\Autofac.Extras.DynamicProxy.dll</HintPath>
     </Reference>
     <Reference Include="BCrypt.Net-Core">
-      <HintPath>..\..\..\..\Users\John\.nuget\packages\bcrypt.net-core\1.4.0\lib\netstandard1.3\BCrypt.Net-Core.dll</HintPath>
+      <HintPath>..\..\..\..\..\Users\John\.nuget\packages\bcrypt.net-core\1.4.0\lib\netstandard1.3\BCrypt.Net-Core.dll</HintPath>
     </Reference>
   </ItemGroup>
 

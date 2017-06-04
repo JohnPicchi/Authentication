@@ -14,13 +14,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Authentication.Core\Authentication.Core.csproj" />
+    <ProjectReference Include="..\..\Core\Authentication.Core\Authentication.Core.csproj" />
+    <ProjectReference Include="..\..\Core\Authentication.Utilities\Authentication.Utilities.csproj" />
     <ProjectReference Include="..\Authentication.PresistenceModels\Authentication.PresistenceModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="AutoMapper">
-      <HintPath>..\..\..\..\Users\John\.nuget\packages\automapper\6.0.2\lib\netstandard1.3\AutoMapper.dll</HintPath>
+      <HintPath>..\..\..\..\..\Users\John\.nuget\packages\automapper\6.0.2\lib\netstandard1.3\AutoMapper.dll</HintPath>
     </Reference>
   </ItemGroup>
 

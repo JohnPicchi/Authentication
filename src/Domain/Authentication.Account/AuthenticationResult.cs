@@ -15,7 +15,7 @@ namespace Authentication.Account
   {
     AuthenticationStatus Status { get; }
     
-    string Message { get; }
+    string ErrorMessage { get; }
   }
 
   public class AuthenticationResult : IAuthenticationResult
@@ -23,10 +23,12 @@ namespace Authentication.Account
 
     public AuthenticationStatus Status { get; set; }
 
-    public string Message { get; set; }
+    public string ErrorMessage { get; set; }
 
     public static IAuthenticationResult Success => new AuthenticationResult { Status = AuthenticationStatus.Sucess };
 
-    public static IAuthenticationResult Fail(string message) => new AuthenticationResult {Status = AuthenticationStatus.Fail, Message = message};
+    public static IAuthenticationResult MultiFactor => new AuthenticationResult { Status = AuthenticationStatus.MultiFactor};
+
+    public static IAuthenticationResult Fail(string message) => new AuthenticationResult {Status = AuthenticationStatus.Fail, ErrorMessage = message};
   }
 }

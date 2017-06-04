@@ -1,8 +1,6 @@
 ﻿using System;
 using Authentication.Account;
-using Authentication.Account.Models;
 using Authentication.Core.RequestHandlers.Contracts;
-using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.EditModels;
 
 namespace Authentication.Core.RequestHandlers.FormResults
@@ -38,7 +36,7 @@ namespace Authentication.Core.RequestHandlers.FormResults
         return (Success: true, Message: null);
       }
 
-      return (Success: false, Message: result.Message ?? INCORRECT_LOGIN);
+      return (Success: false, Message: result.ErrorMessage ?? INCORRECT_LOGIN);
     }
   }
 }
