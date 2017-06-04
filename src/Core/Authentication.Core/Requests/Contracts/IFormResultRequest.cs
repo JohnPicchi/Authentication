@@ -1,6 +1,12 @@
-﻿namespace Authentication.Core.Requests.Contracts
+﻿using System.Threading.Tasks;
+
+namespace Authentication.Core.Requests.Contracts
 {
-  public interface IFormResultRequest<TRequest> : IRequest<(bool Success, string Message), TRequest>
+  public interface IFormResultRequest<TRequest> : IRequest<IFormResult, TRequest>
+  {
+  }
+
+  public interface IFormResultRequestAsync<TRequest> : IRequestAsync<IFormResult, TRequest>
   {
   }
 }

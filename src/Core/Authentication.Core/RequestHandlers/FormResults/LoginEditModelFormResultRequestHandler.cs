@@ -1,6 +1,7 @@
 ﻿using System;
 using Authentication.Account;
 using Authentication.Core.RequestHandlers.Contracts;
+using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.EditModels;
 
 namespace Authentication.Core.RequestHandlers.FormResults
@@ -15,11 +16,11 @@ namespace Authentication.Core.RequestHandlers.FormResults
       this.accountRepository = accountRepository;
     }
 
-    public (bool Success, string Message) Handle(LoginEditModel request)
+    public IFormResult Handle(LoginEditModel request)
     {
       var account = accountRepository.Find(request.Email);
       if (account == null)
-        return (Success: false, Message: INCORRECT_LOGIN);
+        return FormResult.Fail(INCORRECT_LOGIN);
 
       var result = account.Authenticate(request.Password);
       if (result.Status == AuthenticationStatus.Sucess)
@@ -27,16 +28,16 @@ namespace Authentication.Core.RequestHandlers.FormResults
         accountRepository.Update(account);
         //TODO: Do Identity server shit here via a request ???
 
-        return (Success: true, Message: null);
+        return FormResult.Ok;
       }
 
       if (result.Status == AuthenticationStatus.MultiFactor)
       {
         //TODO: Generate & send email/text with login token
-        return (Success: true, Message: null);
+        return FormResult.Ok;
       }
 
-      return (Success: false, Message: result.ErrorMessage ?? INCORRECT_LOGIN);
+      return FormResult.Fail(result.ErrorMessage ?? INCORRECT_LOGIN);
     }
   }
 }

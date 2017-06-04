@@ -1,4 +1,6 @@
-﻿namespace Authentication.Core.RequestHandlers.Contracts
+﻿using System.Threading.Tasks;
+
+namespace Authentication.Core.RequestHandlers.Contracts
 {
   public interface IRequestHandler<TReturn>
   {
@@ -8,5 +10,15 @@
   public interface IRequestHandler<TRequest, TReturn>
   {
     TReturn Handle(TRequest request);
+  }
+
+  public interface IRequestHandlerAsync<TReturn>
+  {
+    Task<TReturn> HandleAsync();
+  }
+
+  public interface IRequestHandlerAsync<TRequest, TReturn>
+  {
+    Task<TReturn> HandleAsync(TRequest request);
   }
 }

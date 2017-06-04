@@ -4,6 +4,7 @@ using System.Text;
 using Authentication.Account;
 using Authentication.Account.Models;
 using Authentication.Core.RequestHandlers.Contracts;
+using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.EditModels;
 
 namespace Authentication.Core.RequestHandlers.FormResults
@@ -19,13 +20,13 @@ namespace Authentication.Core.RequestHandlers.FormResults
       this.accountFactory = accountFactory;
     }
 
-    public (bool Success, string Message) Handle(RegisterEditModel registerEditModel)
+    public IFormResult Handle(RegisterEditModel registerEditModel)
     {
       var account = accountFactory.Create(registerEditModel.Email, registerEditModel.Password);
       account.AddLock(new AccountLock{Message = "TEST"});
       accountRepository.Add(account);
 
-      return (Success: true, Message: null);
+      return FormResult.Ok;
     }
   }
 }
