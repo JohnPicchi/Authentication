@@ -5,7 +5,6 @@ using Authentication.Database;
 using Authentication.Database.Contexts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -34,7 +33,11 @@ namespace Authentication
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public IServiceProvider ConfigureServices(IServiceCollection services)
     {
-      services.AddMvc();
+      services.AddMvc(opt =>
+      {
+        opt.Filters.Add(typeof(DatabaseContextTransactionFilter));
+      });
+
       services.AddIdentityServer()
         //.AddSigningCredential()
         .AddTemporarySigningCredential()

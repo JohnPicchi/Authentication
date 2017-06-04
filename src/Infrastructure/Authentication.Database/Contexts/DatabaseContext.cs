@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Authentication.Core.Models;
 using Authentication.Core.Models.Contracts;
 using Authentication.Database.EntityModelConfigurations;
-using Authentication.PresistenceModels;
 using Authentication.PresistenceModels.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
