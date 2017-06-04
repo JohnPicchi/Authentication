@@ -92,12 +92,25 @@ namespace Authentication.Container.Modules
         .AsClosedTypesOf(typeof(IRequest<,>))
         .InstancePerLifetimeScope();
 
+      builder.RegisterAssemblyTypes(assemblies)
+        .Where(t => t.Name.EndsWith("RequestAsync"))
+        .AsClosedTypesOf(typeof(IRequestAsync<,>))
+        .InstancePerLifetimeScope();
+
       builder.RegisterGeneric(typeof(FormResultRequest<>))
         .As(typeof(IFormResultRequest<>))
         .InstancePerLifetimeScope();
 
+      builder.RegisterGeneric(typeof(FormResultRequestAsync<>))
+        .As(typeof(IFormResultRequestAsync<>))
+        .InstancePerLifetimeScope();
+
       builder.RegisterGeneric(typeof(Notification<>))
         .As(typeof(INotification<>))
+        .InstancePerLifetimeScope();
+
+      builder.RegisterGeneric(typeof(NotificationAsync<>))
+        .As(typeof(INotificationAsync<>))
         .InstancePerLifetimeScope();
 
 
@@ -110,8 +123,18 @@ namespace Authentication.Container.Modules
         .InstancePerLifetimeScope();
 
       builder.RegisterAssemblyTypes(assemblies)
+        .Where(t => t.Name.EndsWith("RequestHandlerAsync"))
+        .AsClosedTypesOf(typeof(IRequestHandlerAsync<,>))
+        .InstancePerLifetimeScope();
+
+      builder.RegisterAssemblyTypes(assemblies)
         .Where(t => t.Name.EndsWith("NotificationHandler"))
         .AsClosedTypesOf(typeof(INotificationHandler<>))
+        .InstancePerLifetimeScope();
+
+      builder.RegisterAssemblyTypes(assemblies)
+        .Where(t => t.Name.EndsWith("NotificationHandlerAsync"))
+        .AsClosedTypesOf(typeof(INotificationHandlerAsync<>))
         .InstancePerLifetimeScope();
 
       base.Load(builder);

@@ -23,9 +23,7 @@ namespace Authentication.Core.RequestHandlers.FormResults
     public IFormResult Handle(RegisterEditModel registerEditModel)
     {
       var account = accountFactory.Create(registerEditModel.Email, registerEditModel.Password);
-      account.AddLock(new AccountLock{Message = "TEST"});
       accountRepository.Add(account);
-
       return FormResult.Ok;
     }
   }

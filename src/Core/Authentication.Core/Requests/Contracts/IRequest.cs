@@ -14,11 +14,11 @@ namespace Authentication.Core.Requests.Contracts
 
   public interface IRequestAsync<TReturn>
   {
-    Task<TReturn> Handle();
+    Task<TReturn> HandleAsync();
   }
 
   public interface IRequestAsync<TReturn, TRequest>
   {
-    Task<TReturn> Handle(TRequest request);
+    Task<TReturn> HandleAsync(TRequest request);
   }
 }

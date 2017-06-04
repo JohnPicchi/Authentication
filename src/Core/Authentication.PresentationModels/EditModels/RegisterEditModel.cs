@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Authentication.PresentationModels.EditModels
 {
-  
   public class RegisterEditModel
   {
     [UniqueAccount]
