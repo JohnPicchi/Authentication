@@ -18,26 +18,30 @@ namespace Authentication.Core.RequestHandlers.FormResults
 
     public IFormResult Handle(LoginEditModel request)
     {
+      IFormResult formResult = null;
       var account = accountRepository.Find(request.Email);
-      if (account == null)
-        return FormResult.Fail(INCORRECT_LOGIN);
 
-      var result = account.Authenticate(request.Password);
-      if (result.Status == AuthenticationStatus.Sucess)
+      if (account != null)
       {
-        accountRepository.Update(account);
-        //TODO: Do Identity server shit here via a request ???
+        var result = account.Authenticate(request.Password);
 
-        return FormResult.Ok;
+        if (result.Status == AuthenticationStatus.Sucess)
+        {
+          //TODO: Do Identity server shit here via a request ???
+          formResult = FormResult.Ok;
+        }
+
+        else if (result.Status == AuthenticationStatus.MultiFactor)
+        {
+          //TODO: Generate & send email/text with login token   
+          formResult = FormResult.Ok;
+        }
+
+        else
+          formResult = FormResult.Fail(result.ErrorMessage ?? INCORRECT_LOGIN);
       }
 
-      if (result.Status == AuthenticationStatus.MultiFactor)
-      {
-        //TODO: Generate & send email/text with login token
-        return FormResult.Ok;
-      }
-
-      return FormResult.Fail(result.ErrorMessage ?? INCORRECT_LOGIN);
+      return formResult ?? FormResult.Fail(INCORRECT_LOGIN);
     }
   }
 }

@@ -12,8 +12,6 @@ namespace Authentication.Account.Models
       
     }
 
-    public delegate AccountClaim Factory();
-
     public virtual string Type { get; set; }
 
     public virtual string Value { get; set; }

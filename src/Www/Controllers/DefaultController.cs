@@ -26,19 +26,19 @@ namespace Authentication.Controllers
 
     internal async Task<IActionResult> FormAsync<TForm>(
       TForm form,
-      IFormResultRequest<TForm> request,
-      Func<Task<IActionResult>> success,
-      Func<Task<IActionResult>> failure)
+      IFormResultRequestAsync<TForm> request,
+      Func<IActionResult> success,
+      Func<IActionResult> failure)
     {
       if (ModelState.IsValid)
       {
-        var formResult = request.Handle(form);
+        var formResult = await request.HandleAsync(form);
         if (formResult.Success)
-          return await success();
+          return success();
 
         ModelState.AddModelError("error", formResult.ErrorMessage);
       }
-      return await failure();
+      return failure();
     }
   }
 }

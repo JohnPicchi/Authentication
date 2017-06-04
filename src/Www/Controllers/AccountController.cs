@@ -21,10 +21,10 @@ namespace Authentication.Controllers
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Register(RegisterEditModel form, 
-      [FromServices] IFormResultRequest<RegisterEditModel> request)
+    public async Task<IActionResult> Register(RegisterEditModel form, 
+      [FromServices] IFormResultRequestAsync<RegisterEditModel> request)
     {
-      return Form(form, request,
+      return await FormAsync(form, request,
         success: () => View(form as RegisterViewModel),
         failure: () => View(form as RegisterViewModel));
     }

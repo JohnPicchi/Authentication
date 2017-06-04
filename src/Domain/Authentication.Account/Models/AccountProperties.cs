@@ -13,31 +13,33 @@ namespace Authentication.Account.Models
 
   public class AccountProperties : DomainEntity<Guid>
   {
-    public AccountProperties()
+    public virtual int FailedLoginAttempts { get; private set; }
+
+    public virtual void ResetFailedLoginAttempts()
     {
-
+      FailedLoginAttempts = 0;
+      LastFailedLoginAttemptDateTime = new DateTime();
     }
-
-    public delegate AccountProperties Factory();
-
-    public virtual int FailedLoginAttempts { get; set; }
-
-    public virtual void ResetFailedLoginAttempts() => FailedLoginAttempts = 0;
 
     public virtual DateTime? CurrentLoginDateTime { get; set; }
 
     public virtual DateTime? LastLoginDateTime { get; set; }
 
-    public virtual bool UpdatedLoginTimes { get; private set;}
+    public virtual DateTime? LastFailedLoginAttemptDateTime { get; set; }
 
     public virtual void UpdateLoginTimes()
     {
-      if (!UpdatedLoginTimes)
-      {
-        LastLoginDateTime = CurrentLoginDateTime ?? DateTime.UtcNow;
-        CurrentLoginDateTime = DateTime.UtcNow;
-        UpdatedLoginTimes = true;
-      }
+      LastLoginDateTime = CurrentLoginDateTime ?? DateTime.UtcNow;
+      CurrentLoginDateTime = DateTime.UtcNow;
+    }
+
+    public virtual void UpdateFailedLoginAttempts()
+    {
+      if (LastLoginDateTime?.AddDays(1) > DateTime.UtcNow)
+        ResetFailedLoginAttempts();
+
+      FailedLoginAttempts += 1;
+      LastFailedLoginAttemptDateTime = DateTime.UtcNow;
     }
 
     public virtual bool PasswordResetRequired { get; set; }

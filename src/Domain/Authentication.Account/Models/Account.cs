@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Authentication.Domain;
 using Authentication.User;
-using Autofac.Extras.DynamicProxy;
-
 
 namespace Authentication.Account.Models
 {
@@ -14,12 +12,12 @@ namespace Authentication.Account.Models
     private readonly IUserFactory userFactory;
     private readonly IUserRepository userRepository;
 
+    private AccountProperties accountProperties;
     private User.Models.User user;
-    private AccountProperties properties;
 
-    private IList<AccountToken> accountTokens = new List<AccountToken>();
-    private IList<AccountClaim> accountClaims = new List<AccountClaim>();
-    private IList<AccountLock> accountLocks = new List<AccountLock>();
+    private IList<AccountClaim> accountClaims;
+    private IList<AccountToken> accountTokens;
+    private IList<AccountLock> accountLocks;
 
     public Account(
       IAccountRepository accountRepository, 
@@ -42,83 +40,110 @@ namespace Authentication.Account.Models
 
     public virtual bool IsAuthenticated { get; private set; }
 
-    public virtual bool IsLocked => accountLocks.Any(l => l.IsValid);
+    public virtual bool IsLocked => Locks.Any(l => l.IsValid);
 
     public virtual AccountProperties Properties
     {
-      get { return properties; }
+      get => accountProperties ?? (accountProperties = this.IsNew
+               ? new AccountProperties()
+               : accountRepository.AccountProperties(this.Id) ?? new AccountProperties());
 
-      set => properties = value;
+      set => accountProperties = value;
     }
 
     public virtual User.Models.User User
     {
-      get { return user; }
+      get => user ?? (user = this.IsNew
+               ? userFactory.Create()
+               : userRepository.FindByAccountId(this.Id) ?? userFactory.Create());
 
       set => user = value;
     }
 
-    public virtual void AddClaim(AccountClaim accountClaim)
+    public virtual IList<AccountClaim> Claims
     {
-      //TODO
+      get => accountClaims ?? (accountClaims = this.IsNew
+               ? new List<AccountClaim>()
+               : accountRepository.AccountClaims(this.Id) ?? new List<AccountClaim>());
+
+      set => accountClaims = value;
     }
 
-    public virtual void RemoveClaim(AccountClaim accountClaim)
+    public virtual IList<AccountToken> Tokens
     {
-      //TODO
+      get => accountTokens ?? (accountTokens = this.IsNew
+              ? new List<AccountToken>() 
+              : accountRepository.AccountTokens(this.Id) ?? new List<AccountToken>());
+
+      set => accountTokens = value;
     }
 
-    public virtual void AddLock(AccountLock accountLock)
+    public virtual IList<AccountLock> Locks
     {
-      if(accountLock != null)
-        accountLocks?.Add(accountLock);
+      get => accountLocks ?? (accountLocks = this.IsNew
+               ? new List<AccountLock>()
+               : accountRepository.AccountLocks(this.Id) ?? new List<AccountLock>());
+
+      set => accountLocks = value;
     }
 
-    public virtual void RemoveLock(AccountLock accountLock)
-    {
-      var index = accountLocks?.IndexOf(accountLock);
-      if (index >= 0)
-        accountLocks.RemoveAt(index.Value);
-    }
+    public virtual void AddClaim(AccountClaim accountClaim) => Claims.Add(accountClaim);
 
-    public virtual void AddToken(AccountToken token)
-    {
-      if(token != null)
-        accountTokens?.Add(token);
-    }
+    public virtual void AddToken(AccountToken token) => Tokens.Add(token);
 
-    public virtual void RemoveToken(AccountToken token)
-    {
-      var index = accountTokens?.IndexOf(token);
-      if(index >= 0)
-        accountTokens.RemoveAt(index.Value);
-    }
+    public virtual void AddLock(AccountLock accountLock) => Locks.Add(accountLock);
+
+    public virtual void RemoveClaim(AccountClaim accountClaim) => Claims.RemoveAt(Claims.IndexOf(accountClaim));
+
+    public virtual void RemoveToken(AccountToken token) => Tokens.RemoveAt(Tokens.IndexOf(token));
+
+    public virtual void RemoveLock(AccountLock accountLock) => Locks.RemoveAt(Locks.IndexOf(accountLock));
 
     public virtual IAuthenticationResult MutliFactorAuthenticate(string tokenValue)
     {
-      //return AuthenticationResult.Success;
+      if (VerifyToken(tokenValue, TokenKind.MultiFactorAuth))
+      {
+        Properties.ResetFailedLoginAttempts();
+        Properties.UpdateLoginTimes();
+        IsAuthenticated = true;
+        return AuthenticationResult.Success;
+      }
 
-      return AuthenticationResult.Fail("Incorrect token value");
+      Properties.UpdateFailedLoginAttempts();
+      //TODO: Max login attempts reached then lock account;
+
+      return IsLocked 
+        ? AuthenticationResult.Fail(Locks.First(l => l.IsValid).Message)
+        : AuthenticationResult.Fail("Incorrect token value");
     }
 
     public virtual IAuthenticationResult Authenticate(string password)
     {
-      if (!IsLocked && VerifyPassword(password))
+      if (!IsLocked)
       {
-        Properties.ResetFailedLoginAttempts();
-        if (Properties.HasMultiFactorAuth)
+        var correctPassword = VerifyPassword(password);
+        if (correctPassword)
         {
-          //TODO
-          return AuthenticationResult.Success;
-        }
-        else
-        {
+          Properties.ResetFailedLoginAttempts();
+          if (Properties.HasMultiFactorAuth)
+          {
+            //TODO
+            return AuthenticationResult.MultiFactor;
+          }
+
           Properties.UpdateLoginTimes();
           IsAuthenticated = true;
           return AuthenticationResult.Success;
         }
+
+        Properties.UpdateFailedLoginAttempts();
+        //TODO: Max login attempts reached then lock account
+        
       }
-      return AuthenticationResult.Fail("Incorrect username and/or password");
+
+      return IsLocked 
+        ? AuthenticationResult.Fail(Locks.First(l => l.IsValid).Message)
+        : AuthenticationResult.Fail("Incorrect username and/or password");
     }
 
     public virtual void SetUsername(string username) => Username = username;

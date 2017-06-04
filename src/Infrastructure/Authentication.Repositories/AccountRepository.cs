@@ -9,6 +9,9 @@ using Authentication.Database.Contexts;
 using Authentication.Utilities.ExtensionMethods;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using AccountProperties = Authentication.Account.Models.AccountProperties;
+using AccountToken = Authentication.Account.Models.AccountToken;
+using AccountLock = Authentication.Account.Models.AccountLock;
 
 namespace Authentication.Repositories
 {
@@ -34,6 +37,17 @@ namespace Authentication.Repositories
       {
         var persistedAccount = mapper.Map(account, new PresistenceModels.Models.Account());
         base.Add(persistedAccount);
+        if (account.IsNew)
+          account.Id = persistedAccount.Id;
+      }
+    }
+
+    public async Task AddAsync(Account.Models.Account account)
+    {
+      if (account != null)
+      {
+        var persistedAccount = mapper.Map(account, new PresistenceModels.Models.Account());
+        await base.AddAsync(persistedAccount);
         if (account.IsNew)
           account.Id = persistedAccount.Id;
       }
@@ -111,6 +125,17 @@ namespace Authentication.Repositories
       return persistedProperties == null 
         ? null
         : mapper.Map(persistedProperties, new AccountProperties());
+    }
+
+    public IList<AccountClaim> AccountClaims(Guid accountId)
+    {
+      var persistedClaims = Query()
+        .Where(a => a.Id == accountId)
+        .SelectMany(a => a.Claims)
+        .Where(a => a.AccountId == accountId)
+        .ToList();
+
+      return mapper.Map(persistedClaims, new List<AccountClaim>());
     }
 
     public IList<AccountToken> AccountTokens(Guid accountId)

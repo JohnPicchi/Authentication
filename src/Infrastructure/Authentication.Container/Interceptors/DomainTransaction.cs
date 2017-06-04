@@ -2,14 +2,13 @@
 using System.Linq;
 using System.Reflection;
 using Authentication.Domain;
-using Castle.DynamicProxy;
 
-namespace Authentication.Container.Interceptors
-{
-  public class DomainTransaction : IInterceptor
-  {
-    public void Intercept(IInvocation invocation)
-    {
+//namespace Authentication.Container.Interceptors
+//{
+ // public class DomainTransaction : IInterceptor
+  //{
+   // public void Intercept(IInvocation invocation)
+    //{
      // invocation.Proceed();
      //
      // var ignoreMutation = invocation.Method.Name.Contains(nameof(IDomainEntity.IsDirty));
@@ -34,6 +33,6 @@ namespace Authentication.Container.Interceptors
      //       mutatedDomainModel.IsDirty = true;
      //   //}
      // }
-    }
-  }
-}
+    //}
+  //}
+//}

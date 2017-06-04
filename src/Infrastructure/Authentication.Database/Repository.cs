@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Authentication.Database.Contexts;
 using Authentication.PresistenceModels.Models;
 
@@ -29,6 +30,16 @@ namespace Authentication.Database
       databaseContext.SaveChanges();
 
       return persistedEntity;
+    }
+
+    protected virtual async Task<TEntity> AddAsync(TEntity entity)
+    {
+      var persistedEntity = databaseContext.Set<TEntity>().AddAsync(entity);
+
+      //Save changes so the DB can genereate the identity values
+      await databaseContext.SaveChangesAsync();
+
+      return persistedEntity.Result.Entity;
     }
 
     protected void Save() => databaseContext.SaveChanges();

@@ -7,9 +7,11 @@ namespace Authentication.Account
 {
   public interface IAccountRepository
   {
-    Task<bool> AccountExistsAsync(string accountId);
+    Task<bool> AccountExistsAsync(string username);
 
     void Add(Models.Account account);
+
+    Task AddAsync(Models.Account account);
 
     bool Update(Models.Account account);
 
@@ -20,6 +22,8 @@ namespace Authentication.Account
     Models.Account Find(Guid accountId);
 
     AccountProperties AccountProperties(Guid accountId);
+
+    IList<AccountClaim> AccountClaims(Guid accountId);
 
     IList<AccountToken> AccountTokens(Guid accountId);
 

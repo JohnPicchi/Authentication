@@ -27,12 +27,7 @@ namespace Authentication.Account
 
     public Models.Account Create()
     {
-      var account =  accountFactory.Invoke(
-        AccountRepository, 
-        UserRepository, 
-        UserFactory);
-
-      account.User = UserFactory.Create();
+      var account =  accountFactory.Invoke(AccountRepository, UserRepository, UserFactory);
 
       return account;
     }

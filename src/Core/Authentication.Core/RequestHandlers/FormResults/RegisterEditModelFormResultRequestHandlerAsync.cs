@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection.Metadata;
 using System.Text;
+using System.Threading.Tasks;
 using Authentication.Account;
 using Authentication.Account.Models;
 using Authentication.Core.RequestHandlers.Contracts;
@@ -9,21 +10,21 @@ using Authentication.PresentationModels.EditModels;
 
 namespace Authentication.Core.RequestHandlers.FormResults
 {
-  public class RegisterEditModelFormResultRequestHandler : IFormResultRequestHandler<RegisterEditModel>
+  public class RegisterEditModelFormResultRequestHandlerAsync : IFormResultRequestHandlerAsync<RegisterEditModel>
   {
     private readonly IAccountRepository accountRepository;
     private readonly IAccountFactory accountFactory;
 
-    public RegisterEditModelFormResultRequestHandler(IAccountRepository accountRepository, IAccountFactory accountFactory)
+    public RegisterEditModelFormResultRequestHandlerAsync(IAccountRepository accountRepository, IAccountFactory accountFactory)
     {
       this.accountRepository = accountRepository;
       this.accountFactory = accountFactory;
     }
 
-    public IFormResult Handle(RegisterEditModel registerEditModel)
+    public async Task<IFormResult> HandleAsync(RegisterEditModel registerEditModel)
     {
       var account = accountFactory.Create(registerEditModel.Email, registerEditModel.Password);
-      accountRepository.Add(account);
+      await accountRepository.AddAsync(account);
       return FormResult.Ok;
     }
   }

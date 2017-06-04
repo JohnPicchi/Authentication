@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Authentication.PresistenceModels.Models;
+using AutoMapper;
 using AccountClaim = Authentication.PresistenceModels.Models.AccountClaim;
 using AccountLock = Authentication.PresistenceModels.Models.AccountLock;
 using AccountProperties = Authentication.PresistenceModels.Models.AccountProperties;

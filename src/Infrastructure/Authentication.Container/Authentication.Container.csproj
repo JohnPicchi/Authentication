@@ -6,8 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.1.0" />
-    <PackageReference Include="Autofac.Extras.DynamicProxy" Version="4.2.1" />
-    <PackageReference Include="AutoMapper" Version="6.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,7 +15,7 @@
 
   <ItemGroup>
     <Reference Include="Microsoft.Extensions.Options">
-      <HintPath>..\..\..\..\..\..\Users\John\.nuget\packages\microsoft.extensions.options\1.1.1\lib\netstandard1.0\Microsoft.Extensions.Options.dll</HintPath>
+      <HintPath>..\..\..\..\..\Users\John\.nuget\packages\microsoft.extensions.options\1.1.1\lib\netstandard1.0\Microsoft.Extensions.Options.dll</HintPath>
     </Reference>
   </ItemGroup>
 

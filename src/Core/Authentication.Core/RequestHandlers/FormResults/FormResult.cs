@@ -12,8 +12,8 @@ namespace Authentication.Core.RequestHandlers.FormResults
 
     public string ErrorMessage { get; set; }
 
-    public static IFormResult Ok => new FormResult { Success = true };
+    public static FormResult Ok => new FormResult { Success = true };
 
-    public static IFormResult Fail(string errorMessage) => new FormResult { Success = false, ErrorMessage = errorMessage };
+    public static FormResult Fail(string errorMessage) => new FormResult { Success = false, ErrorMessage = errorMessage };
   }
 }
