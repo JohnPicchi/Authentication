@@ -8,6 +8,9 @@ namespace Authentication.Account.Models
 {
   public class Account : DomainEntity<Guid>
   {
+    public const string INCORRECT_LOGIN = "Incorrect username and/or password";
+    public const string INCORRECT_TOKEN = "Incorrect token";
+
     private readonly IAccountRepository accountRepository;
     private readonly IUserFactory userFactory;
     private readonly IUserRepository userRepository;
@@ -36,9 +39,9 @@ namespace Authentication.Account.Models
 
     public virtual string Password { get; private set; }
 
-    public virtual bool IsVerified { get; set; }
-
     public virtual bool IsAuthenticated { get; private set; }
+
+    public virtual bool IsVerified { get; set; }
 
     public virtual bool IsLocked => Locks.Any(l => l.IsValid);
 
@@ -114,7 +117,7 @@ namespace Authentication.Account.Models
 
       return IsLocked 
         ? AuthenticationResult.Fail(Locks.First(l => l.IsValid).Message)
-        : AuthenticationResult.Fail("Incorrect token value");
+        : AuthenticationResult.Fail(INCORRECT_TOKEN);
     }
 
     public virtual IAuthenticationResult Authenticate(string password)
@@ -143,7 +146,7 @@ namespace Authentication.Account.Models
 
       return IsLocked 
         ? AuthenticationResult.Fail(Locks.First(l => l.IsValid).Message)
-        : AuthenticationResult.Fail("Incorrect username and/or password");
+        : AuthenticationResult.Fail(INCORRECT_LOGIN);
     }
 
     public virtual void SetUsername(string username) => Username = username;

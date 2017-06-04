@@ -31,7 +31,6 @@ namespace Authentication.Account.Models
     public virtual bool IsValid => (Kind == AccountLockKind.Permanent) 
                                    || (ExpirationDate ?? DateTime.UtcNow) > DateTime.UtcNow.AddSeconds(30);
 
-
     public static AccountLock MaxLoginAttempts => new AccountLock
     {
       Kind = AccountLockKind.Temporary,
