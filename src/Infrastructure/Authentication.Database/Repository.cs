@@ -34,12 +34,8 @@ namespace Authentication.Database
 
     protected virtual async Task<TEntity> AddAsync(TEntity entity)
     {
-      var persistedEntity = databaseContext.Set<TEntity>().AddAsync(entity);
-
-      //Save changes so the DB can genereate the identity values
-      await databaseContext.SaveChangesAsync();
-
-      return persistedEntity.Result.Entity;
+      var persistedEntity = await databaseContext.Set<TEntity>().AddAsync(entity);
+      return persistedEntity.Entity;
     }
 
     protected void Save() => databaseContext.SaveChanges();

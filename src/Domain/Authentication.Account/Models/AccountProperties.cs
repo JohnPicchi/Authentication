@@ -18,28 +18,28 @@ namespace Authentication.Account.Models
     public virtual void ResetFailedLoginAttempts()
     {
       FailedLoginAttempts = 0;
-      LastFailedLoginAttemptDateTime = new DateTime();
+      LastLoginAttempt = new DateTime();
     }
 
-    public virtual DateTime? CurrentLoginDateTime { get; set; }
+    public virtual DateTime? CurrentLogin { get; set; }
 
-    public virtual DateTime? LastLoginDateTime { get; set; }
+    public virtual DateTime? LastLogin { get; set; }
 
-    public virtual DateTime? LastFailedLoginAttemptDateTime { get; set; }
+    public virtual DateTime? LastLoginAttempt { get; set; }
 
     public virtual void UpdateLoginTimes()
     {
-      LastLoginDateTime = CurrentLoginDateTime ?? DateTime.UtcNow;
-      CurrentLoginDateTime = DateTime.UtcNow;
+      LastLogin = CurrentLogin ?? DateTime.UtcNow;
+      CurrentLogin = DateTime.UtcNow;
     }
 
     public virtual void UpdateFailedLoginAttempts()
     {
-      if (LastLoginDateTime?.AddDays(1) > DateTime.UtcNow)
+      if (LastLogin?.AddDays(1) > DateTime.UtcNow)
         ResetFailedLoginAttempts();
 
       FailedLoginAttempts += 1;
-      LastFailedLoginAttemptDateTime = DateTime.UtcNow;
+      LastLoginAttempt = DateTime.UtcNow;
     }
 
     public virtual bool PasswordResetRequired { get; set; }

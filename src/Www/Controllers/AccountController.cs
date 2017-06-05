@@ -48,12 +48,14 @@ namespace Authentication.Controllers
       return Form(form, request,
         success: () =>
         {
-          //TODO
           var account = accountRepository.Find(form.Email);
+          if (account.Properties.HasMultiFactorAuth) ;
+          //TODO
 
-          return account.Properties.HasMultiFactorAuth 
-          ? RedirectToAction(nameof(Logout))
-          : RedirectToAction(nameof(Register));
+          if (account.Properties.PasswordResetRequired) ;
+          //TODO
+
+          return RedirectToAction(nameof(AccountController.Logout));
         },
         failure: () => View(form as LoginViewModel));
     }

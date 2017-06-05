@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using Authentication.Account.Models;
 
 namespace Authentication.PresistenceModels.Models
@@ -31,21 +32,27 @@ namespace Authentication.PresistenceModels.Models
     /// <summary>
     /// The user's unique open connect id
     /// </summary>
-    public Guid? OpenConnectId { get; set; }
+    public Guid OpenConnectId { get; set; }
 
     /// <summary>
-    /// 
+    /// The method used to authenticated a 2nd time
+    /// for multifactor auth (eg: email, sms)
     /// </summary>
     public MutliFactorAuthKind MutliFactorAuthKind { get; set; }
 
     /// <summary>
     /// The last date/time (in UTC) the user logged in
     /// </summary>
-    public DateTime? LastLoginDateTime { get; set; }
+    public DateTime? LastLogin{ get; set; }
 
     /// <summary>
     /// The last date/time (in UTC) the user logged in
     /// </summary>
-    public DateTime? CurrentLoginDateTime { get; set; }
+    public DateTime? CurrentLogin { get; set; }
+
+    /// <summary>
+    /// The last time the user attempted to login, but failed
+    /// </summary>
+    public DateTime? LastLoginAttempt { get; set; }
   }
 }

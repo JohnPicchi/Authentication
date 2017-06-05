@@ -24,6 +24,7 @@ namespace Authentication.Database.Contexts
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
       optionsBuilder.UseLoggerFactory(loggerFactory);
+     
       optionsBuilder.UseSqlServer(applicationSettings.DbConnectionString, builder =>
       {
         builder.EnableRetryOnFailure();

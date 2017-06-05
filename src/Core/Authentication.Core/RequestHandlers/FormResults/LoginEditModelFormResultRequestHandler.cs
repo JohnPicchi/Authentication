@@ -40,6 +40,7 @@ namespace Authentication.Core.RequestHandlers.FormResults
           formResult = FormResult.Fail(result.ErrorMessage ?? Account.Models.Account.INCORRECT_LOGIN);
       }
 
+      accountRepository.Update(account);
       return formResult ?? FormResult.Fail(Account.Models.Account.INCORRECT_LOGIN);
     }
   }

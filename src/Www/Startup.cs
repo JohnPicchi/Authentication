@@ -60,7 +60,7 @@ namespace Authentication
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
-        //loggerFactory.AddConsole(LogLevel.Information);
+        loggerFactory.AddConsole(LogLevel.Information);
       }
       loggerFactory.AddProvider(new DatabaseLoggerProvider());
 

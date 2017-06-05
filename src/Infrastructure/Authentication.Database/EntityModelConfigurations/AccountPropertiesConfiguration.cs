@@ -20,17 +20,22 @@ namespace Authentication.Database.EntityModelConfigurations
       builder.Property(p => p.FailedLoginAttempts)
         .IsRequired(false);
 
-      builder.Property(p => p.CurrentLoginDateTime)
+      builder.Property(p => p.CurrentLogin)
         .IsRequired(false);
 
-      builder.Property(p => p.LastLoginDateTime)
+      builder.Property(p => p.LastLogin)
         .IsRequired(false);
 
       builder.Property(p => p.PasswordResetRequired)
         .IsRequired(false);
 
+      builder.HasIndex(p => p.OpenConnectId)
+        .IsUnique(true);
+
+      builder.HasAlternateKey(p => p.OpenConnectId);
       builder.Property(p => p.OpenConnectId)
-        .IsRequired(false);
+        .ValueGeneratedOnAdd()
+        .IsRequired(true);
     }
   }
 }

@@ -11,6 +11,7 @@ namespace Authentication.Database.EntityModelConfigurations
   {
     public override void Configure(EntityTypeBuilder<PresistenceModels.Models.Account> builder)
     {
+      builder.HasIndex(p => p.Username).IsUnique();
       builder.Property(p => p.Username)
         .IsRequired(true)
         .HasMaxLength(Helper.MaxLength.Email)

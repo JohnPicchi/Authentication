@@ -24,10 +24,12 @@ namespace Authentication.Account.Models
 
     public Account(
       IAccountRepository accountRepository, 
-      IUserRepository userRepository)
+      IUserRepository userRepository,
+      IUserFactory userFactory)
     {
       this.accountRepository = accountRepository;
       this.userRepository = userRepository;
+      this.userFactory = userFactory;
     }
 
     public delegate Account Factory(
@@ -41,7 +43,7 @@ namespace Authentication.Account.Models
 
     public virtual bool IsAuthenticated { get; private set; }
 
-    public virtual bool IsVerified { get; set; }
+    public virtual bool IsVerified { get; set; } = false;
 
     public virtual bool IsLocked => Locks.Any(l => l.IsValid);
 
