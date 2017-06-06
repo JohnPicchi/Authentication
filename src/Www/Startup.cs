@@ -91,7 +91,7 @@ namespace Authentication
       //Takes care of the OpenIdConnect part
       app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
       {
-        AuthenticationScheme = "oidc",
+        AuthenticationScheme = "oidc",    //needs to be unique for each authentication middleware
         SignInScheme = "Cookies",   //tells the application which authentication middleware does the local sign-in part (the very last part)
         Authority = "http://localhost:5000",
         RequireHttpsMetadata = false,
