@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Authentication.Account;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.EditModels;
 using Authentication.PresentationModels.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Authentication.Controllers
@@ -61,9 +63,13 @@ namespace Authentication.Controllers
     }
 
     [HttpGet]
+    [Authorize]
     public IActionResult Logout()
     {
-      return Json("Congrats you logged out");
+      var claims = User.Claims
+        .Select(c => new {c.Type, c.Value});
+
+      return new JsonResult(claims);
     }
   }
 }

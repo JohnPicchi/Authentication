@@ -6,7 +6,8 @@ namespace Authentication.Controllers
   {
     public IActionResult Index()
     {
-      return RedirectToAction("Login", "Account");
+      return Json("Homepage");
+      //return RedirectToAction("Login", "Account");
     }
   }
 }

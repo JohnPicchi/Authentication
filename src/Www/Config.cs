@@ -15,7 +15,7 @@ namespace Authentication
       {
         new TestUser
         {
-          SubjectId = "123", Username = "john", Password = "john",
+          SubjectId = "123", Username = "0xdante@gmail.com", Password = "john",
           Claims = new List<System.Security.Claims.Claim>
           {
             new Claim("name", "John Picchi"),
@@ -37,20 +37,32 @@ namespace Authentication
         {
           ClientId = "mvc",
           ClientName = "MVC Client",
-          AllowedGrantTypes = GrantTypes.Implicit,
+          AllowedGrantTypes = GrantTypes.Hybrid,
           ClientSecrets = new List<Secret>{ new Secret("secret".Sha256()) },
           // where to redirect to after login
-          //RedirectUris = { "http://localhost:5002/signin-oidc" },
+          RedirectUris = { "http://localhost:5000/signin-oidc" },
 
           // where to redirect to after logout
           //PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
+          RequireConsent = false,
 
           AllowedScopes = new List<string>
           {
             IdentityServerConstants.StandardScopes.OpenId,
-            IdentityServerConstants.StandardScopes.Profile
+            IdentityServerConstants.StandardScopes.Profile,
+            "api1"
           }
         }
+      };
+    }
+
+    public static IEnumerable<IdentityResource> GetIdentityResources()
+    {
+      return new List<IdentityResource>
+      {
+        new IdentityResources.OpenId(),
+        new IdentityResources.Profile(),
+        new IdentityResource("custom", new[] {"location", "status"})
       };
     }
 
@@ -58,7 +70,7 @@ namespace Authentication
     {
       return new List<ApiResource>
       {
-        new ApiResource("api", "My API"),
+        new ApiResource("api1", "My API"),
         //new ApiResource
         //{
         //  Name = "complicated_api",

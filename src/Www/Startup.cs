@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using Authentication.Core.Models;
 using Authentication.Database;
 using Authentication.Database.Contexts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -35,14 +37,23 @@ namespace Authentication
     {
       services.AddMvc(opt =>
       {
+        var policy = new AuthorizationPolicyBuilder()
+          .RequireAuthenticatedUser()
+          .Build();
+       
+        //opt.Filters.Add(new AuthorizeFilter(policy));
         opt.Filters.Add(typeof(DatabaseContextTransactionFilter));
       });
 
-      services.AddIdentityServer()
+      services.AddIdentityServer(opts =>
+        {
+          //opts.Discovery.ShowEndpoints = true;
+        })
         //.AddSigningCredential()
         .AddTemporarySigningCredential()
         .AddInMemoryClients(Config.GetClients())
         .AddInMemoryApiResources(Config.GetApiResources())
+        .AddInMemoryIdentityResources(Config.GetIdentityResources())
         .AddTestUsers(Config.GetTestUsers());
 
       services.AddLogging();
@@ -64,8 +75,33 @@ namespace Authentication
       }
       loggerFactory.AddProvider(new DatabaseLoggerProvider());
 
-      app.UseIdentityServer();
       app.UseStaticFiles();
+
+      //Takes care of the local sign-in part
+      app.UseCookieAuthentication(new CookieAuthenticationOptions
+      {
+        AuthenticationScheme = "Cookies"
+      });
+
+      //Gets the claims exactly how the issuer gave it to you. 
+      //If left out, the claim type gets fucked up and turned into a url
+      //(eg: http://schemas.microsoft.com/identity/claims/identityprovider)
+      JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();   
+
+      //Takes care of the OpenIdConnect part
+      app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
+      {
+        AuthenticationScheme = "oidc",
+        SignInScheme = "Cookies",   //tells the application which authentication middleware does the local sign-in part (the very last part)
+        Authority = "http://localhost:5000",
+        RequireHttpsMetadata = false,
+        ClientId = "mvc",
+        ClientSecret = "secret",    //needed to authenticate on the back-channel to get the actual access token
+        ResponseType = "code id_token",  //what we want to get back from the token service
+        Scope = { "openid", "profile", "api1"},     //openid is mandatory...openid = userid
+        SaveTokens = true   //takes the access token and stores it in the cookie
+      });
+
       app.UseMvc(routes =>
       {
         routes.MapRoute(

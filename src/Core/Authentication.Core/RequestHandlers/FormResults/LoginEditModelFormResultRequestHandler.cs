@@ -3,6 +3,7 @@ using Authentication.Account;
 using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.EditModels;
+using Microsoft.AspNetCore.Http;
 
 namespace Authentication.Core.RequestHandlers.FormResults
 {
