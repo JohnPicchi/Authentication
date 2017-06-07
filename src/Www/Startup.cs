@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using Authentication.Controllers;
 using Authentication.Core.Models;
 using Authentication.Database;
 using Authentication.Database.Contexts;
+using Authentication.Utilities.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -47,6 +49,7 @@ namespace Authentication
 
       services.AddIdentityServer(opts =>
         {
+          opts.UserInteraction.LoginUrl = Helper.LocalPath<AccountController>(nameof(AccountController.Login));
           //opts.Discovery.ShowEndpoints = true;
         })
         //.AddSigningCredential()
@@ -77,6 +80,8 @@ namespace Authentication
 
       app.UseStaticFiles();
 
+      app.UseIdentityServer();
+
       //Takes care of the local sign-in part
       app.UseCookieAuthentication(new CookieAuthenticationOptions
       {
@@ -86,7 +91,8 @@ namespace Authentication
       //Gets the claims exactly how the issuer gave it to you. 
       //If left out, the claim type gets fucked up and turned into a url
       //(eg: http://schemas.microsoft.com/identity/claims/identityprovider)
-      JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();   
+      JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
 
       //Takes care of the OpenIdConnect part
       app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
@@ -100,6 +106,7 @@ namespace Authentication
         ResponseType = "code id_token",  //what we want to get back from the token service
         Scope = { "openid", "profile", "api1"},     //openid is mandatory...openid = userid
         SaveTokens = true   //takes the access token and stores it in the cookie
+
       });
 
       app.UseMvc(routes =>

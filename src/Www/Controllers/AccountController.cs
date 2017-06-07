@@ -4,6 +4,7 @@ using Authentication.Account;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.EditModels;
 using Authentication.PresentationModels.ViewModels;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +12,14 @@ namespace Authentication.Controllers
 {
   public class AccountController : DefaultController
   {
+    private readonly IIdentityServerInteractionService interactionService;
     private readonly IAccountRepository accountRepository;
 
-    public AccountController(IAccountRepository accountRepository)
+    public AccountController(
+      IIdentityServerInteractionService interactionService, 
+      IAccountRepository accountRepository)
     {
+      this.interactionService = interactionService;
       this.accountRepository = accountRepository;
     }
 
