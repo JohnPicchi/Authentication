@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
+using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
@@ -9,25 +10,27 @@ namespace Authentication
   public class Config
   {
 
-    public static List<TestUser> GetTestUsers()
-    {
-      return new List<TestUser>
-      {
-        new TestUser
-        {
-          SubjectId = "123", Username = "0xdante@gmail.com", Password = "john",
-          Claims = new List<System.Security.Claims.Claim>
-          {
-            new Claim("name", "John Picchi"),
-            new Claim("email", "0xdante@gmail.com"),
-            new Claim("location", "USA")
-          }
-        }
-      };
-    }
+    //public static List<TestUser> GetTestUsers()
+    //{
+    //  return new List<TestUser>
+    //  {
+    //    new TestUser
+    //    {
+    //      SubjectId = "D361A7A9-2675-4500-C415-08D4B11524D2", Username = "0xdante@gmail.com", Password = "1",
+    //      Claims = new List<Claim>
+    //      {
+    //        new Claim("name", "John Picchi"),
+    //        new Claim("email", "0xdante@gmail.com"),
+    //        new Claim(JwtClaimTypes.Role, "Administrator"),
+    //        new Claim("location", "USA")
+    //      }
+    //    }
+    //  };
+    //}
 
     public static IEnumerable<Client> GetClients()
     {
+
       return new List<Client>
       {
         // other clients omitted...
@@ -35,13 +38,13 @@ namespace Authentication
         // OpenID Connect implicit flow client (MVC)
         new Client
         {
-          ClientId = "mvc",
-          ClientName = "MVC Client",
-          AllowedGrantTypes = GrantTypes.Hybrid,
+          ClientId = "mvc.AuthenticationServer",
+          ClientName = "Authentication Server",
+          AllowedGrantTypes = GrantTypes.Implicit,
+          AlwaysIncludeUserClaimsInIdToken = true,
           ClientSecrets = new List<Secret>{ new Secret("secret".Sha256()) },
           // where to redirect to after login
           RedirectUris = { "http://localhost:5000/signin-oidc" },
-
           // where to redirect to after logout
           //PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
           RequireConsent = false,
@@ -49,8 +52,7 @@ namespace Authentication
           AllowedScopes = new List<string>
           {
             IdentityServerConstants.StandardScopes.OpenId,
-            IdentityServerConstants.StandardScopes.Profile,
-            "api1"
+            IdentityServerConstants.StandardScopes.Profile
           }
         }
       };
@@ -58,10 +60,19 @@ namespace Authentication
 
     public static IEnumerable<IdentityResource> GetIdentityResources()
     {
+      var test = new IdentityResource
+      {
+        Name = "test",
+        DisplayName = "test",
+        Enabled = true,
+        UserClaims = {"role"}
+      };
+
       return new List<IdentityResource>
       {
         new IdentityResources.OpenId(),
         new IdentityResources.Profile(),
+        test,
         new IdentityResource("custom", new[] {"location", "status"})
       };
     }
@@ -87,6 +98,5 @@ namespace Authentication
         //}
       };
     }
-
   }
 }

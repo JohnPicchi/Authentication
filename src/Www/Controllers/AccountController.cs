@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Authentication.Account;
+using Authentication.Core.Requests;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.EditModels;
 using Authentication.PresentationModels.ViewModels;
-using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,14 +12,10 @@ namespace Authentication.Controllers
 {
   public class AccountController : DefaultController
   {
-    private readonly IIdentityServerInteractionService interactionService;
     private readonly IAccountRepository accountRepository;
 
-    public AccountController(
-      IIdentityServerInteractionService interactionService, 
-      IAccountRepository accountRepository)
+    public AccountController(IAccountRepository accountRepository)
     {
-      this.interactionService = interactionService;
       this.accountRepository = accountRepository;
     }
 
@@ -27,8 +23,7 @@ namespace Authentication.Controllers
     public IActionResult Register() => View(new RegisterViewModel());
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Register(RegisterEditModel form, 
+    public async Task<IActionResult> Register(RegisterEditModel form,
       [FromServices] IFormResultRequestAsync<RegisterEditModel> request)
     {
       return await FormAsync(form, request,
@@ -48,23 +43,16 @@ namespace Authentication.Controllers
     public IActionResult Login() => View(new LoginViewModel());
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult Login(LoginEditModel form, 
-      [FromServices] IFormResultRequest<LoginEditModel> request)
+    public async Task<IActionResult> Login(LoginEditModel form, 
+      [FromServices] AccountLoginRequestAsync request)
     {
-      return Form(form, request,
-        success: () =>
-        {
-          var account = accountRepository.Find(form.Email);
-          if (account.Properties.HasMultiFactorAuth) ;
-          //TODO
+      request.Form = form;
+      var account = await request.HandleAsync();
 
-          if (account.Properties.PasswordResetRequired) ;
-          //TODO
+      if(account.IsAuthenticated)
+        return RedirectToAction("Logout");
 
-          return RedirectToAction(nameof(AccountController.Logout));
-        },
-        failure: () => View(form as LoginViewModel));
+      return RedirectToAction("Login");
     }
 
     [HttpGet]

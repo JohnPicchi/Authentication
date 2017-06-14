@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Authentication.Core.RequestHandlers.Contracts;
-using Authentication.Core.Requests.Contracts;
+﻿using Authentication.Core.Requests.Contracts;
 
-namespace Authentication.Core.RequestHandlers.FormResults
+namespace Authentication.Core.RequestHandlers
 {
   public class FormResult : IFormResult
   {

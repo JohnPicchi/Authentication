@@ -18,6 +18,8 @@ namespace Authentication.PresentationModels.EditModels
     [MaxLength(Helper.MaxLength.Password, ErrorMessage = "Password cannot exceed 256 characters")]
     public string Password { get; set; }
 
-    public bool RememberLogin { get; set; }
+    public bool RememberLogin { get; set; } = true;
+
+    public string ReturnUrl { get; set; }
   }
 }

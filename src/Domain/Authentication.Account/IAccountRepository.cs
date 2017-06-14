@@ -17,7 +17,7 @@ namespace Authentication.Account
 
     bool AddOrUpdate(Models.Account account);
 
-    Models.Account Find(string username);
+    Task<Models.Account> FindAsync(string username);
 
     Models.Account Find(Guid accountId);
 

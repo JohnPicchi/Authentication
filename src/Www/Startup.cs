@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using Authentication.Controllers;
 using Authentication.Core.Models;
 using Authentication.Database;
@@ -9,6 +8,7 @@ using Authentication.Utilities.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -37,27 +37,34 @@ namespace Authentication
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public IServiceProvider ConfigureServices(IServiceCollection services)
     {
+
+      services.AddAuthentication(opt =>
+      {
+        opt.SignInScheme = "Cookies";
+      });
+
+
+      services.AddAuthorization(opt =>
+      {
+        opt.DefaultPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+      });
+
       services.AddMvc(opt =>
       {
-        var policy = new AuthorizationPolicyBuilder()
-          .RequireAuthenticatedUser()
-          .Build();
-       
-        //opt.Filters.Add(new AuthorizeFilter(policy));
+        opt.Filters.Add(typeof(AutoValidateAntiforgeryTokenAttribute));
         opt.Filters.Add(typeof(DatabaseContextTransactionFilter));
       });
 
       services.AddIdentityServer(opts =>
-        {
-          opts.UserInteraction.LoginUrl = Helper.LocalPath<AccountController>(nameof(AccountController.Login));
-          //opts.Discovery.ShowEndpoints = true;
-        })
-        //.AddSigningCredential()
-        .AddTemporarySigningCredential()
-        .AddInMemoryClients(Config.GetClients())
-        .AddInMemoryApiResources(Config.GetApiResources())
-        .AddInMemoryIdentityResources(Config.GetIdentityResources())
-        .AddTestUsers(Config.GetTestUsers());
+      {
+        //opts.Endpoints.EnableUserInfoEndpoint = true;
+        opts.UserInteraction.LoginUrl = Helper.LocalPath<AccountController>(nameof(AccountController.Login));
+      })
+      //.AddSigningCredential()
+      .AddTemporarySigningCredential()
+      .AddInMemoryClients(Config.GetClients())
+      .AddInMemoryApiResources(Config.GetApiResources())
+      .AddInMemoryIdentityResources(Config.GetIdentityResources());
 
       services.AddLogging();
       services.AddOptions();
@@ -76,6 +83,7 @@ namespace Authentication
         app.UseDeveloperExceptionPage();
         loggerFactory.AddConsole(LogLevel.Information);
       }
+
       loggerFactory.AddProvider(new DatabaseLoggerProvider());
 
       app.UseStaticFiles();
@@ -85,14 +93,13 @@ namespace Authentication
       //Takes care of the local sign-in part
       app.UseCookieAuthentication(new CookieAuthenticationOptions
       {
-        AuthenticationScheme = "Cookies"
+        AuthenticationScheme = "Cookies",
       });
 
       //Gets the claims exactly how the issuer gave it to you. 
       //If left out, the claim type gets fucked up and turned into a url
       //(eg: http://schemas.microsoft.com/identity/claims/identityprovider)
       JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
 
       //Takes care of the OpenIdConnect part
       app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
@@ -101,12 +108,14 @@ namespace Authentication
         SignInScheme = "Cookies",   //tells the application which authentication middleware does the local sign-in part (the very last part)
         Authority = "http://localhost:5000",
         RequireHttpsMetadata = false,
-        ClientId = "mvc",
+        AutomaticChallenge = true,
+        AutomaticAuthenticate = true,
+        GetClaimsFromUserInfoEndpoint = true,
+        ClientId = "mvc.AuthenticationServer",
         ClientSecret = "secret",    //needed to authenticate on the back-channel to get the actual access token
         ResponseType = "code id_token",  //what we want to get back from the token service
-        Scope = { "openid", "profile", "api1"},     //openid is mandatory...openid = userid
-        SaveTokens = true   //takes the access token and stores it in the cookie
-
+        Scope = { "openid", "test", "profile"},     //openid is mandatory...openid = userid
+        SaveTokens = true,   //takes the access token and stores it in the cookie
       });
 
       app.UseMvc(routes =>

@@ -1,21 +1,17 @@
-﻿using System;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Authentication.Account;
-using Authentication.Account.Models;
 using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.EditModels;
 
-namespace Authentication.Core.RequestHandlers.FormResults
+namespace Authentication.Core.RequestHandlers
 {
-  public class RegisterEditModelFormResultRequestHandlerAsync : IFormResultRequestHandlerAsync<RegisterEditModel>
+  public class RegisterEditModelRequestHandlerAsync : IFormResultRequestHandlerAsync<RegisterEditModel>
   {
     private readonly IAccountRepository accountRepository;
     private readonly IAccountFactory accountFactory;
 
-    public RegisterEditModelFormResultRequestHandlerAsync(IAccountRepository accountRepository, IAccountFactory accountFactory)
+    public RegisterEditModelRequestHandlerAsync(IAccountRepository accountRepository, IAccountFactory accountFactory)
     {
       this.accountRepository = accountRepository;
       this.accountFactory = accountFactory;

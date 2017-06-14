@@ -101,14 +101,14 @@ namespace Authentication.Repositories
         : mapper.Map(persistedAccount, AccountFactory.Create());
     }
 
-    public Account.Models.Account Find(string username)
+    public async Task<Account.Models.Account> FindAsync(string username)
     {
       var persistedAccount = username.HasValue()
-        ? Query().Where(a => a.Username == username)
+        ? await Query().Where(a => a.Username == username)
           .Include(a => a.Properties)
           .Include(a => a.Claims)
           .Include(a => a.Locks)
-          .SingleOrDefault()
+          .SingleOrDefaultAsync()
         : null;
 
       return persistedAccount == null

@@ -18,8 +18,6 @@ namespace Authentication.Controllers
         var formResult = request.Handle(form);
         if (formResult.Success)
           return success();
-
-        ModelState.AddModelError("error", formResult.ErrorMessage);
       }
       return failure();
     }
@@ -35,8 +33,6 @@ namespace Authentication.Controllers
         var formResult = await request.HandleAsync(form);
         if (formResult.Success)
           return success();
-
-        ModelState.AddModelError("error", formResult.ErrorMessage);
       }
       return failure();
     }

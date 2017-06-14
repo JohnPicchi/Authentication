@@ -89,12 +89,14 @@ namespace Authentication.Container.Modules
       ////////////////////////////////////////////
       builder.RegisterAssemblyTypes(assemblies)
         .Where(t => t.Name.EndsWith("Request"))
-        .AsClosedTypesOf(typeof(IRequest<,>))
+        //.AsClosedTypesOf(typeof(IRequest<,>))
+        .AsSelf()
         .InstancePerLifetimeScope();
 
       builder.RegisterAssemblyTypes(assemblies)
         .Where(t => t.Name.EndsWith("RequestAsync"))
-        .AsClosedTypesOf(typeof(IRequestAsync<,>))
+        //.AsClosedTypesOf(typeof(IRequestAsync<,>))
+        .AsSelf()
         .InstancePerLifetimeScope();
 
       builder.RegisterGeneric(typeof(FormResultRequest<>))
