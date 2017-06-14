@@ -43,16 +43,12 @@ namespace Authentication.Controllers
     public IActionResult Login() => View(new LoginViewModel());
 
     [HttpPost]
-    public async Task<IActionResult> Login(LoginEditModel form, 
-      [FromServices] AccountLoginRequestAsync request)
+    public async Task<IActionResult> Login(LoginEditModel form,
+      [FromServices] IFormResultRequestAsync<LoginEditModel> request)
     {
-      request.Form = form;
-      var account = await request.HandleAsync();
-
-      if(account.IsAuthenticated)
-        return RedirectToAction("Logout");
-
-      return RedirectToAction("Login");
+      return await FormAsync(form, request,
+        success: () => RedirectToAction("Logout"),
+        failure: () => RedirectToAction("Login"));
     }
 
     [HttpGet]
