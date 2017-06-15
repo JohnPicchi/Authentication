@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Authentication.Database.Contexts;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.EntityFrameworkCore;
 
-namespace Authentication.Database
+namespace Authentication.Filters
 {
   public class DatabaseContextTransactionFilter : IAsyncActionFilter
   {

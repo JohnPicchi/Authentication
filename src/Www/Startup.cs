@@ -4,6 +4,8 @@ using Authentication.Controllers;
 using Authentication.Core.Models;
 using Authentication.Database;
 using Authentication.Database.Contexts;
+using Authentication.Filters;
+using Authentication.PresentationModels.Validation;
 using Authentication.Utilities.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
