@@ -18,7 +18,6 @@ namespace Authentication.Account.Models
     public virtual void ResetFailedLoginAttempts()
     {
       FailedLoginAttempts = 0;
-      LastLoginAttempt = new DateTime();
     }
 
     public virtual DateTime? CurrentLogin { get; set; }
@@ -35,7 +34,7 @@ namespace Authentication.Account.Models
 
     public virtual void UpdateFailedLoginAttempts()
     {
-      if (LastLogin?.AddDays(1) > DateTime.UtcNow)
+      if (LastLoginAttempt?.AddHours(12) > DateTime.UtcNow)
         ResetFailedLoginAttempts();
 
       FailedLoginAttempts += 1;

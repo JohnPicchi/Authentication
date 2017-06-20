@@ -21,9 +21,9 @@ namespace Authentication.Account.Models
     private AccountProperties accountProperties;
     private User.Models.User user;
 
-    private IList<Claim> claims;
-    private IList<Token> accountTokens;
-    private IList<AccountLock> accountLocks;
+    private IList<Claim> accountClaims = new List<Claim>();
+    private IList<Token> accountTokens = new List<Token>();
+    private IList<AccountLock> accountLocks = new List<AccountLock>();
 
     public Account(
       IAccountRepository accountRepository, 
@@ -54,46 +54,31 @@ namespace Authentication.Account.Models
 
     public virtual AccountProperties Properties
     {
-      get => accountProperties ?? (accountProperties = this.IsNew
-               ? new AccountProperties()
-               : accountRepository.AccountProperties(this.Id) ?? new AccountProperties());
-
+      get => accountProperties ?? (accountProperties = new AccountProperties());
       set => accountProperties = value;
     }
 
     public virtual User.Models.User User
     {
-      get => user ?? (user = this.IsNew
-               ? userFactory.Create()
-               : userRepository.FindByAccountId(this.Id) ?? userFactory.Create());
-
+      get => user ?? (user = userRepository.FindByAccountId(this.Id) ?? userFactory.Create());
       set => user = value;
     }
 
     public virtual IList<Claim> Claims
     {
-      get => claims ?? (claims = this.IsNew
-               ? new List<Claim>()
-               : accountRepository.AccountClaims(this.Id) ?? new List<Claim>());
-
-      set => claims = value;
+      get => accountClaims ?? (accountClaims = new List<Claim>());
+      set => accountClaims = value;
     }
 
     public virtual IList<Token> Tokens
     {
-      get => accountTokens ?? (accountTokens = this.IsNew
-              ? new List<Token>() 
-              : accountRepository.AccountTokens(this.Id) ?? new List<Token>());
-
+      get => accountTokens ?? (accountTokens = new List<Token>());
       set => accountTokens = value;
     }
 
     public virtual IList<AccountLock> Locks
     {
-      get => accountLocks ?? (accountLocks = this.IsNew
-               ? new List<AccountLock>()
-               : accountRepository.AccountLocks(this.Id) ?? new List<AccountLock>());
-
+      get => accountLocks ?? (accountLocks = new List<AccountLock>());
       set => accountLocks = value;
     }
 
@@ -101,13 +86,13 @@ namespace Authentication.Account.Models
     {
       if (VerifyToken(tokenValue, TokenKind.MultiFactorAuth))
       {
-        Properties.ResetFailedLoginAttempts();
-        Properties.UpdateLoginTimes();
+        accountProperties.ResetFailedLoginAttempts();
+        accountProperties.UpdateLoginTimes();
         IsAuthenticated = true;
         return AuthenticationResult.Success;
       }
 
-      Properties.UpdateFailedLoginAttempts();
+      accountProperties.UpdateFailedLoginAttempts();
       FailedLoginAccountLockCheck();
 
       return IsLocked 
@@ -119,22 +104,22 @@ namespace Authentication.Account.Models
     {
       if (!IsLocked)
       {
-        var correctPassword = VerifyPassword(password);
-        if (correctPassword)
+        var isCorrectPassword = VerifyPassword(password);
+        if (isCorrectPassword)
         {
-          Properties.ResetFailedLoginAttempts();
-          if (Properties.HasMultiFactorAuth)
+          accountProperties.ResetFailedLoginAttempts();
+          if (accountProperties.HasMultiFactorAuth)
           {
             //TODO: Generate token
             return AuthenticationResult.MultiFactor;
           }
 
-          Properties.UpdateLoginTimes();
+          accountProperties.UpdateLoginTimes();
           IsAuthenticated = true;
           return AuthenticationResult.Success;
         }
 
-        Properties.UpdateFailedLoginAttempts();
+        accountProperties.UpdateFailedLoginAttempts();
         FailedLoginAccountLockCheck();
       }
 
@@ -145,10 +130,10 @@ namespace Authentication.Account.Models
 
     private void FailedLoginAccountLockCheck()
     {
-      if (Properties.FailedLoginAttempts >= applicationSettings.MaxFailedLoginAttempts)
+      if (accountProperties.FailedLoginAttempts >= applicationSettings.MaxFailedLoginAttempts)
       {
         Locks.Add(AccountLock.MaxLoginAttempts);
-        Properties.ResetFailedLoginAttempts();
+        accountProperties.ResetFailedLoginAttempts();
       }
     }
 
