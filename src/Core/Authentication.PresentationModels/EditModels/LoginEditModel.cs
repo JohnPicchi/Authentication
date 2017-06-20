@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using Authentication.Utilities.Helpers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Authentication.PresentationModels.EditModels
 {
@@ -20,6 +21,7 @@ namespace Authentication.PresentationModels.EditModels
 
     public bool RememberLogin { get; set; } = true;
 
+    [HiddenInput]
     public string ReturnUrl { get; set; }
   }
 }

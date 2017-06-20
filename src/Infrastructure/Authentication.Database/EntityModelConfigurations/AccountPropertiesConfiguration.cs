@@ -29,11 +29,11 @@ namespace Authentication.Database.EntityModelConfigurations
       builder.Property(p => p.PasswordResetRequired)
         .IsRequired(false);
 
-      builder.HasIndex(p => p.OpenConnectId)
+      builder.HasIndex(p => p.OpenIdConnectId)
         .IsUnique(true);
 
-      builder.HasAlternateKey(p => p.OpenConnectId);
-      builder.Property(p => p.OpenConnectId)
+      builder.HasAlternateKey(p => p.OpenIdConnectId);
+      builder.Property(p => p.OpenIdConnectId)
         .ValueGeneratedOnAdd()
         .IsRequired(true);
     }

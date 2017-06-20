@@ -40,17 +40,34 @@ namespace Authentication
         {
           ClientId = "mvc.AuthenticationServer",
           ClientName = "Authentication Server",
-          AllowedGrantTypes = GrantTypes.Implicit,
-          AlwaysIncludeUserClaimsInIdToken = true,
+          AllowedGrantTypes = GrantTypes.Hybrid,
           ClientSecrets = new List<Secret>{ new Secret("secret".Sha256()) },
           // where to redirect to after login
           RedirectUris = { "http://localhost:5000/signin-oidc" },
           // where to redirect to after logout
-          //PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
+          //PostLogoutRedirectUris = { "http://localhost:5000/signout-callback-oidc" },
+          RequireConsent = false,
+          AllowedScopes = new List<string>
+          {
+            IdentityServerConstants.StandardScopes.OpenId,
+            IdentityServerConstants.StandardScopes.Profile
+          }
+        },
+        new Client
+        {
+          ClientId = "mvc.Test",
+          ClientName = "Test",
+          AllowedGrantTypes = GrantTypes.Hybrid,
+          ClientSecrets = new List<Secret>{ new Secret("secret".Sha256()) },
+          // where to redirect to after login
+          RedirectUris = { "http://localhost:5001/signin-oidc" },
+          // where to redirect to after logout
+          //PostLogoutRedirectUris = { "http://localhost:5001/signout-callback-oidc" },
           RequireConsent = false,
 
           AllowedScopes = new List<string>
           {
+            "test",
             IdentityServerConstants.StandardScopes.OpenId,
             IdentityServerConstants.StandardScopes.Profile
           }

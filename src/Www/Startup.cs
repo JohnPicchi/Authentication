@@ -1,13 +1,13 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using Authentication.Application.Models;
 using Authentication.Controllers;
-using Authentication.Core.Models;
 using Authentication.Database;
 using Authentication.Database.Contexts;
 using Authentication.Filters;
-using Authentication.PresentationModels.Validation;
+using Authentication.Services;
 using Authentication.Utilities.Helpers;
-using Microsoft.AspNetCore.Authorization;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -26,51 +26,54 @@ namespace Authentication
 
     public Startup(IHostingEnvironment env)
     {
-      var builder = new ConfigurationBuilder()
+      var configuration  = new ConfigurationBuilder()
         .SetBasePath(env.ContentRootPath)
         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
         .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-        .AddEnvironmentVariables();
+        .AddEnvironmentVariables()
+        .Build();
 
-      Configuration = builder.Build();
+      //var connectionString = builder.Build();
+      //var configuration = builder
+      //  // Add the EF configuration provider, which will override any
+      //  // config made with the JSON provider.
+      //  .AddEntityFrameworkConfig(opts =>
+      //  {
+      //    opts.UseSqlServer(connectionString.GetConnectionString("DefaultConnection"));
+      //  })
+      //  .Build();
+
+      Configuration = configuration;
     }
 
     // This method gets called by the runtime. Use this method to add services to the container.
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public IServiceProvider ConfigureServices(IServiceCollection services)
     {
-
-      services.AddAuthentication(opt =>
+      services.AddMvc(opts =>
       {
-        opt.SignInScheme = "Cookies";
-      });
-
-
-      services.AddAuthorization(opt =>
-      {
-        opt.DefaultPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-      });
-
-      services.AddMvc(opt =>
-      {
-        opt.Filters.Add(typeof(AutoValidateAntiforgeryTokenAttribute));
-        opt.Filters.Add(typeof(DatabaseContextTransactionFilter));
+        opts.Filters.Add(typeof(AutoValidateAntiforgeryTokenAttribute));
+        opts.Filters.Add(typeof(DatabaseContextTransactionFilter));
+        opts.Filters.Add(typeof(SecurityHeadersFilter));
       });
 
       services.AddIdentityServer(opts =>
       {
-        //opts.Endpoints.EnableUserInfoEndpoint = true;
+        opts.Endpoints.EnableUserInfoEndpoint = true;
         opts.UserInteraction.LoginUrl = Helper.LocalPath<AccountController>(nameof(AccountController.Login));
       })
       //.AddSigningCredential()
       .AddTemporarySigningCredential()
       .AddInMemoryClients(Config.GetClients())
       .AddInMemoryApiResources(Config.GetApiResources())
-      .AddInMemoryIdentityResources(Config.GetIdentityResources());
+      .AddInMemoryIdentityResources(Config.GetIdentityResources())
+      .AddProfileService<ProfileService>();
 
+      //services.AddTransient<IClaimsService, ClaimsService>();
+      services.AddTransient<IProfileService, ProfileService>();
       services.AddLogging();
       services.AddOptions();
-      services.Configure<ApplicationSettings>(Configuration.GetSection("AppSettings"));
+      services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
 
       services.AddDbContext<DatabaseContext>();
 
@@ -87,7 +90,6 @@ namespace Authentication
       }
 
       loggerFactory.AddProvider(new DatabaseLoggerProvider());
-
       app.UseStaticFiles();
 
       app.UseIdentityServer();
@@ -95,7 +97,7 @@ namespace Authentication
       //Takes care of the local sign-in part
       app.UseCookieAuthentication(new CookieAuthenticationOptions
       {
-        AuthenticationScheme = "Cookies",
+        AuthenticationScheme = "cookies"
       });
 
       //Gets the claims exactly how the issuer gave it to you. 
@@ -107,17 +109,14 @@ namespace Authentication
       app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
       {
         AuthenticationScheme = "oidc",    //needs to be unique for each authentication middleware
-        SignInScheme = "Cookies",   //tells the application which authentication middleware does the local sign-in part (the very last part)
+        SignInScheme = "cookies",   //tells the application which authentication middleware does the local sign-in part (the very last part)
         Authority = "http://localhost:5000",
         RequireHttpsMetadata = false,
-        AutomaticChallenge = true,
-        AutomaticAuthenticate = true,
         GetClaimsFromUserInfoEndpoint = true,
         ClientId = "mvc.AuthenticationServer",
         ClientSecret = "secret",    //needed to authenticate on the back-channel to get the actual access token
         ResponseType = "code id_token",  //what we want to get back from the token service
-        Scope = { "openid", "test", "profile"},     //openid is mandatory...openid = userid
-        SaveTokens = true,   //takes the access token and stores it in the cookie
+        Scope = { "openid", "profile"}     //openid is mandatory...openid = userid
       });
 
       app.UseMvc(routes =>

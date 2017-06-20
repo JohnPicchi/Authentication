@@ -6,7 +6,6 @@ using Authentication.Account;
 using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.EditModels;
-using IdentityServer4;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Authentication;
 
@@ -28,11 +27,9 @@ namespace Authentication.Core.RequestHandlers
       var account = await accountRepository.FindAsync(request.Email);
 
       IFormResult formResult = null;
-
       if (account != null)
       {
         var authenticationResult = account.Authenticate(request.Password);
-
         if (authenticationResult.Status == AuthenticationStatus.Sucess)
         {
           await Login(request, account);
@@ -59,10 +56,8 @@ namespace Authentication.Core.RequestHandlers
         ? new AuthenticationProperties { IsPersistent = true, IssuedUtc = DateTime.UtcNow, ExpiresUtc = DateTime.UtcNow.AddMonths(1) }
         : null;
 
-      var openConnectId = account.Properties.OpenConnectId.ToString();
-      var principal = IdentityServerPrincipal.Create(openConnectId, account.Username);
-
-      await authenticationManager.SignInAsync(IdentityServerConstants.DefaultCookieAuthenticationScheme, principal, authenticationProperties);
+      var subjectId = account.Properties.OpenIdConnectId.ToString();
+      await authenticationManager.SignInAsync(subjectId, account.Username, authenticationProperties);
     }
 
 

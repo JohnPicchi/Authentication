@@ -78,7 +78,7 @@ namespace Authentication.Database.Contexts
         .ToList()
         .ForEach(e =>
         {
-          if (e.State == EntityState.Added)
+          if (e.State == EntityState.Added && e.Entity.DateCreated == null)
             e.Entity.DateCreated = DateTime.UtcNow;
           else
             e.Entity.DateUpdated = DateTime.UtcNow;

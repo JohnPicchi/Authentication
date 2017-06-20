@@ -1,4 +1,5 @@
-﻿using Authentication.PresistenceModels.Models;
+﻿using System.Security.Claims;
+using Authentication.PresistenceModels.Models;
 using AutoMapper;
 namespace Authentication.PresistenceModels.MappingProfiles
 {
@@ -17,11 +18,11 @@ namespace Authentication.PresistenceModels.MappingProfiles
 
       CreateMap<AccountProperties, Account.Models.AccountProperties>();
 
-      CreateMap<AccountClaim, Account.Models.AccountClaim>();
+      CreateMap<AccountClaim, Claim>();
 
       CreateMap<AccountLock, Account.Models.AccountLock>();
 
-      CreateMap<AccountToken, Account.Models.AccountToken>();
+      CreateMap<AccountToken, Account.Models.Token>();
     }
   }
 }

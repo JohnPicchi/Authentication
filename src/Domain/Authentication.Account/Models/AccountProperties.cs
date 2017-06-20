@@ -44,7 +44,7 @@ namespace Authentication.Account.Models
 
     public virtual bool PasswordResetRequired { get; set; }
 
-    public virtual Guid OpenConnectId { get; set; }
+    public virtual Guid OpenIdConnectId { get; set; }
 
     public virtual MutliFactorAuthKind MultiFactorAuthKind { get; set; }
 

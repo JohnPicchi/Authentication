@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Authentication.Core.Models;
 using Authentication.Core.Models.Contracts;
 using Autofac;
 using Microsoft.Extensions.Options;
-using ApplicationContext = Authentication.Core.Models.ApplicationContext;
 
 namespace Authentication.Container.Modules
 {
@@ -13,7 +11,7 @@ namespace Authentication.Container.Modules
   {
     protected override void Load(ContainerBuilder builder)
     {
-      builder.Register(t => t.Resolve<IOptionsSnapshot<ApplicationSettings>>().Value)
+      builder.Register(t => t.Resolve<IOptionsSnapshot<Application.Models.ApplicationSettings>>().Value)
         .AsSelf()
         .As<IApplicationSettings>()
         .InstancePerLifetimeScope();
@@ -23,7 +21,7 @@ namespace Authentication.Container.Modules
      //   .As<IUser>()
      //   .InstancePerLifetimeScope();
 
-      builder.RegisterType<ApplicationContext>()
+      builder.RegisterType<Application.Models.ApplicationContext>()
         .AsSelf()
         .As<IApplicationContext>()
         .InstancePerLifetimeScope();

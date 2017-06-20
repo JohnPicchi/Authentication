@@ -13,4 +13,10 @@
     <ProjectReference Include="..\..\Domain\Authentication.User\Authentication.User.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="System.Security.Claims">
+      <HintPath>..\..\..\..\..\Users\John\.nuget\packages\system.security.claims\4.3.0\ref\netstandard1.3\System.Security.Claims.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,5 @@
-﻿using Authentication.PresistenceModels.Models;
+﻿using System.Security.Claims;
+using Authentication.PresistenceModels.Models;
 using AutoMapper;
 using AccountClaim = Authentication.PresistenceModels.Models.AccountClaim;
 using AccountLock = Authentication.PresistenceModels.Models.AccountLock;
@@ -15,9 +16,9 @@ namespace Authentication.PresistenceModels.MappingProfiles
 
       CreateMap<Account.Models.Account, Models.Account>();
       CreateMap<Account.Models.AccountProperties, AccountProperties>();
-      CreateMap<Account.Models.AccountClaim, AccountClaim>();
+      CreateMap<Claim, AccountClaim>();
       CreateMap<Account.Models.AccountLock, AccountLock>();
-      CreateMap<Account.Models.AccountToken, AccountToken>();
+      CreateMap<Account.Models.Token, AccountToken>();
       }
   }
 }

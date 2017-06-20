@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.User", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Services", "src\Core\Authentication.Services\Authentication.Services.csproj", "{C40A243B-04F2-4AAD-B454-310CAE84FC35}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Application", "src\Domain\Authentication.Application\Authentication.Application.csproj", "{E36582C0-3587-4081-A5C1-A5E3C10D3C8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{C40A243B-04F2-4AAD-B454-310CAE84FC35}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C40A243B-04F2-4AAD-B454-310CAE84FC35}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C40A243B-04F2-4AAD-B454-310CAE84FC35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E36582C0-3587-4081-A5C1-A5E3C10D3C8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E36582C0-3587-4081-A5C1-A5E3C10D3C8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E36582C0-3587-4081-A5C1-A5E3C10D3C8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E36582C0-3587-4081-A5C1-A5E3C10D3C8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,5 +122,6 @@ Global
 		{22F70280-5922-4AA2-83B9-A92BCC9913BF} = {051990A9-1803-479C-B427-C550B0E8D964}
 		{DD6451BD-4C99-4C57-B82C-C1A384B8DDE2} = {051990A9-1803-479C-B427-C550B0E8D964}
 		{C40A243B-04F2-4AAD-B454-310CAE84FC35} = {600F3B15-F9BB-44D5-A061-2471F493D3B8}
+		{E36582C0-3587-4081-A5C1-A5E3C10D3C8C} = {051990A9-1803-479C-B427-C550B0E8D964}
 	EndGlobalSection
 EndGlobal

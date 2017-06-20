@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Authentication.Application\Authentication.Application.csproj" />
     <ProjectReference Include="..\Authentication.Domain\Authentication.Domain.csproj" />
     <ProjectReference Include="..\Authentication.User\Authentication.User.csproj" />
   </ItemGroup>
@@ -20,6 +21,9 @@
     </Reference>
     <Reference Include="BCrypt.Net-Core">
       <HintPath>..\..\..\..\..\Users\John\.nuget\packages\bcrypt.net-core\1.4.0\lib\netstandard1.3\BCrypt.Net-Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Claims">
+      <HintPath>..\..\..\..\..\Users\John\.nuget\packages\system.security.claims\4.3.0\ref\netstandard1.3\System.Security.Claims.dll</HintPath>
     </Reference>
   </ItemGroup>
 

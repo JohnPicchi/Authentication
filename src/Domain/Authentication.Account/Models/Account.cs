@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using Authentication.Core.Models.Contracts;
 using Authentication.Domain;
 using Authentication.User;
 
@@ -14,22 +16,25 @@ namespace Authentication.Account.Models
     private readonly IAccountRepository accountRepository;
     private readonly IUserFactory userFactory;
     private readonly IUserRepository userRepository;
+    private readonly IApplicationSettings applicationSettings;
 
     private AccountProperties accountProperties;
     private User.Models.User user;
 
-    private IList<AccountClaim> accountClaims;
-    private IList<AccountToken> accountTokens;
+    private IList<Claim> claims;
+    private IList<Token> accountTokens;
     private IList<AccountLock> accountLocks;
 
     public Account(
       IAccountRepository accountRepository, 
       IUserRepository userRepository,
-      IUserFactory userFactory)
+      IUserFactory userFactory,
+      IApplicationSettings applicationSettings)
     {
       this.accountRepository = accountRepository;
       this.userRepository = userRepository;
       this.userFactory = userFactory;
+      this.applicationSettings = applicationSettings;
     }
 
     public delegate Account Factory(
@@ -65,20 +70,20 @@ namespace Authentication.Account.Models
       set => user = value;
     }
 
-    public virtual IList<AccountClaim> Claims
+    public virtual IList<Claim> Claims
     {
-      get => accountClaims ?? (accountClaims = this.IsNew
-               ? new List<AccountClaim>()
-               : accountRepository.AccountClaims(this.Id) ?? new List<AccountClaim>());
+      get => claims ?? (claims = this.IsNew
+               ? new List<Claim>()
+               : accountRepository.AccountClaims(this.Id) ?? new List<Claim>());
 
-      set => accountClaims = value;
+      set => claims = value;
     }
 
-    public virtual IList<AccountToken> Tokens
+    public virtual IList<Token> Tokens
     {
       get => accountTokens ?? (accountTokens = this.IsNew
-              ? new List<AccountToken>() 
-              : accountRepository.AccountTokens(this.Id) ?? new List<AccountToken>());
+              ? new List<Token>() 
+              : accountRepository.AccountTokens(this.Id) ?? new List<Token>());
 
       set => accountTokens = value;
     }
@@ -92,18 +97,6 @@ namespace Authentication.Account.Models
       set => accountLocks = value;
     }
 
-    public virtual void AddClaim(AccountClaim accountClaim) => Claims.Add(accountClaim);
-
-    public virtual void AddToken(AccountToken token) => Tokens.Add(token);
-
-    public virtual void AddLock(AccountLock accountLock) => Locks.Add(accountLock);
-
-    public virtual void RemoveClaim(AccountClaim accountClaim) => Claims.RemoveAt(Claims.IndexOf(accountClaim));
-
-    public virtual void RemoveToken(AccountToken token) => Tokens.RemoveAt(Tokens.IndexOf(token));
-
-    public virtual void RemoveLock(AccountLock accountLock) => Locks.RemoveAt(Locks.IndexOf(accountLock));
-
     public virtual IAuthenticationResult MutliFactorAuthenticate(string tokenValue)
     {
       if (VerifyToken(tokenValue, TokenKind.MultiFactorAuth))
@@ -115,7 +108,7 @@ namespace Authentication.Account.Models
       }
 
       Properties.UpdateFailedLoginAttempts();
-      //TODO: Max login attempts reached then lock account;
+      FailedLoginAccountLockCheck();
 
       return IsLocked 
         ? AuthenticationResult.Fail(Locks.First(l => l.IsValid).Message)
@@ -132,7 +125,7 @@ namespace Authentication.Account.Models
           Properties.ResetFailedLoginAttempts();
           if (Properties.HasMultiFactorAuth)
           {
-            //TODO
+            //TODO: Generate token
             return AuthenticationResult.MultiFactor;
           }
 
@@ -142,13 +135,21 @@ namespace Authentication.Account.Models
         }
 
         Properties.UpdateFailedLoginAttempts();
-        //TODO: Max login attempts reached then lock account
-        
+        FailedLoginAccountLockCheck();
       }
 
       return IsLocked 
         ? AuthenticationResult.Fail(Locks.First(l => l.IsValid).Message)
         : AuthenticationResult.Fail(INCORRECT_LOGIN);
+    }
+
+    private void FailedLoginAccountLockCheck()
+    {
+      if (Properties.FailedLoginAttempts >= applicationSettings.MaxFailedLoginAttempts)
+      {
+        Locks.Add(AccountLock.MaxLoginAttempts);
+        Properties.ResetFailedLoginAttempts();
+      }
     }
 
     public virtual void SetUsername(string username) => Username = username;
@@ -159,7 +160,7 @@ namespace Authentication.Account.Models
 
     public virtual bool VerifyToken(string tokenValue, TokenKind tokenKind)
     {
-      return false;
+      return Tokens.Any(t => t.IsValid && t.Value == tokenValue && t.Kind == tokenKind);
     }
   }
 }

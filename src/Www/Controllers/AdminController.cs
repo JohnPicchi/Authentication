@@ -8,5 +8,11 @@ namespace Authentication.Controllers
     {
         return View();
     }
+
+    [HttpGet]
+    public IActionResult AccountRegistration()
+    {
+      return View();
+    }
   }
 }

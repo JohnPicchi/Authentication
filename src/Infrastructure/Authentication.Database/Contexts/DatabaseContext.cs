@@ -12,19 +12,20 @@ namespace Authentication.Database.Contexts
 {
   public class DatabaseContext : BaseDatabaseContext
   {
-    private IApplicationSettings applicationSettings;
-    private ILoggerFactory loggerFactory;
-
-    public DatabaseContext(IApplicationSettings applicationSettings, ILoggerFactory loggerFactory)
-    {
-      this.applicationSettings = applicationSettings;
-      this.loggerFactory = loggerFactory;
-    }
+   private readonly IApplicationSettings applicationSettings;
+   private readonly ILoggerFactory loggerFactory;
+   
+   public DatabaseContext(IApplicationSettings applicationSettings, ILoggerFactory loggerFactory)
+   {
+     this.applicationSettings = applicationSettings;
+     this.loggerFactory = loggerFactory;
+   }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+
       optionsBuilder.UseLoggerFactory(loggerFactory);
-     
+    
       optionsBuilder.UseSqlServer(applicationSettings.DbConnectionString, builder =>
       {
         builder.EnableRetryOnFailure();

@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Mvc.ModelBinding
+
+@if (!ViewContext.ModelState.IsValid)
+{
+  var errors = ViewContext.ModelState
+    .FindKeysWithPrefix("FORM_RESULT_ERROR")
+    .Where(v => v.Value.ValidationState == ModelValidationState.Invalid);
+
+
+  foreach (var error in errors)
+  {
+    <div class="alert alert-danger">
+      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"> </span>
+      <span class="sr-only">Error:</span>
+        @error.Value.Errors?.FirstOrDefault()?.ErrorMessage
+    </div>
+  }
+}

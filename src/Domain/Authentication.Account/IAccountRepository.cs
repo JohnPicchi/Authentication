@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Authentication.Account.Models;
 
@@ -23,13 +24,13 @@ namespace Authentication.Account
 
     AccountProperties AccountProperties(Guid accountId);
 
-    IList<AccountClaim> AccountClaims(Guid accountId);
+    IList<Claim> AccountClaims(Guid accountId);
 
-    IList<AccountToken> AccountTokens(Guid accountId);
+    IList<Token> AccountTokens(Guid accountId);
 
     IList<AccountLock> AccountLocks(Guid accountId);
 
-    AccountToken AccountToken(Guid accountId, TokenKind tokenKind);
+    Token AccountToken(Guid accountId, TokenKind tokenKind);
 
     void Remove(Models.Account account);
 

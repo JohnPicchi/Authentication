@@ -4,6 +4,8 @@
 
 
 <form asp-controller=@(Helper.NameOfController<AccountController>()) asp-action=@(nameof(AccountController.Login)) method="post" class="form-horizontal">
+  
+  <input asp-for="ReturnUrl"/>
 
   <div class ="col-sm-offset-3 col-sm-6">
   <div class="panel panel-default">

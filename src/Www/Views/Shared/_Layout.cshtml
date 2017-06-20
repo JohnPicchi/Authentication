@@ -32,9 +32,13 @@
   </div>
 </div>
   <br/>
-    <div class="container body-content">
-        @RenderBody()
-    </div>
+<div class="container body-content">
+  @{
+    Html.RenderPartial("_ValidationSummary");
+  }
+  
+  @RenderBody()
+</div>
 
 <environment names="Development">
   <script src="~/lib/jquery/dist/jquery.js"></script>

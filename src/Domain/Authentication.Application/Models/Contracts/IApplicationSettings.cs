@@ -3,5 +3,7 @@
   public interface IApplicationSettings
   {
     string DbConnectionString { get; }
+
+    int MaxFailedLoginAttempts { get; }
   }
 }

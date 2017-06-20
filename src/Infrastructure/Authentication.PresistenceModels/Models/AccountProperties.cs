@@ -32,7 +32,7 @@ namespace Authentication.PresistenceModels.Models
     /// <summary>
     /// The user's unique open connect id
     /// </summary>
-    public Guid OpenConnectId { get; set; }
+    public Guid OpenIdConnectId { get; set; }
 
     /// <summary>
     /// The method used to authenticated a 2nd time

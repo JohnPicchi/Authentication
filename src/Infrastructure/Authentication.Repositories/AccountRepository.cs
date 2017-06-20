@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Authentication.Account;
 using Authentication.Account.Models;
 using Authentication.Database;
 using Authentication.Database.Contexts;
-using Authentication.Utilities.ExtensionMethods;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using AccountProperties = Authentication.Account.Models.AccountProperties;
-using AccountToken = Authentication.Account.Models.AccountToken;
 using AccountLock = Authentication.Account.Models.AccountLock;
+using Authentication.Utilities.ExtensionMethods;
 
 namespace Authentication.Repositories
 {
@@ -127,7 +127,7 @@ namespace Authentication.Repositories
         : mapper.Map(persistedProperties, new AccountProperties());
     }
 
-    public IList<AccountClaim> AccountClaims(Guid accountId)
+    public IList<Claim> AccountClaims(Guid accountId)
     {
       var persistedClaims = Query()
         .Where(a => a.Id == accountId)
@@ -135,10 +135,10 @@ namespace Authentication.Repositories
         .Where(a => a.AccountId == accountId)
         .ToList();
 
-      return mapper.Map(persistedClaims, new List<AccountClaim>());
+      return mapper.Map(persistedClaims, new List<Claim>());
     }
 
-    public IList<AccountToken> AccountTokens(Guid accountId)
+    public IList<Token> AccountTokens(Guid accountId)
     {
       var persistedTokens = Query()
         .Where(a => a.Id == accountId)
@@ -146,7 +146,7 @@ namespace Authentication.Repositories
         .Where(a => a.AccountId == accountId)
         .ToList();
 
-      return mapper.Map(persistedTokens, new List<AccountToken>());
+      return mapper.Map(persistedTokens, new List<Token>());
     }
 
     public IList<AccountLock> AccountLocks(Guid accountId)
@@ -160,7 +160,7 @@ namespace Authentication.Repositories
       return mapper.Map(persistedLocks, new List<AccountLock>());
     }
 
-    public AccountToken AccountToken(Guid accountId, TokenKind tokenKind)
+    public Token AccountToken(Guid accountId, TokenKind tokenKind)
     {
       var persistedTokens = Query()
         .Where(a => a.Id == accountId)
@@ -169,7 +169,7 @@ namespace Authentication.Repositories
 
       return persistedTokens == null
         ? null
-        : mapper.Map(persistedTokens, new AccountToken());
+        : mapper.Map(persistedTokens, new Token());
     }
 
     public void Remove(Account.Models.Account account)
