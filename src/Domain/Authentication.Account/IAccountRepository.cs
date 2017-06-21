@@ -22,6 +22,8 @@ namespace Authentication.Account
 
     Models.Account Find(Guid accountId);
 
+    Models.Account Find(String usernane);
+
     AccountProperties AccountProperties(Guid accountId);
 
     IList<Claim> AccountClaims(Guid accountId);

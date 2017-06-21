@@ -116,6 +116,21 @@ namespace Authentication.Repositories
         : mapper.Map(persistedAccount, AccountFactory.Create());
     }
 
+    public Account.Models.Account Find(string username)
+    {
+      var persistedAccount = username.HasValue()
+        ? Query().Where(a => a.Username == username)
+          .Include(a => a.Properties)
+          .Include(a => a.Claims)
+          .Include(a => a.Locks)
+          .SingleOrDefault()
+        : null;
+
+      return persistedAccount == null
+        ? null
+        : mapper.Map(persistedAccount, AccountFactory.Create());
+    }
+
     public AccountProperties AccountProperties(Guid accountId)
     {
       var persistedProperties = Query()

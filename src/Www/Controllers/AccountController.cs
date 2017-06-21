@@ -4,12 +4,14 @@ using Authentication.Account;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.EditModels;
 using Authentication.PresentationModels.ViewModels;
+using Authentication.Utilities.ExtensionMethods;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Authentication.Controllers
 {
+  [Authorize]
   public class AccountController : DefaultController
   {
     private readonly IAccountRepository accountRepository;
@@ -21,6 +23,14 @@ namespace Authentication.Controllers
       this.interactionService = interactionService;
     }
 
+    public IActionResult Index()
+    {
+      var claims = User.Claims
+        .Select(c => new { c.Type, c.Value });
+
+      return new JsonResult(claims);
+    }
+
     [HttpGet]
     public IActionResult Register() => View(new RegisterViewModel());
 
@@ -30,6 +40,7 @@ namespace Authentication.Controllers
     {
       return await FormAsync(form, request,
         success: () => View(form as RegisterViewModel),
+
         failure: () => View(form as RegisterViewModel));
     }
 
@@ -42,6 +53,7 @@ namespace Authentication.Controllers
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public IActionResult Login(string returnUrl = null)
     {
       var viewModel = new LoginViewModel { ReturnUrl = returnUrl };
@@ -49,22 +61,30 @@ namespace Authentication.Controllers
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> Login(LoginEditModel form,
       [FromServices] IFormResultRequestAsync<LoginEditModel> request)
     {
       return await FormAsync(form, request,
         success: () =>
         {
-          //if (interactionService.IsValidReturnUrl(form.ReturnUrl))
-            return Redirect(form.ReturnUrl);
+         // var account = accountRepository.Find(form.Email);
+         // if (account.Properties.HasMultiFactorAuth)
+         //   return RedirectToAction();
+         //
+         // if (account.Properties.PasswordResetRequired)
+         //   return RedirectToAction();
+         //
+         // if (form.ReturnUrl.HasValue() && interactionService.IsValidReturnUrl(form.ReturnUrl))
+         //   return Redirect(form.ReturnUrl);
 
-          //return RedirectToAction("Login");
+          return RedirectToAction(nameof(AccountController.Index));
         },
+
         failure: () => RedirectToAction("Login"));
     }
 
     [HttpGet]
-    [Authorize]
     public IActionResult Logout()
     {
       var claims = User.Claims
