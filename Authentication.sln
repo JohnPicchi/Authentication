@@ -1,25 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication", "src\Www\Authentication.csproj", "{B243A93A-108B-4CC4-AE04-0AB44124C4F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication", "src\Www\Authentication.csproj", "{B243A93A-108B-4CC4-AE04-0AB44124C4F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Container", "src\Infrastructure\Authentication.Container\Authentication.Container.csproj", "{5FAD4724-441F-44B5-AE4E-2066F186FB87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Container", "src\Infrastructure\Authentication.Container\Authentication.Container.csproj", "{5FAD4724-441F-44B5-AE4E-2066F186FB87}"
 	ProjectSection(ProjectDependencies) = postProject
 		{EEAB4580-647F-40E2-B7E0-E4A72A34C9B8} = {EEAB4580-647F-40E2-B7E0-E4A72A34C9B8}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.PresentationModels", "src\Core\Authentication.PresentationModels\Authentication.PresentationModels.csproj", "{97389616-6557-475C-A085-B64BE7951E08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.PresentationModels", "src\Core\Authentication.PresentationModels\Authentication.PresentationModels.csproj", "{97389616-6557-475C-A085-B64BE7951E08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Database", "src\Infrastructure\Authentication.Database\Authentication.Database.csproj", "{3E85DCEC-C73B-4C79-8E0D-32D1F441DC2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Database", "src\Infrastructure\Authentication.Database\Authentication.Database.csproj", "{3E85DCEC-C73B-4C79-8E0D-32D1F441DC2B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{723D93A8-272F-4880-8F4B-1340F4495004} = {723D93A8-272F-4880-8F4B-1340F4495004}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Core", "src\Core\Authentication.Core\Authentication.Core.csproj", "{25303F47-E065-441D-AF2D-AF26D8C03040}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Core", "src\Core\Authentication.Core\Authentication.Core.csproj", "{25303F47-E065-441D-AF2D-AF26D8C03040}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Domain", "src\Domain\Authentication.Domain\Authentication.Domain.csproj", "{723D93A8-272F-4880-8F4B-1340F4495004}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Domain", "src\Domain\Authentication.Domain\Authentication.Domain.csproj", "{723D93A8-272F-4880-8F4B-1340F4495004}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{A82B94DB-3F63-4BD2-A202-DDC848F94243}"
 EndProject
@@ -29,23 +29,37 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{600F3B15-F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{051990A9-1803-479C-B427-C550B0E8D964}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.PresistenceModels", "src\Infrastructure\Authentication.PresistenceModels\Authentication.PresistenceModels.csproj", "{EEAB4580-647F-40E2-B7E0-E4A72A34C9B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.PresistenceModels", "src\Infrastructure\Authentication.PresistenceModels\Authentication.PresistenceModels.csproj", "{EEAB4580-647F-40E2-B7E0-E4A72A34C9B8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{22F70280-5922-4AA2-83B9-A92BCC9913BF} = {22F70280-5922-4AA2-83B9-A92BCC9913BF}
 		{DD6451BD-4C99-4C57-B82C-C1A384B8DDE2} = {DD6451BD-4C99-4C57-B82C-C1A384B8DDE2}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Repositories", "src\Infrastructure\Authentication.Repositories\Authentication.Repositories.csproj", "{9338BCB6-1C72-4BD0-B741-B529AEEEEBB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Repositories", "src\Infrastructure\Authentication.Repositories\Authentication.Repositories.csproj", "{9338BCB6-1C72-4BD0-B741-B529AEEEEBB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Utilities", "src\Core\Authentication.Utilities\Authentication.Utilities.csproj", "{79E6F9AB-6A23-46DA-AE4A-F3D79014212C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Utilities", "src\Core\Authentication.Utilities\Authentication.Utilities.csproj", "{79E6F9AB-6A23-46DA-AE4A-F3D79014212C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Account", "src\Domain\Authentication.Account\Authentication.Account.csproj", "{22F70280-5922-4AA2-83B9-A92BCC9913BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Account", "src\Domain\Authentication.Account\Authentication.Account.csproj", "{22F70280-5922-4AA2-83B9-A92BCC9913BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.User", "src\Domain\Authentication.User\Authentication.User.csproj", "{DD6451BD-4C99-4C57-B82C-C1A384B8DDE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.User", "src\Domain\Authentication.User\Authentication.User.csproj", "{DD6451BD-4C99-4C57-B82C-C1A384B8DDE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Services", "src\Core\Authentication.Services\Authentication.Services.csproj", "{C40A243B-04F2-4AAD-B454-310CAE84FC35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Services", "src\Core\Authentication.Services\Authentication.Services.csproj", "{C40A243B-04F2-4AAD-B454-310CAE84FC35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Application", "src\Domain\Authentication.Application\Authentication.Application.csproj", "{E36582C0-3587-4081-A5C1-A5E3C10D3C8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Application", "src\Domain\Authentication.Application\Authentication.Application.csproj", "{E36582C0-3587-4081-A5C1-A5E3C10D3C8C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{34201AE1-E395-4945-A572-FFCA2DD6590B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer4.AccessTokenValidation", "..\IdentityServerAccessTokenValidation\src\IdentityServer4.AccessTokenValidation\IdentityServer4.AccessTokenValidation.csproj", "{534246EC-9FD6-4ACA-8464-967FBD0B0D87}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer4", "..\IdentityServer\src\IdentityServer4\IdentityServer4.csproj", "{2F237743-D6F9-4340-96B4-FA619F196CFE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNetCore.Authentication.OpenIdConnect", "..\MiddlewareSecurity\src\Microsoft.AspNetCore.Authentication.OpenIdConnect\Microsoft.AspNetCore.Authentication.OpenIdConnect.csproj", "{33131428-FE46-4E1B-A00D-2C23844F4FA6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.AspNetCore.Authentication", "..\MiddlewareSecurity\src\Microsoft.AspNetCore.Authentication\Microsoft.AspNetCore.Authentication.csproj", "{278BA7DC-ABD2-4535-9353-B3507A2EC942}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Extensions.TaskCache.Sources", "..\aspnetCommon\src\Microsoft.Extensions.TaskCache.Sources\Microsoft.Extensions.TaskCache.Sources.csproj", "{623D8B03-2A9D-43EF-B70F-6D569CCF6958}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Extensions.SecurityHelper.Sources", "..\aspnetCommon\src\Microsoft.Extensions.SecurityHelper.Sources\Microsoft.Extensions.SecurityHelper.Sources.csproj", "{372DA7D6-32CD-483F-85DC-4685FA17E431}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +119,30 @@ Global
 		{E36582C0-3587-4081-A5C1-A5E3C10D3C8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E36582C0-3587-4081-A5C1-A5E3C10D3C8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E36582C0-3587-4081-A5C1-A5E3C10D3C8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{534246EC-9FD6-4ACA-8464-967FBD0B0D87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{534246EC-9FD6-4ACA-8464-967FBD0B0D87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{534246EC-9FD6-4ACA-8464-967FBD0B0D87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{534246EC-9FD6-4ACA-8464-967FBD0B0D87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F237743-D6F9-4340-96B4-FA619F196CFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F237743-D6F9-4340-96B4-FA619F196CFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F237743-D6F9-4340-96B4-FA619F196CFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F237743-D6F9-4340-96B4-FA619F196CFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33131428-FE46-4E1B-A00D-2C23844F4FA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33131428-FE46-4E1B-A00D-2C23844F4FA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33131428-FE46-4E1B-A00D-2C23844F4FA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33131428-FE46-4E1B-A00D-2C23844F4FA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{278BA7DC-ABD2-4535-9353-B3507A2EC942}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{278BA7DC-ABD2-4535-9353-B3507A2EC942}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{278BA7DC-ABD2-4535-9353-B3507A2EC942}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{278BA7DC-ABD2-4535-9353-B3507A2EC942}.Release|Any CPU.Build.0 = Release|Any CPU
+		{623D8B03-2A9D-43EF-B70F-6D569CCF6958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{623D8B03-2A9D-43EF-B70F-6D569CCF6958}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{623D8B03-2A9D-43EF-B70F-6D569CCF6958}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{623D8B03-2A9D-43EF-B70F-6D569CCF6958}.Release|Any CPU.Build.0 = Release|Any CPU
+		{372DA7D6-32CD-483F-85DC-4685FA17E431}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{372DA7D6-32CD-483F-85DC-4685FA17E431}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{372DA7D6-32CD-483F-85DC-4685FA17E431}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{372DA7D6-32CD-483F-85DC-4685FA17E431}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,5 +161,11 @@ Global
 		{DD6451BD-4C99-4C57-B82C-C1A384B8DDE2} = {051990A9-1803-479C-B427-C550B0E8D964}
 		{C40A243B-04F2-4AAD-B454-310CAE84FC35} = {600F3B15-F9BB-44D5-A061-2471F493D3B8}
 		{E36582C0-3587-4081-A5C1-A5E3C10D3C8C} = {051990A9-1803-479C-B427-C550B0E8D964}
+		{534246EC-9FD6-4ACA-8464-967FBD0B0D87} = {34201AE1-E395-4945-A572-FFCA2DD6590B}
+		{2F237743-D6F9-4340-96B4-FA619F196CFE} = {34201AE1-E395-4945-A572-FFCA2DD6590B}
+		{33131428-FE46-4E1B-A00D-2C23844F4FA6} = {34201AE1-E395-4945-A572-FFCA2DD6590B}
+		{278BA7DC-ABD2-4535-9353-B3507A2EC942} = {34201AE1-E395-4945-A572-FFCA2DD6590B}
+		{623D8B03-2A9D-43EF-B70F-6D569CCF6958} = {34201AE1-E395-4945-A572-FFCA2DD6590B}
+		{372DA7D6-32CD-483F-85DC-4685FA17E431} = {34201AE1-E395-4945-A572-FFCA2DD6590B}
 	EndGlobalSection
 EndGlobal

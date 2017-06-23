@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
-using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
-using IdentityServer4.Test;
 
 namespace Authentication
 {
@@ -41,6 +39,9 @@ namespace Authentication
           ClientId = "mvc.AuthenticationServer",
           ClientName = "Authentication Server",
           AllowedGrantTypes = GrantTypes.Hybrid,
+          //AlwaysIncludeUserClaimsInIdToken = true,
+          //AlwaysSendClientClaims = true,
+          //AllowAccessTokensViaBrowser = true,
           ClientSecrets = new List<Secret>{ new Secret("secret".Sha256()) },
           // where to redirect to after login
           RedirectUris = { "http://localhost:5000/signin-oidc" },

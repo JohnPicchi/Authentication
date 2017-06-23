@@ -5,10 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IdentityServer4" Version="1.5.2" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\IdentityServer\src\IdentityServer4\IdentityServer4.csproj" />
     <ProjectReference Include="..\..\Domain\Authentication.Account\Authentication.Account.csproj" />
   </ItemGroup>
 

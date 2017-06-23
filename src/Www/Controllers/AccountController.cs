@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Authentication.Controllers
 {
-  [Authorize]
   public class AccountController : DefaultController
   {
     private readonly IAccountRepository accountRepository;
@@ -23,6 +22,7 @@ namespace Authentication.Controllers
       this.interactionService = interactionService;
     }
 
+    [Authorize]
     public IActionResult Index()
     {
       var claims = User.Claims
@@ -53,7 +53,6 @@ namespace Authentication.Controllers
     }
 
     [HttpGet]
-    [AllowAnonymous]
     public IActionResult Login(string returnUrl = null)
     {
       var viewModel = new LoginViewModel { ReturnUrl = returnUrl };
@@ -61,7 +60,6 @@ namespace Authentication.Controllers
     }
 
     [HttpPost]
-    [AllowAnonymous]
     public async Task<IActionResult> Login(LoginEditModel form,
       [FromServices] IFormResultRequestAsync<LoginEditModel> request)
     {
@@ -81,10 +79,11 @@ namespace Authentication.Controllers
           return RedirectToAction(nameof(AccountController.Index));
         },
 
-        failure: () => RedirectToAction("Login"));
+        failure: () => RedirectToAction("Index"));
     }
 
     [HttpGet]
+    [Authorize]
     public IActionResult Logout()
     {
       var claims = User.Claims
