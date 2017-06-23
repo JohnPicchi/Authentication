@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Authentication.Domain.Models
 {
-  public class ApplicationUser : IdentityUser<Guid>
+  public class UserLogin : IdentityUserLogin<Guid>
   {
+    public Guid Id { get; set; }
   }
 }

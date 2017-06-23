@@ -4,14 +4,22 @@ using System.Data;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Authentication.Domain.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Authentication.Database.Contexts
 {
-  public abstract class BaseDatabaseContext : DbContext
+  public abstract class BaseDatabaseContext : IdentityDbContext<User, Role, Guid, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
   {
     private IDbContextTransaction currentTransaction;
+
+    protected BaseDatabaseContext(DbContextOptions optionsBuilder) : base(optionsBuilder)
+    {
+      
+    }
+
 
     public void BeginTransaction()
     {

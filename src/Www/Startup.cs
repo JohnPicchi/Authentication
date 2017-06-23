@@ -62,8 +62,11 @@ namespace Authentication
         opts.UseSqlServer(Configuration.GetConnectionString("Default"));
       });
 
-      services.AddIdentity<ApplicationUser, Role>()
-        .AddEntityFrameworkStores<DatabaseContext, Guid>()
+      services.AddIdentity<User, UserRole>()
+        .AddUserStore<UserStore>()
+        .AddRoleStore<RoleStore>()
+        //.AddRoleManager<>()
+        //.AddUserManager<>()
         .AddDefaultTokenProviders();
 
       services.AddIdentityServer(opts =>
@@ -76,7 +79,7 @@ namespace Authentication
         .AddInMemoryClients(Config.GetClients())
         .AddInMemoryApiResources(Config.GetApiResources())
         .AddInMemoryIdentityResources(Config.GetIdentityResources())
-        .AddAspNetIdentity<ApplicationUser>();
+        .AddAspNetIdentity<User>();
       //.AddProfileService<ProfileService>();
 
       //services.AddTransient<IClaimsService, ClaimsService>();

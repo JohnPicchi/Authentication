@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Authentication.Domain.Models
 {
-  public class Role : IdentityRole<Guid, UserRole, RoleClaim>
+  public class User : IdentityUser<Guid, UserClaim, UserRole, UserLogin>
   {
-    
+
   }
 }

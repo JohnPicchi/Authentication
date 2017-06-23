@@ -2,9 +2,9 @@
 
 namespace Authentication.Database
 {
- // public abstract class EntityTypeConfiguration<TEntity>
- //   where TEntity : class, IEntity
- // {
- //   public abstract void Configure(EntityTypeBuilder<TEntity> builder);
- // }
+  public abstract class EntityTypeConfiguration<TEntity>
+    where TEntity : class
+  {
+    public abstract void Configure(EntityTypeBuilder<TEntity> builder);
+  }
 }
