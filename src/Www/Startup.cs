@@ -98,7 +98,7 @@ namespace Authentication
       loggerFactory.AddProvider(new DatabaseLoggerProvider());
       app.UseStaticFiles();
 
-  //Takes care of the local sign-in part
+      //Takes care of the local sign-in part
       app.UseCookieAuthentication(new CookieAuthenticationOptions
       {
         AuthenticationScheme = "cookies",
