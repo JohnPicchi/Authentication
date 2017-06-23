@@ -1,11 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Authentication.Account;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.EditModels;
 using Authentication.PresentationModels.ViewModels;
-using Authentication.Utilities.ExtensionMethods;
-using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,15 +10,8 @@ namespace Authentication.Controllers
 {
   public class AccountController : DefaultController
   {
-    private readonly IAccountRepository accountRepository;
-    private readonly IIdentityServerInteractionService interactionService;
 
-    public AccountController(IAccountRepository accountRepository, IIdentityServerInteractionService interactionService)
-    {
-      this.accountRepository = accountRepository;
-      this.interactionService = interactionService;
-    }
-
+  
     [Authorize]
     public IActionResult Index()
     {
@@ -47,9 +37,7 @@ namespace Authentication.Controllers
     [AcceptVerbs("GET", "POST")]
     public async Task<IActionResult> CheckAccountId(string email)
     {
-      return await accountRepository.AccountExistsAsync(email) 
-        ? Json(data: "Account already exists")
-        : Json(data: true);
+      return Json(data: true);
     }
 
     [HttpGet]

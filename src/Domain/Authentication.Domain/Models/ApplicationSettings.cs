@@ -1,6 +1,6 @@
-﻿using Authentication.Core.Models.Contracts;
+﻿using Authentication.Domain.Models.Contracts;
 
-namespace Authentication.Application.Models
+namespace Authentication.Domain.Models
 {
   public class ApplicationSettings : IApplicationSettings
   {

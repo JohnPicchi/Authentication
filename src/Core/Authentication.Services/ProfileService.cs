@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Authentication.Account;
 using IdentityModel;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
@@ -12,13 +11,6 @@ namespace Authentication.Services
 {
   public class ProfileService  : IProfileService
   {
-    private readonly IAccountRepository accountRepository;
-
-    public ProfileService(IAccountRepository accountRepository)
-    {
-      this.accountRepository = accountRepository;
-    }
-
     public Task GetProfileDataAsync(ProfileDataRequestContext context)
     {
       var subjectId = context.Subject.GetSubjectId();

@@ -8,8 +8,4 @@
     <PackageReference Include="IdentityServer4" Version="1.5.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Domain\Authentication.Account\Authentication.Account.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -1,5 +1,5 @@
 ﻿
-namespace Authentication.Core.Models.Contracts
+namespace Authentication.Domain.Models.Contracts
 {
   public interface IApplicationContext
   {

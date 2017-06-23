@@ -9,10 +9,8 @@ using Authentication.Core.Notifications.Contracts;
 using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests;
 using Authentication.Core.Requests.Contracts;
-using Authentication.Domain;
-using Authentication.PresistenceModels.MappingProfiles;
+
 using Autofac;
-using AutoMapper;
 using Module = Autofac.Module;
 
 namespace Authentication.Container.Modules
@@ -26,15 +24,7 @@ namespace Authentication.Container.Modules
       {
         Assembly.Load(new AssemblyName {Name = "Authentication.Database"}),
         Assembly.Load(new AssemblyName {Name = "Authentication.Core"}),
-        Assembly.Load(new AssemblyName {Name = "Authentication.Repositories"}),
-        Assembly.Load(new AssemblyName {Name = "Authentication.Account"}),
-        Assembly.Load(new AssemblyName {Name = "Authentication.User"}),
       };
-
-      builder.RegisterAssemblyTypes(assemblies)
-        .Where(t => t.IsAssignableTo<IDomainEntity>())
-        .As<IDomainEntity>()
-        .AsSelf();
 
       //builder.Register(c => new DomainTransaction())
       //  .Named<IInterceptor>("Domain-Transaction");
@@ -68,21 +58,21 @@ namespace Authentication.Container.Modules
       //  .InstancePerLifetimeScope();
 
 
-      ////////////////////////////////////////////
-      // AutoMapper
-      ////////////////////////////////////////////
-      builder.Register(c =>
-        {
-          var mapperConfig = new MapperConfiguration(config =>
-          {
-            config.AddProfiles(typeof(PersistenceModelProfile), typeof(DomainModelProfile));
-          });
-
-          return mapperConfig.CreateMapper();
-        })
-        .As<IMapper>()
-        .PropertiesAutowired()
-        .InstancePerLifetimeScope();
+      //////////////////////////////////////////////
+      //// AutoMapper
+      //////////////////////////////////////////////
+      //builder.Register(c =>
+      //  {
+      //    var mapperConfig = new MapperConfiguration(config =>
+      //    {
+      //      config.AddProfiles(typeof(PersistenceModelProfile), typeof(DomainModelProfile));
+      //    });
+      //
+      //    return mapperConfig.CreateMapper();
+      //  })
+      //  .As<IMapper>()
+      //  .PropertiesAutowired()
+      //  .InstancePerLifetimeScope();
 
       ////////////////////////////////////////////
       // Requests & Notifications

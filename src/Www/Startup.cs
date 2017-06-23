@@ -1,16 +1,14 @@
 ﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using Authentication.Application.Models;
 using Authentication.Controllers;
 using Authentication.Database;
 using Authentication.Database.Contexts;
+using Authentication.Domain.Models;
 using Authentication.Filters;
-using Authentication.Services;
 using Authentication.Utilities.Helpers;
-using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -57,25 +55,37 @@ namespace Authentication
         opts.Filters.Add(typeof(SecurityHeadersFilter));
       });
 
-      services.AddIdentityServer(opts =>
+
+      services.AddDbContext<DatabaseContext>(opts =>
       {
-        opts.Endpoints.EnableUserInfoEndpoint = true;
-        opts.UserInteraction.LoginUrl = Helper.LocalPath<AccountController>(nameof(AccountController.Login));
-      })
-      //.AddSigningCredential()
-      .AddDeveloperSigningCredential()
-      .AddInMemoryClients(Config.GetClients())
-      .AddInMemoryApiResources(Config.GetApiResources())
-      .AddInMemoryIdentityResources(Config.GetIdentityResources())
-      .AddProfileService<ProfileService>();
+        //opts.UseLoggerFactory()
+        opts.UseSqlServer(Configuration.GetConnectionString("Default"));
+      });
+
+      services.AddIdentity<ApplicationUser, Role>()
+        .AddEntityFrameworkStores<DatabaseContext, Guid>()
+        .AddDefaultTokenProviders();
+
+      services.AddIdentityServer(opts =>
+        {
+          opts.Endpoints.EnableUserInfoEndpoint = true;
+          opts.UserInteraction.LoginUrl = Helper.LocalPath<AccountController>(nameof(AccountController.Login));
+        })
+        //.AddSigningCredential()
+        .AddDeveloperSigningCredential()
+        .AddInMemoryClients(Config.GetClients())
+        .AddInMemoryApiResources(Config.GetApiResources())
+        .AddInMemoryIdentityResources(Config.GetIdentityResources())
+        .AddAspNetIdentity<ApplicationUser>();
+      //.AddProfileService<ProfileService>();
 
       //services.AddTransient<IClaimsService, ClaimsService>();
-      services.AddTransient<IProfileService, ProfileService>();
+      //services.AddTransient<IProfileService, ProfileService>();
+
       services.AddLogging();
       services.AddOptions();
-      services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
 
-      services.AddDbContext<DatabaseContext>();
+      services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
 
       return applicationContainer = new Container.Container(services);
     }
@@ -83,44 +93,16 @@ namespace Authentication
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApplicationLifetime applicationLifetime)
     {
-      //Gets the claims exactly how the issuer gave it to you. 
-      //If left out, the claim type gets fucked up and turned into a url
-      //(eg: http://schemas.microsoft.com/identity/claims/identityprovider)
-      JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
-      
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
         loggerFactory.AddConsole(LogLevel.Information);
       }
-
       loggerFactory.AddProvider(new DatabaseLoggerProvider());
+
       app.UseStaticFiles();
 
-      //Takes care of the local sign-in part
-      app.UseCookieAuthentication(new CookieAuthenticationOptions
-      {
-        AuthenticationScheme = "cookies",
-        AutomaticAuthenticate = false,
-      });
-
-      //Takes care of the OpenIdConnect part
-      app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
-      {
-        AuthenticationScheme = "oidc",    //needs to be unique for each authentication middleware
-        SignInScheme = "cookies",   //tells the application which authentication middleware does the local sign-in part (the very last part)
-        Authority = "http://localhost:5000",
-        RequireHttpsMetadata = false,
-        GetClaimsFromUserInfoEndpoint = true,
-        AutomaticAuthenticate = true,
-        AutomaticChallenge = true,
-        ClientId = "mvc.AuthenticationServer",
-        ClientSecret = "secret",    //needed to authenticate on the back-channel to get the actual access token
-        ResponseType = "code id_token",  //what we want to get back from the token service
-        Scope = { "openid", "profile"}     //openid is mandatory...openid = userid
-      });
-
+      app.UseIdentity();
       app.UseIdentityServer();
 
       app.UseMvc(routes =>
