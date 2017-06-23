@@ -12,8 +12,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Core" Version="1.4.0" />
+    <PackageReference Include="IdentityServer4" Version="1.5.2" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.3" />
@@ -38,8 +40,6 @@
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\IdentityServer\src\IdentityServer4\IdentityServer4.csproj" />
-    <ProjectReference Include="..\..\..\MiddlewareSecurity\src\Microsoft.AspNetCore.Authentication.OpenIdConnect\Microsoft.AspNetCore.Authentication.OpenIdConnect.csproj" />
     <ProjectReference Include="..\Core\Authentication.Core\Authentication.Core.csproj" />
     <ProjectReference Include="..\Core\Authentication.Services\Authentication.Services.csproj" />
     <ProjectReference Include="..\Infrastructure\Authentication.Container\Authentication.Container.csproj" />

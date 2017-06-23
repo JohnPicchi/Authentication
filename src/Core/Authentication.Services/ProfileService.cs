@@ -27,7 +27,7 @@ namespace Authentication.Services
         new Claim(JwtClaimTypes.Role, "Administrator"),
         new Claim(JwtClaimTypes.GivenName, "John")
       };
-      context.AddRequestedClaims(claims);
+      context.AddFilteredClaims(claims);
       return Task.FromResult(0);
     }
 

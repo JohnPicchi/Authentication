@@ -13,10 +13,4 @@
     <ProjectReference Include="..\Authentication.Repositories\Authentication.Repositories.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Microsoft.Extensions.Options">
-      <HintPath>..\..\..\..\..\Users\John\.nuget\packages\microsoft.extensions.options\1.1.1\lib\netstandard1.0\Microsoft.Extensions.Options.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

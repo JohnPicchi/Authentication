@@ -6,17 +6,12 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="1.1.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Domain\Authentication.Account\Authentication.Account.csproj" />
     <ProjectReference Include="..\..\Domain\Authentication.User\Authentication.User.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System.Security.Claims">
-      <HintPath>..\..\..\..\..\Users\John\.nuget\packages\system.security.claims\4.3.0\ref\netstandard1.3\System.Security.Claims.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
