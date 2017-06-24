@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Authentication.Domain.Models;
-using Authentication.Domain.Models.Contracts;
+using Authentication.Application.DomainModels;
+using Authentication.Application.DomainModels.Contracts;
 using Autofac;
 using Microsoft.Extensions.Options;
 

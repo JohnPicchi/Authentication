@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace Authentication.Domain.Models
+namespace Authentication.PersistenceModels
 {
   public class UserClaim : IdentityUserClaim<Guid>
   {

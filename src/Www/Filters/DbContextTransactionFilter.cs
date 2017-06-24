@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Authentication.Database.Contexts;
+using Authentication.Database;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Authentication.Filters

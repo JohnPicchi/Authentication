@@ -1,8 +1,8 @@
 ﻿using System;
+using Authentication.Application.DomainModels;
 using Authentication.Controllers;
 using Authentication.Database;
-using Authentication.Database.Contexts;
-using Authentication.Domain.Models;
+using Authentication.Domain.PersistenceModels;
 using Authentication.Filters;
 using Authentication.Utilities.Helpers;
 using Microsoft.AspNetCore.Builder;
@@ -62,11 +62,7 @@ namespace Authentication
         opts.UseSqlServer(Configuration.GetConnectionString("Default"));
       });
 
-      services.AddIdentity<User, UserRole>()
-        .AddUserStore<UserStore>()
-        .AddRoleStore<RoleStore>()
-        //.AddRoleManager<>()
-        //.AddUserManager<>()
+      services.AddIdentity<User, Role>()
         .AddDefaultTokenProviders();
 
       services.AddIdentityServer(opts =>

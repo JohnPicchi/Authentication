@@ -1,5 +1,4 @@
 ﻿using System;
-using Authentication.Database.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 

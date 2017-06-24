@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Authentication.Utilities\Authentication.Utilities.csproj" />
+    <Folder Include="Configuration\" />
+    <Folder Include="Stores\" />
+    <Folder Include="PersistenceModels\" />
   </ItemGroup>
 
 </Project>
