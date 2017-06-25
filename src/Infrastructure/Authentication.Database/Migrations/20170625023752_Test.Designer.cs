@@ -8,8 +8,8 @@ using Authentication.Database;
 namespace Authentication.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20170625012649_test")]
-    partial class test
+    [Migration("20170625023752_Test")]
+    partial class Test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,24 +38,6 @@ namespace Authentication.Database.Migrations
                         .HasName("RoleNameIndex");
 
                     b.ToTable("Roles");
-                });
-
-            modelBuilder.Entity("Authentication.User.PersistenceModels.RoleClaim", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ClaimType");
-
-                    b.Property<string>("ClaimValue");
-
-                    b.Property<Guid>("RoleId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("RoleClaims");
                 });
 
             modelBuilder.Entity("Authentication.User.PersistenceModels.User", b =>
@@ -108,24 +90,6 @@ namespace Authentication.Database.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Authentication.User.PersistenceModels.UserClaim", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ClaimType");
-
-                    b.Property<string>("ClaimValue");
-
-                    b.Property<Guid>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserClaims");
-                });
-
             modelBuilder.Entity("Authentication.User.PersistenceModels.UserLogin", b =>
                 {
                     b.Property<string>("LoginProvider");
@@ -143,19 +107,6 @@ namespace Authentication.Database.Migrations
                     b.ToTable("UserLogins");
                 });
 
-            modelBuilder.Entity("Authentication.User.PersistenceModels.UserRole", b =>
-                {
-                    b.Property<Guid>("UserId");
-
-                    b.Property<Guid>("RoleId");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("UserRoles");
-                });
-
             modelBuilder.Entity("Authentication.User.PersistenceModels.UserToken", b =>
                 {
                     b.Property<Guid>("UserId");
@@ -171,20 +122,53 @@ namespace Authentication.Database.Migrations
                     b.ToTable("UserTokens");
                 });
 
-            modelBuilder.Entity("Authentication.User.PersistenceModels.RoleClaim", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Authentication.User.PersistenceModels.Role")
-                        .WithMany("Claims")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<Guid>("RoleId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RoleClaims");
                 });
 
-            modelBuilder.Entity("Authentication.User.PersistenceModels.UserClaim", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Authentication.User.PersistenceModels.User")
-                        .WithMany("Claims")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId");
+
+                    b.Property<Guid>("RoleId");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Authentication.User.PersistenceModels.UserLogin", b =>
@@ -195,7 +179,23 @@ namespace Authentication.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Authentication.User.PersistenceModels.UserRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<System.Guid>", b =>
+                {
+                    b.HasOne("Authentication.User.PersistenceModels.Role")
+                        .WithMany("Claims")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.HasOne("Authentication.User.PersistenceModels.User")
+                        .WithMany("Claims")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<System.Guid>", b =>
                 {
                     b.HasOne("Authentication.User.PersistenceModels.Role")
                         .WithMany("Users")

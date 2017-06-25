@@ -65,6 +65,7 @@ namespace Authentication
 
       services.AddIdentity<User.PersistenceModels.User, Role>()
         .AddUserStore<UserStore>()
+        .AddRoleStore<RoleStore>()
         .AddDefaultTokenProviders();
 
       services.AddIdentityServer(opts =>

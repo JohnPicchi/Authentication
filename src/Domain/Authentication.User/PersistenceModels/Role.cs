@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Authentication.User.PersistenceModels
 {
-  public class Role : IdentityRole<Guid, UserRole, RoleClaim>
+  public class Role : IdentityRole<Guid>
   {
   }
 }

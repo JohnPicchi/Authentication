@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 using Authentication.User.PersistenceModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Authentication.Database.EntityConfigurations
 {
-  public class RoleClaimEntityConfiguration : EntityTypeConfiguration<RoleClaim>
+  public class RoleClaimEntityConfiguration : EntityTypeConfiguration<IdentityRoleClaim<Guid>>
   {
-    public override void Configure(EntityTypeBuilder<RoleClaim> builder)
+    public override void Configure(EntityTypeBuilder<IdentityRoleClaim<Guid>> builder)
     {
       builder.ToTable(nameof(DatabaseContext.RoleClaims));
     }

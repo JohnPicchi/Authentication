@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.EditModels;
@@ -10,8 +11,11 @@ namespace Authentication.Controllers
 {
   public class AccountController : DefaultController
   {
+    public AccountController()
+    {
 
-  
+    }
+
     [Authorize]
     public IActionResult Index()
     {

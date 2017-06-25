@@ -10,18 +10,10 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Authentication.Database.Stores
 {
-  public class RoleStore : RoleStore<Role, DatabaseContext, Guid, UserRole, RoleClaim>
+  public class RoleStore : RoleStore<Role, DatabaseContext, Guid>
   {
     public RoleStore(DatabaseContext context, IdentityErrorDescriber describer = null) : base(context, describer)
     {
-    }
-
-    protected override RoleClaim CreateRoleClaim(Role role, Claim claim)
-    {
-      throw new NotImplementedException();
-      // var roleClaim = new RoleClaim { RoleId = role.Id };
-      // roleClaim.InitializeFromClaim(claim);
-      // return roleClaim;
     }
   }
 }

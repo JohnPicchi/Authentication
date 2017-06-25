@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Authentication.Database.Migrations
 {
-    public partial class test : Migration
+    public partial class Test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -84,6 +84,26 @@ namespace Authentication.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
+                    ProviderDisplayName = table.Column<string>(nullable: true),
+                    UserId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_UserLogins_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserClaims",
                 columns: table => new
                 {
@@ -98,26 +118,6 @@ namespace Authentication.Database.Migrations
                     table.PrimaryKey("PK_UserClaims", x => x.Id);
                     table.ForeignKey(
                         name: "FK_UserClaims_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserLogins",
-                columns: table => new
-                {
-                    LoginProvider = table.Column<string>(nullable: false),
-                    ProviderKey = table.Column<string>(nullable: false),
-                    ProviderDisplayName = table.Column<string>(nullable: true),
-                    UserId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserLogins", x => new { x.LoginProvider, x.ProviderKey });
-                    table.ForeignKey(
-                        name: "FK_UserLogins_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -155,11 +155,6 @@ namespace Authentication.Database.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoleClaims_RoleId",
-                table: "RoleClaims",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "Users",
                 column: "NormalizedEmail");
@@ -171,13 +166,18 @@ namespace Authentication.Database.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserClaims_UserId",
-                table: "UserClaims",
+                name: "IX_UserLogins_UserId",
+                table: "UserLogins",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserLogins_UserId",
-                table: "UserLogins",
+                name: "IX_RoleClaims_RoleId",
+                table: "RoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserClaims_UserId",
+                table: "UserClaims",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -189,19 +189,19 @@ namespace Authentication.Database.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "UserLogins");
+
+            migrationBuilder.DropTable(
+                name: "UserTokens");
+
+            migrationBuilder.DropTable(
                 name: "RoleClaims");
 
             migrationBuilder.DropTable(
                 name: "UserClaims");
 
             migrationBuilder.DropTable(
-                name: "UserLogins");
-
-            migrationBuilder.DropTable(
                 name: "UserRoles");
-
-            migrationBuilder.DropTable(
-                name: "UserTokens");
 
             migrationBuilder.DropTable(
                 name: "Roles");
