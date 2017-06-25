@@ -7,5 +7,9 @@ namespace Authentication.User.PersistenceModels
 {
   public class UserClaim : IdentityUserClaim<Guid>
   {
+    public UserClaim()
+    {
+      
+    }
   }
 }

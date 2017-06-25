@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Authentication.Domain.PersistenceModels;
+using Authentication.User.PersistenceModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Authentication.Database.EntityConfigurations
@@ -10,6 +12,7 @@ namespace Authentication.Database.EntityConfigurations
   {
     public override void Configure(EntityTypeBuilder<RoleClaim> builder)
     {
+      builder.ToTable(nameof(DatabaseContext.RoleClaims));
     }
   }
 }

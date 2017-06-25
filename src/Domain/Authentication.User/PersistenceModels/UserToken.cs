@@ -7,5 +7,6 @@ namespace Authentication.User.PersistenceModels
 {
   public class UserToken : IdentityUserToken<Guid>
   {
+
   }
 }

@@ -7,5 +7,8 @@ namespace Authentication.User.PersistenceModels
 {
   public class UserRole : IdentityUserRole<Guid>
   {
+    public UserRole()
+    {
+    }
   }
 }

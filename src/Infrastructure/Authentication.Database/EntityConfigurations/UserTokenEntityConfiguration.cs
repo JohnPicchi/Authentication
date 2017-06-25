@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Authentication.Domain.PersistenceModels;
+using Authentication.User.PersistenceModels;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Authentication.Database.EntityConfigurations
@@ -10,6 +11,7 @@ namespace Authentication.Database.EntityConfigurations
   {
     public override void Configure(EntityTypeBuilder<UserToken> builder)
     {
+      builder.ToTable(nameof(DatabaseContext.UserTokens));
     }
   }
 }

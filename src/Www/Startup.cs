@@ -2,8 +2,9 @@
 using Authentication.Application.DomainModels;
 using Authentication.Controllers;
 using Authentication.Database;
-using Authentication.Domain.PersistenceModels;
+using Authentication.Database.Stores;
 using Authentication.Filters;
+using Authentication.User.PersistenceModels;
 using Authentication.Utilities.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -62,7 +63,8 @@ namespace Authentication
         opts.UseSqlServer(Configuration.GetConnectionString("Default"));
       });
 
-      services.AddIdentity<User, Role>()
+      services.AddIdentity<User.PersistenceModels.User, Role>()
+        .AddUserStore<UserStore>()
         .AddDefaultTokenProviders();
 
       services.AddIdentityServer(opts =>
@@ -75,7 +77,7 @@ namespace Authentication
         .AddInMemoryClients(Config.GetClients())
         .AddInMemoryApiResources(Config.GetApiResources())
         .AddInMemoryIdentityResources(Config.GetIdentityResources())
-        .AddAspNetIdentity<User>();
+        .AddAspNetIdentity<User.PersistenceModels.User>();
       //.AddProfileService<ProfileService>();
 
       //services.AddTransient<IClaimsService, ClaimsService>();

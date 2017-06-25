@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Authentication.Domain.PersistenceModels;
+using Authentication.User.PersistenceModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Authentication.Database.EntityConfigurations
@@ -11,7 +12,7 @@ namespace Authentication.Database.EntityConfigurations
   {
     public override void Configure(EntityTypeBuilder<UserLogin> builder)
     {
-
+      builder.ToTable(nameof(DatabaseContext.UserLogins));
     }
   }
 }

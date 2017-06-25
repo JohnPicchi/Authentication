@@ -1,37 +1,28 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using Authentication.Database.EntityConfigurations;
-using Authentication.Domain.PersistenceModels;
+using Authentication.User.PersistenceModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Authentication.Database
 {
-  public class DatabaseContext : DbContext
+  public class DatabaseContext : IdentityDbContext<User.PersistenceModels.User,Role, Guid, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
   {
     private IDbContextTransaction currentTransaction;
 
     public DatabaseContext(DbContextOptions optionsBuilder) : base(optionsBuilder)
     {
+
     }
-
-    public DbSet<User> Users { get; set; }
-
-    public DbSet<UserClaim> UserClaims { get; set; }
-
-    public DbSet<UserLogin> UserLogins { get; set; }
-
-    public DbSet<UserRole> UserRoles { get; set; }
-
-    public DbSet<UserToken> UserTokens { get; set; }
-
-    public DbSet<Role> Roles { get; set; }
-
-    public DbSet<RoleClaim> RoleClaims { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+      base.OnModelCreating(modelBuilder);
+
       modelBuilder.AddConfiguration(new RoleClaimEntityConfiguration());
       modelBuilder.AddConfiguration(new RoleEntityConfiguration());
       modelBuilder.AddConfiguration(new UserClaimEntityConfiguration());
