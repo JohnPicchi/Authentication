@@ -3,16 +3,27 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Authentication.Core.RequestHandlers.Contracts;
-using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.EditModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace Authentication.Core.RequestHandlers
 {
-  public class LoginEditModelRequestHandlerAsync : IFormResultRequestHandlerAsync<LoginEditModel>
+  public class LoginEditModelRequestHandlerAsync : IRequestHandlerAsync<LoginEditModel, SignInResult>
   {
-    public Task<IFormResult> HandleAsync(LoginEditModel request)
+    private readonly SignInManager<User.Models.User> signInManager;
+
+    public LoginEditModelRequestHandlerAsync(SignInManager<User.Models.User> signInManager)
     {
-      throw new NotImplementedException();
+      this.signInManager = signInManager;
+    }
+
+    public async Task<SignInResult> HandleAsync(LoginEditModel request)
+    {
+      return await signInManager.PasswordSignInAsync(
+        userName: request.Email, 
+        password: request.Password,
+        isPersistent: request.RememberLogin, 
+        lockoutOnFailure: true);
     }
   }
 }

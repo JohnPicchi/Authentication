@@ -3,7 +3,7 @@
 @if (!ViewContext.ModelState.IsValid)
 {
   var errors = ViewContext.ModelState
-    .FindKeysWithPrefix("FORM_RESULT_ERROR")
+    .Where(v => v.Key == String.Empty)
     .Where(v => v.Value.ValidationState == ModelValidationState.Invalid);
 
 

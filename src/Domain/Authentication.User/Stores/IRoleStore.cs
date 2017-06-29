@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Authentication.User.PersistenceModels;
+using Authentication.User.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace Authentication.User.Stores

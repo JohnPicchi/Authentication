@@ -19,7 +19,7 @@ namespace Authentication.Controllers
         if (formResult.Success)
           return success();
 
-        ModelState.AddModelError("FORM_RESULT_ERROR", formResult.ErrorMessage);
+        ModelState.AddModelError(String.Empty, formResult.ErrorMessage);
       }
       return failure();
     }
@@ -36,7 +36,7 @@ namespace Authentication.Controllers
         if (formResult.Success)
           return success();
 
-        ModelState.AddModelError("FORM_RESULT_ERROR", formResult.ErrorMessage);
+        ModelState.AddModelError(String.Empty, formResult.ErrorMessage);
       }
       return failure();
     }

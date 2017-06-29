@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Authentication.PresentationModels.Validation;
 using Authentication.Utilities.Helpers;
 using Microsoft.AspNetCore.Mvc;
 

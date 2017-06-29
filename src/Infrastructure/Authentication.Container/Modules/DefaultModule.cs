@@ -24,6 +24,8 @@ namespace Authentication.Container.Modules
       {
         Assembly.Load(new AssemblyName {Name = "Authentication.Database"}),
         Assembly.Load(new AssemblyName {Name = "Authentication.Core"}),
+        Assembly.Load(new AssemblyName {Name = "Authentication.User"}),
+        Assembly.Load(new AssemblyName {Name = "Authentication.Application"}),
       };
 
       //builder.Register(c => new DomainTransaction())
@@ -38,9 +40,8 @@ namespace Authentication.Container.Modules
         .InstancePerLifetimeScope();  //NOT instancePerRequest for dotnet core 
 
       builder.RegisterAssemblyTypes(assemblies)
-        .Where(t => t.Name.EndsWith("Repository"))
+        .Where(t => t.Name.EndsWith("Store"))
         .AsImplementedInterfaces()
-        .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies)
         .InstancePerLifetimeScope();
 
       ///////////////////////////////////////////////

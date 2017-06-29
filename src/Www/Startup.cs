@@ -4,7 +4,7 @@ using Authentication.Controllers;
 using Authentication.Database;
 using Authentication.Database.Stores;
 using Authentication.Filters;
-using Authentication.User.PersistenceModels;
+using Authentication.User.Models;
 using Authentication.Utilities.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -63,23 +63,47 @@ namespace Authentication
         opts.UseSqlServer(Configuration.GetConnectionString("Default"));
       });
 
-      services.AddIdentity<User.PersistenceModels.User, Role>()
-        .AddUserStore<UserStore>()
-        .AddRoleStore<RoleStore>()
-        .AddDefaultTokenProviders();
+      services.AddIdentity<User.Models.User, Role>(opts =>
+      {
+        // Password settings
+        opts.Password.RequireDigit = false;
+        opts.Password.RequiredLength = 1;
+        opts.Password.RequireNonAlphanumeric = false;
+        opts.Password.RequireUppercase = false;
+        opts.Password.RequireLowercase = false;
+
+        // Lockout settings
+        opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(60);
+        opts.Lockout.MaxFailedAccessAttempts = 5;
+
+        // SignIn settings
+        opts.SignIn.RequireConfirmedEmail = false;
+        opts.SignIn.RequireConfirmedPhoneNumber = false;
+
+        // Cookie settings
+        opts.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(150);
+        opts.Cookies.ApplicationCookie.LoginPath = "/Account/Login";
+        opts.Cookies.ApplicationCookie.LogoutPath = "/Account/Logout";
+
+        // User settings
+        opts.User.RequireUniqueEmail = true;
+      })
+      .AddUserStore<UserStore>()
+      .AddRoleStore<RoleStore>()
+      .AddDefaultTokenProviders();
 
       services.AddIdentityServer(opts =>
-        {
-          opts.Endpoints.EnableUserInfoEndpoint = true;
-          opts.UserInteraction.LoginUrl = Helper.LocalPath<AccountController>(nameof(AccountController.Login));
-        })
-        //.AddSigningCredential()
-        .AddDeveloperSigningCredential()
-        .AddInMemoryClients(Config.GetClients())
-        .AddInMemoryApiResources(Config.GetApiResources())
-        .AddInMemoryIdentityResources(Config.GetIdentityResources())
-        .AddAspNetIdentity<User.PersistenceModels.User>();
-      //.AddProfileService<ProfileService>();
+      {
+        opts.Endpoints.EnableUserInfoEndpoint = true;
+        opts.UserInteraction.LoginUrl = Helper.LocalPath<AccountController>(nameof(AccountController.Login));
+      })
+      //.AddSigningCredential()
+      .AddDeveloperSigningCredential()
+      .AddInMemoryClients(Config.GetClients())
+      .AddInMemoryApiResources(Config.GetApiResources())
+      .AddInMemoryIdentityResources(Config.GetIdentityResources())
+      .AddAspNetIdentity<User.Models.User>();
+    //.AddProfileService<ProfileService>();
 
       //services.AddTransient<IClaimsService, ClaimsService>();
       //services.AddTransient<IProfileService, ProfileService>();
@@ -99,8 +123,8 @@ namespace Authentication
       {
         app.UseDeveloperExceptionPage();
         loggerFactory.AddConsole(LogLevel.Information);
+        loggerFactory.AddProvider(new DatabaseLoggerProvider());
       }
-      loggerFactory.AddProvider(new DatabaseLoggerProvider());
 
       app.UseStaticFiles();
 

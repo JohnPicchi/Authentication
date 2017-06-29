@@ -4,20 +4,22 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Authentication.User.PersistenceModels;
+using Authentication.User.Models;
+using Authentication.User.Stores;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.Database.Stores
 {
-  public class UserStore : UserStore<User.PersistenceModels.User, Role, DatabaseContext, Guid, IdentityUserClaim<Guid>, IdentityUserRole<Guid>, UserLogin, UserToken, IdentityRoleClaim<Guid>>
+  public class UserStore : UserStore<User.Models.User, Role, DatabaseContext, Guid, IdentityUserClaim<Guid>, IdentityUserRole<Guid>, UserLogin, UserToken, IdentityRoleClaim<Guid>>, IUserStore
   {
     public UserStore(DatabaseContext context, IdentityErrorDescriber describer = null) : base(context, describer)
     {
 
     }
 
-    protected override IdentityUserRole<Guid> CreateUserRole(User.PersistenceModels.User user, Role role)
+    protected override IdentityUserRole<Guid> CreateUserRole(User.Models.User user, Role role)
     {
       return new IdentityUserRole<Guid>()
       {
@@ -26,14 +28,14 @@ namespace Authentication.Database.Stores
       };
     }
 
-    protected override IdentityUserClaim<Guid> CreateUserClaim(User.PersistenceModels.User user, Claim claim)
+    protected override IdentityUserClaim<Guid> CreateUserClaim(User.Models.User user, Claim claim)
     {
       var userClaim = new IdentityUserClaim<Guid> { UserId = user.Id };
       userClaim.InitializeFromClaim(claim);
       return userClaim;
     }
 
-    protected override UserLogin CreateUserLogin(User.PersistenceModels.User user, UserLoginInfo login)
+    protected override UserLogin CreateUserLogin(User.Models.User user, UserLoginInfo login)
     {
       return new UserLogin
       {
@@ -44,7 +46,7 @@ namespace Authentication.Database.Stores
       };
     }
 
-    protected override UserToken CreateUserToken(User.PersistenceModels.User user, string loginProvider, string name, string value)
+    protected override UserToken CreateUserToken(User.Models.User user, string loginProvider, string name, string value)
     {
       return new UserToken
       {
@@ -53,6 +55,11 @@ namespace Authentication.Database.Stores
         Name = name,
         Value = value
       };
+    }
+
+    public async Task<bool> AccountExistsAsync(string email)
+    {
+      return await Users.AnyAsync(u => u.Email == email);
     }
   }
 }

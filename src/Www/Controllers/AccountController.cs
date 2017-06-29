@@ -1,23 +1,41 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Authentication.Core.Requests;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.EditModels;
 using Authentication.PresentationModels.ViewModels;
+using Authentication.User.Stores;
+using Authentication.Utilities.ExtensionMethods;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Authentication.Controllers
 {
+  [Authorize]
   public class AccountController : DefaultController
   {
-    public AccountController()
-    {
+    public const string ACCOUNT_LOCKED = "Account is locked";
 
+    private readonly SignInManager<User.Models.User> signInManager;
+    private readonly UserManager<User.Models.User> userManager;
+    private readonly IUserStore userStore;
+
+    public AccountController(
+      SignInManager<User.Models.User> signInManager,
+      UserManager<User.Models.User> userManager,
+      IUserStore userStore)
+    {
+      this.signInManager = signInManager;
+      this.userManager = userManager;
+      this.userStore = userStore;
     }
 
-    [Authorize]
-    public IActionResult Index()
+    // GET: /Account
+    public async Task<IActionResult> Index()
     {
       var claims = User.Claims
         .Select(c => new { c.Type, c.Value });
@@ -25,63 +43,208 @@ namespace Authentication.Controllers
       return new JsonResult(claims);
     }
 
+    // GET: /Account/Register
     [HttpGet]
+    [AllowAnonymous]
     public IActionResult Register() => View(new RegisterViewModel());
 
+    // POST: /Account/Register
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> Register(RegisterEditModel form,
       [FromServices] IFormResultRequestAsync<RegisterEditModel> request)
     {
       return await FormAsync(form, request,
-        success: () => View(form as RegisterViewModel),
+        success: () => RedirectToAction(nameof(AccountController.Login)),
 
         failure: () => View(form as RegisterViewModel));
     }
 
+    // GET & POST: /Account/CheckAccountId
     [AcceptVerbs("GET", "POST")]
+    [AllowAnonymous]
     public async Task<IActionResult> CheckAccountId(string email)
     {
-      return Json(data: true);
+      var userExists = await userStore.AccountExistsAsync(email);
+      return userExists
+        ? Json(data: "Account already exists")
+        : Json(data: true);
     }
 
+    // GET: /Account/Login
     [HttpGet]
+    [AllowAnonymous]
     public IActionResult Login(string returnUrl = null)
     {
-      var viewModel = new LoginViewModel { ReturnUrl = returnUrl };
-      return View(viewModel);
+      return View(new LoginViewModel
+      {
+        ReturnUrl = returnUrl
+      });
     }
 
+    // POST: /Account/Login
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> Login(LoginEditModel form,
-      [FromServices] IFormResultRequestAsync<LoginEditModel> request)
+      [FromServices] LoginRequestAsync request)
     {
-      return await FormAsync(form, request,
-        success: () =>
-        {
-         // var account = accountRepository.Find(form.Email);
-         // if (account.Properties.HasMultiFactorAuth)
-         //   return RedirectToAction();
-         //
-         // if (account.Properties.PasswordResetRequired)
-         //   return RedirectToAction();
-         //
-         // if (form.ReturnUrl.HasValue() && interactionService.IsValidReturnUrl(form.ReturnUrl))
-         //   return Redirect(form.ReturnUrl);
+      var result = await request.HandleAsync(form);
 
-          return RedirectToAction(nameof(AccountController.Index));
-        },
+      if (result.Succeeded)
+      {
+        if (form.ReturnUrl.HasValue())
+          return Redirect(form.ReturnUrl);
 
-        failure: () => RedirectToAction("Index"));
+        return RedirectToAction(nameof(AccountController.Index));
+      }
+
+      if (result.RequiresTwoFactor)
+        return RedirectToAction(nameof(AccountController.SendCode), new { ReturnUrl = form.ReturnUrl, RememberMe = form.RememberLogin });
+
+      if (result.IsLockedOut)
+      {
+        ModelState.AddModelError(String.Empty, ACCOUNT_LOCKED);
+        return View(form as LoginViewModel);
+      }
+
+      ModelState.AddModelError(String.Empty, "Invalid username and/or password");
+      return View(form as LoginViewModel);
     }
 
+    // GET: /Account/Logout
     [HttpGet]
-    [Authorize]
     public IActionResult Logout()
     {
       var claims = User.Claims
-        .Select(c => new {c.Type, c.Value});
+        .Select(c => new { c.Type, c.Value });
 
       return new JsonResult(claims);
+    }
+
+    // GET: /Account/SendCode
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> SendCode(string returnUrl = null, bool rememberMe = false)
+    {
+      var user = await signInManager.GetTwoFactorAuthenticationUserAsync();
+      
+      if (user == null)
+        return View("Error");
+      
+      return View(new SendCodeViewModel
+      {
+        ReturnUrl = returnUrl,
+        RememberMe = rememberMe,
+        CodeProviders = await userManager.GetValidTwoFactorProvidersAsync(user)
+      });
+    }
+
+    // POST: /Account/SendCode
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<IActionResult> SendCode(SendCodeEditModel form)
+    {
+      //TODO: Send Code
+      return RedirectToAction(nameof(AccountController.VerifyCode), new { CodeProvider = form.CodeProvider, RememberMe = form.RememberMe, ReturnUrl = form.ReturnUrl });
+    }
+
+    // GET: /Account/VerifyCode
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> VerifyCode(string codeProvider, bool rememberMe, string returnUrl = null)
+    {
+      return View(new VerifyLoginCodeViewModel
+      {
+        ReturnUrl = returnUrl,
+        RememberMe = rememberMe,
+        CodeProvider = codeProvider
+      });
+    }
+
+    // POST: /Account/VerifyCode
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<IActionResult> VerifyCode(VerifyLoginCodeEditModel form,
+      [FromServices] VerifyLoginCodeRequestAsync request)
+    {
+      var result = await request.HandleAsync(form);
+
+      if (result.Succeeded)
+      {
+        if (form.ReturnUrl.HasValue())
+          return Redirect(form.ReturnUrl);
+        return RedirectToAction(nameof(AccountController.Index));
+      }
+
+      if (result.IsLockedOut)
+      {
+        ModelState.AddModelError(String.Empty, ACCOUNT_LOCKED);
+        return View(form as VerifyLoginCodeViewModel);
+      }
+
+      ModelState.AddModelError(String.Empty, "Invalid code");
+      return View(form as VerifyLoginCodeViewModel);
+    }
+
+    // GET: /Account/ResetPassword
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> ResetPassword(string code = null)
+    {
+      var viewModel = new ResetPasswordViewModel();
+      return View(viewModel);
+    }
+
+    // POST: /Account/ResetPassword
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<IActionResult> ResetPassword(ResetPasswordEditModel form)
+    {
+      return View();
+    }
+
+    // GET: /Account/ForgotPassword
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> ForgotPassword()
+    {
+      return View();
+    }
+
+    // POST: /Account/ForgotPassword
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<IActionResult> ForgotPassword(ForgotPasswordEditModel form)
+    {
+
+      // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
+      // Send an email with this link
+      //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+      //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+      //await _emailSender.SendEmailAsync(model.Email, "Reset Password",
+      //   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+      //return View("ForgotPasswordConfirmation");
+
+      return View();
+    }
+
+    // GET: /Account/ForgotPasswordConfirmation
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> ForgotPasswordConfirmation() => View();
+
+    // GET: /Account/Settings
+    [HttpGet]
+    public async Task<IActionResult> Settings()
+    {
+      return View();
+    }
+
+    // POST: /Account/Settings
+    [HttpPost]
+    public async Task<IActionResult> Settings(AccountSettingsEditModel form)
+    {
+      return View();
     }
   }
 }

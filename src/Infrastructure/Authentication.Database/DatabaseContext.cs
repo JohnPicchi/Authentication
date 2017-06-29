@@ -3,14 +3,14 @@ using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using Authentication.Database.EntityConfigurations;
-using Authentication.User.PersistenceModels;
+using Authentication.User.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Authentication.Database
 {
-  public class DatabaseContext : IdentityDbContext<User.PersistenceModels.User, Role, Guid, IdentityUserClaim<Guid>, IdentityUserRole<Guid>, UserLogin, IdentityRoleClaim<Guid>, UserToken>
+  public class DatabaseContext : IdentityDbContext<User.Models.User, Role, Guid, IdentityUserClaim<Guid>, IdentityUserRole<Guid>, UserLogin, IdentityRoleClaim<Guid>, UserToken>
   {
     private IDbContextTransaction currentTransaction;
 

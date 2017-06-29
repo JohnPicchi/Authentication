@@ -11,7 +11,7 @@ namespace Authentication.PresentationModels.EditModels
 {
   public class RegisterEditModel
   {
-    [UniqueAccount]
+    [UniqueEmail]
     [Required(ErrorMessage = "Email required")]
     [DataType(DataType.EmailAddress)]
     [Remote(action: "CheckAccountId", controller: "Account")]
