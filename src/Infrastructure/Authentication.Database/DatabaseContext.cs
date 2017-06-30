@@ -19,10 +19,14 @@ namespace Authentication.Database
 
     }
 
+
+    public DbSet<UserAddress> UserAddresses { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       base.OnModelCreating(modelBuilder);
 
+      modelBuilder.AddConfiguration(new UserAddressEntityConfiguration());
       modelBuilder.AddConfiguration(new RoleClaimEntityConfiguration());
       modelBuilder.AddConfiguration(new RoleEntityConfiguration());
       modelBuilder.AddConfiguration(new UserClaimEntityConfiguration());

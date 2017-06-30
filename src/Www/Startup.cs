@@ -4,8 +4,10 @@ using Authentication.Controllers;
 using Authentication.Database;
 using Authentication.Database.Stores;
 using Authentication.Filters;
+using Authentication.Services;
 using Authentication.User.Models;
 using Authentication.Utilities.Helpers;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -102,11 +104,11 @@ namespace Authentication
       .AddInMemoryClients(Config.GetClients())
       .AddInMemoryApiResources(Config.GetApiResources())
       .AddInMemoryIdentityResources(Config.GetIdentityResources())
-      .AddAspNetIdentity<User.Models.User>();
-    //.AddProfileService<ProfileService>();
+      .AddAspNetIdentity<User.Models.User>()
+      .AddProfileService<ProfileService>();
 
       //services.AddTransient<IClaimsService, ClaimsService>();
-      //services.AddTransient<IProfileService, ProfileService>();
+      services.AddTransient<IProfileService, ProfileService>();
 
       services.AddLogging();
       services.AddOptions();

@@ -10,6 +10,13 @@ namespace Authentication.Utilities.Helpers
     {
       public const int AccountToken = 256;
 
+      public const int AddressLine1 = 256;
+      public const int AddressLine2 = 256;
+      public const int AddressDescription = 256;
+      public const int Country = 256;
+      public const int StateProvinceRegion = 256;
+      public const int ZipCode = 64;
+
       public const int Email = 256;
       public const int Password = 256;
       public const int FirstName = 128;

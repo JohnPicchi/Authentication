@@ -1,5 +1,69 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using Authentication.Controllers
+@using Authentication.Utilities.Helpers
+@model Authentication.PresentationModels.ViewModels.AccountSettingsViewModel
+
+<form asp-controller=@(Helper.NameOfController<AccountController>()) asp-action=@(nameof(AccountController.Settings)) method="post" class="form-horizontal">
+
+  <div class="form-group">
+    <label asp-for="FirstName" class="control-label"></label>
+    <div>
+      <input asp-for="FirstName" class="form-control" placeholder="First Name" />
+      <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label asp-for="LastName" class="control-label"></label>
+    <div>
+      <input asp-for="LastName" class="form-control" placeholder="Last Name" />
+      <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label asp-for="PhoneNumber" class="control-label"></label>
+    <div>
+      <input asp-for="PhoneNumber" class="form-control" />
+      <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label asp-for="AddressLine1" class="control-label"></label>
+    <div>
+      <input asp-for="AddressLine1" class="form-control" placeholder="Street & number, P.O box, c/o." />
+      <span asp-validation-for="AddressLine1" class="text-danger"></span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div>
+      <input asp-for="AddressLine2" class="form-control" placeholder="Apartment, Suite, Building, Unit, Floor" />
+      <span asp-validation-for="AddressLine2" class="text-danger"></span>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label asp-for="StateProvinceRegion" class="control-label"></label>
+    <div>
+      <input asp-for="StateProvinceRegion" class="form-control" placeholder="State / Province / Region" />
+      <span asp-validation-for="StateProvinceRegion" class="text-danger"></span>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label asp-for="PostalCode" class="control-label"></label>
+    <div>
+      <input asp-for="PostalCode" class="form-control" placeholder="Postal Code" />
+      <span asp-validation-for="PostalCode" class="text-danger"></span>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label asp-for="Country" class="control-label"></label>
+    <div>
+      <input asp-for="Country" class="form-control" placeholder="Country" />
+      <span asp-validation-for="Country" class="text-danger"></span>
+    </div>
+  </div>
+</form>

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Authentication.PresentationModels.EditModels
 {
-  public class VerifyLoginCodeEditModel : SendCodeEditModel
+  public class VerifyLoginCodeEditModel : SendLoginCodeEditModel
   {
     public string Code { get; set; }
   }

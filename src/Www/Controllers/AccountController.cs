@@ -131,7 +131,7 @@ namespace Authentication.Controllers
       if (user == null)
         return View("Error");
       
-      return View(new SendCodeViewModel
+      return View(new SendLoginCodeViewModel
       {
         ReturnUrl = returnUrl,
         RememberMe = rememberMe,
@@ -142,10 +142,13 @@ namespace Authentication.Controllers
     // POST: /Account/SendCode
     [HttpPost]
     [AllowAnonymous]
-    public async Task<IActionResult> SendCode(SendCodeEditModel form)
+    public async Task<IActionResult> SendCode(SendLoginCodeEditModel form,
+      [FromServices] IFormResultRequestAsync<SendLoginCodeEditModel> request)
     {
-      //TODO: Send Code
-      return RedirectToAction(nameof(AccountController.VerifyCode), new { CodeProvider = form.CodeProvider, RememberMe = form.RememberMe, ReturnUrl = form.ReturnUrl });
+      return await FormAsync(form, request,
+        success: () => RedirectToAction(nameof(AccountController.VerifyCode), new { CodeProvider = form.CodeProvider, RememberMe = form.RememberMe, ReturnUrl = form.ReturnUrl }),
+        
+        failure: () => View(form as SendLoginCodeViewModel));
     }
 
     // GET: /Account/VerifyCode
@@ -233,18 +236,42 @@ namespace Authentication.Controllers
     [AllowAnonymous]
     public async Task<IActionResult> ForgotPasswordConfirmation() => View();
 
+
+    // GET: /Account/ConfirmEmail
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> ConfirmEmail(string userId, string code)
+    {
+      return View("Error");
+    }
+
     // GET: /Account/Settings
     [HttpGet]
     public async Task<IActionResult> Settings()
     {
-      return View();
+      var user = await userManager.GetUserAsync(User);
+      var viewModel = new AccountSettingsViewModel
+      {
+        FirstName = user.FirstName,
+        LastName = user.LastName,
+        PhoneNumber = user.PhoneNumber
+      };
+      return View(viewModel);
     }
 
     // POST: /Account/Settings
     [HttpPost]
-    public async Task<IActionResult> Settings(AccountSettingsEditModel form)
+    public async Task<IActionResult> Settings(AccountSettingsEditModel form,
+      [FromServices] IFormResultRequestAsync<AccountSettingsEditModel> request)
     {
-      return View();
+      return await FormAsync(form, request,
+        success: () => RedirectToAction(nameof(AccountController.Index)),
+        
+        failure: () =>
+        {
+          var viewModel = form as AccountSettingsViewModel;
+          return View(viewModel);
+        });
     }
   }
 }
