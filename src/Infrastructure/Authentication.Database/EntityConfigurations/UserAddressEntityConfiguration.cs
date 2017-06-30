@@ -14,13 +14,11 @@ namespace Authentication.Database.EntityConfigurations
       builder.ToTable(nameof(DatabaseContext.UserAddresses));
 
       builder.HasOne(p => p.User)
-        .WithMany(p => p.Address)
-        .HasForeignKey(p => p.UserId)
+        .WithOne(p => p.Address)
+        .HasForeignKey<UserAddress>(p => p.UserId)
         .IsRequired(true);
 
       builder.HasIndex(p => p.UserId);
-
-      builder.HasKey(p => new { p.Id, p.UserId });
 
       builder.Property(p => p.Country)
         .HasMaxLength(256)
@@ -31,10 +29,6 @@ namespace Authentication.Database.EntityConfigurations
         .IsRequired(true);
 
       builder.Property(p => p.AddressLine2)
-        .HasMaxLength(256)
-        .IsRequired(false);
-
-      builder.Property(p => p.Description)
         .HasMaxLength(256)
         .IsRequired(false);
 

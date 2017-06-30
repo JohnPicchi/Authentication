@@ -13,9 +13,8 @@ namespace Authentication.Database.EntityConfigurations
     {
       builder.ToTable(nameof(DatabaseContext.Users));
 
-      builder.HasMany(p => p.Address)
-        .WithOne(p => p.User)
-        .HasForeignKey(p => p.UserId);
+      builder.HasOne(p => p.Address)
+        .WithOne(p => p.User);
 
       builder.Property(p => p.FirstName)
         .HasMaxLength(Helper.MaxLength.FirstName)
