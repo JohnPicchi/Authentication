@@ -37,6 +37,9 @@ namespace Authentication.Controllers
     // GET: /Account
     public async Task<IActionResult> Index()
     {
+      var user = await userManager.GetUserAsync(User);
+      var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+
       var claims = User.Claims
         .Select(c => new { c.Type, c.Value });
 
@@ -56,7 +59,6 @@ namespace Authentication.Controllers
     {
       return await FormAsync(form, request,
         success: () => RedirectToAction(nameof(AccountController.Login)),
-
         failure: () => View(form as RegisterViewModel));
     }
 
@@ -74,13 +76,8 @@ namespace Authentication.Controllers
     // GET: /Account/Login
     [HttpGet]
     [AllowAnonymous]
-    public IActionResult Login(string returnUrl = null)
-    {
-      return View(new LoginViewModel
-      {
-        ReturnUrl = returnUrl
-      });
-    }
+    public IActionResult Login(string returnUrl = null) => View(new LoginViewModel { ReturnUrl = returnUrl });
+    
 
     // POST: /Account/Login
     [HttpPost]
@@ -147,7 +144,6 @@ namespace Authentication.Controllers
     {
       return await FormAsync(form, request,
         success: () => RedirectToAction(nameof(AccountController.VerifyCode), new { CodeProvider = form.CodeProvider, RememberMe = form.RememberMe, ReturnUrl = form.ReturnUrl }),
-        
         failure: () => View(form as SendLoginCodeViewModel));
     }
 
@@ -192,34 +188,36 @@ namespace Authentication.Controllers
     // GET: /Account/ResetPassword
     [HttpGet]
     [AllowAnonymous]
-    public async Task<IActionResult> ResetPassword(string code = null)
-    {
-      var viewModel = new ResetPasswordViewModel();
-      return View(viewModel);
-    }
+    public async Task<IActionResult> ResetPassword(string code = null) => View(new ResetPasswordViewModel { Code = code });
+    
 
     // POST: /Account/ResetPassword
     [HttpPost]
     [AllowAnonymous]
     public async Task<IActionResult> ResetPassword(ResetPasswordEditModel form)
     {
+      var user = await userManager.FindByEmailAsync(form.Email);
+      var result = userManager.ResetPasswordAsync(user, form.Code, form.Password);
+
       return View();
     }
 
     // GET: /Account/ForgotPassword
     [HttpGet]
     [AllowAnonymous]
-    public async Task<IActionResult> ForgotPassword()
-    {
-      return View();
-    }
+    public async Task<IActionResult> ForgotPassword() => View();
 
     // POST: /Account/ForgotPassword
     [HttpPost]
     [AllowAnonymous]
     public async Task<IActionResult> ForgotPassword(ForgotPasswordEditModel form)
     {
-
+      var user = await userManager.FindByEmailAsync(form.Email);
+      if(user != null)
+      {
+        var code = await userManager.GeneratePasswordResetTokenAsync(user);
+        var callbackUrl = Url.Action(nameof(AccountController.ResetPassword), new { code = code });
+      }
       // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
       // Send an email with this link
       //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -237,13 +235,48 @@ namespace Authentication.Controllers
     public async Task<IActionResult> ForgotPasswordConfirmation() => View();
 
 
-    // GET: /Account/ConfirmEmail
+    // GET: /Account/VerifyEmail
     [HttpGet]
     [AllowAnonymous]
-    public async Task<IActionResult> ConfirmEmail(string userId, string code)
+    public async Task<IActionResult> VerifyEmail(string userId = null, string code = null)
     {
-      return View("Error");
+      if (userId.HasValue() && code.HasValue())
+      {
+        var user = await userManager.FindByIdAsync(userId);
+        if (user != null)
+        {
+          var result = await userManager.ConfirmEmailAsync(user, code);
+          if (result.Succeeded)
+            return View();
+        }
+      }
+      return View();
     }
+
+    // GET: /Account/ConfirmEmail
+    [HttpGet]
+    public async Task<IActionResult> ConfirmEmail()
+    {
+      var user = await userManager.GetUserAsync(User);
+      var code = userManager.GenerateEmailConfirmationTokenAsync(user);
+      var callbackUrl = Url.Action(nameof(AccountController.VerifyEmail), new { userId = user.Id, code = code });
+
+      return View();
+    }
+
+    //// GET: /Account/ConfirmPhoneNumber
+    //[HttpGet]
+    //public async Task<IActionResult> ConfirmPhoneNumber()
+    //{
+    //
+    //}
+    //
+    //// POST: /Account/ConfirmPhoneNumber
+    //[HttpPost]
+    //public async Task<IActionResult> ConfirmPhoneNumber()
+    //{
+    //  
+    //}
 
     // GET: /Account/Settings
     [HttpGet]
@@ -266,7 +299,6 @@ namespace Authentication.Controllers
     {
       return await FormAsync(form, request,
         success: () => RedirectToAction(nameof(AccountController.Index)),
-        
         failure: () =>
         {
           var viewModel = form as AccountSettingsViewModel;
