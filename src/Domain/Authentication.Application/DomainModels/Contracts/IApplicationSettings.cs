@@ -4,6 +4,8 @@
   {
     string DbConnectionString { get; }
 
+    ApplicationEmailSettings Email { get; }
+
     int MaxFailedLoginAttempts { get; }
   }
 }

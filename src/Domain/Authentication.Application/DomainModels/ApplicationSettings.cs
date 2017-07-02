@@ -6,6 +6,8 @@ namespace Authentication.Application.DomainModels
   {
     public string DbConnectionString { get; set; }
 
+    public ApplicationEmailSettings Email { get; set; }
+
     public int MaxFailedLoginAttempts { get; set; }
   }
 }

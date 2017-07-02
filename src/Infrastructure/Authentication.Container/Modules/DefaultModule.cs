@@ -26,6 +26,7 @@ namespace Authentication.Container.Modules
         Assembly.Load(new AssemblyName {Name = "Authentication.Core"}),
         Assembly.Load(new AssemblyName {Name = "Authentication.User"}),
         Assembly.Load(new AssemblyName {Name = "Authentication.Application"}),
+        Assembly.Load(new AssemblyName {Name = "Authentication.Services"})
       };
 
       //builder.Register(c => new DomainTransaction())

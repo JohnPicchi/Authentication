@@ -58,7 +58,6 @@ namespace Authentication
         opts.Filters.Add(typeof(SecurityHeadersFilter));
       });
 
-
       services.AddDbContext<DatabaseContext>(opts =>
       {
         //opts.UseLoggerFactory()

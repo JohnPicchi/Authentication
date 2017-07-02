@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Authentication.Core.Requests;
 using Authentication.Core.Requests.Contracts;
+using Authentication.Core.ServiceContracts;
 using Authentication.PresentationModels.EditModels;
 using Authentication.PresentationModels.ViewModels;
 using Authentication.User.Stores;
@@ -78,7 +79,6 @@ namespace Authentication.Controllers
     [AllowAnonymous]
     public IActionResult Login(string returnUrl = null) => View(new LoginViewModel { ReturnUrl = returnUrl });
     
-
     // POST: /Account/Login
     [HttpPost]
     [AllowAnonymous]
@@ -190,16 +190,15 @@ namespace Authentication.Controllers
     [AllowAnonymous]
     public async Task<IActionResult> ResetPassword(string code = null) => View(new ResetPasswordViewModel { Code = code });
     
-
     // POST: /Account/ResetPassword
     [HttpPost]
     [AllowAnonymous]
-    public async Task<IActionResult> ResetPassword(ResetPasswordEditModel form)
+    public async Task<IActionResult> ResetPassword(ResetPasswordEditModel form,
+      [FromServices] IFormResultRequestAsync<ResetPasswordEditModel> request)
     {
-      var user = await userManager.FindByEmailAsync(form.Email);
-      var result = userManager.ResetPasswordAsync(user, form.Code, form.Password);
-
-      return View();
+      return await FormAsync(form, request,
+        success: () => RedirectToAction(nameof(AccountController.Login)),
+        failure: () => View(form as ResetPasswordViewModel));
     }
 
     // GET: /Account/ForgotPassword
@@ -210,14 +209,13 @@ namespace Authentication.Controllers
     // POST: /Account/ForgotPassword
     [HttpPost]
     [AllowAnonymous]
-    public async Task<IActionResult> ForgotPassword(ForgotPasswordEditModel form)
+    public async Task<IActionResult> ForgotPassword(ForgotPasswordEditModel form, 
+      [FromServices] IFormResultRequestAsync<ForgotPasswordEditModel> request)
     {
-      var user = await userManager.FindByEmailAsync(form.Email);
-      if(user != null)
-      {
-        var code = await userManager.GeneratePasswordResetTokenAsync(user);
-        var callbackUrl = Url.Action(nameof(AccountController.ResetPassword), new { code = code });
-      }
+      return await FormAsync(form, request,
+        success: () => RedirectToAction(nameof(AccountController.ForgotPasswordConfirmation)),
+        failure: () => View(form as ForgotPasswordViewModel));
+
       // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
       // Send an email with this link
       //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -225,15 +223,12 @@ namespace Authentication.Controllers
       //await _emailSender.SendEmailAsync(model.Email, "Reset Password",
       //   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
       //return View("ForgotPasswordConfirmation");
-
-      return View();
     }
 
     // GET: /Account/ForgotPasswordConfirmation
     [HttpGet]
     [AllowAnonymous]
     public async Task<IActionResult> ForgotPasswordConfirmation() => View();
-
 
     // GET: /Account/VerifyEmail
     [HttpGet]

@@ -10,7 +10,7 @@ namespace Authentication.PresentationModels.EditModels
   {
     [Required]
     [DataType(DataType.EmailAddress)]
-    [MaxLength(Helper.MaxLength.Email, ErrorMessage = "Input cannot exceed 256 characters")]
+    [MaxLength(Helper.MaxLength.Email, ErrorMessage = "Email cannot exceed 256 characters")]
     public string Email { get; set; }
   }
 }
