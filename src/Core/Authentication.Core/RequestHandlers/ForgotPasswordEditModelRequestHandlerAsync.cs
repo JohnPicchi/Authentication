@@ -35,13 +35,14 @@ namespace Authentication.Core.RequestHandlers
       if (user != null)
       {
         var code = await userManager.GeneratePasswordResetTokenAsync(user);
-        var callbackUrl = BuildCallBackUrl(code);
+        var callbackUrl = BuildCallbackUrl(user.Email, code);
         await emailService.SendPasswordResetEmailAsync(user.Email, callbackUrl);
       }
       return FormResult.Ok;
     }
 
-    private string BuildCallBackUrl(string passwordResetCode)
+    //TODO: Shit way to build callback url, needs to be refactored
+    private string BuildCallbackUrl(string email, string passwordResetCode)
     {
       var scheme = "https";
       var host = httpContext.Request.Host.Host;
@@ -51,7 +52,8 @@ namespace Authentication.Core.RequestHandlers
 
       var queryBuilder = new QueryBuilder(new[]
       {
-        new KeyValuePair<string, string>("code", $"{passwordResetCode}"), 
+        new KeyValuePair<string, string>("email", $@"{email}"),
+        new KeyValuePair<string, string>("code", $@"{passwordResetCode}"), 
       });
 
       uriBuilder.Query = queryBuilder.ToQueryString().ToString();

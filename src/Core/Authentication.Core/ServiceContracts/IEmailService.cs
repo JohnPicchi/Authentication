@@ -7,7 +7,9 @@ namespace Authentication.Core.ServiceContracts
 {
   public interface IEmailService
   {
-    Task SendPasswordResetEmailAsync(string userEmail, string passwordResetUrl);
+    Task SendPasswordResetEmailAsync(string userEmail, string callbackUrl);
+
+    Task SendEmailConfirmationEmailAsync(string userEmail, string callbackUrl);
 
     Task SendMultiFactorAuthEmailAsync(string userEmail, string code);
   }

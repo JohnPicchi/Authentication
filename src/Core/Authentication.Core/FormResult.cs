@@ -8,8 +8,10 @@ namespace Authentication.Core.RequestHandlers
 
     public string ErrorMessage { get; set; }
 
-    public static FormResult Ok => new FormResult { Success = true };
+    public static FormResult Ok 
+      => new FormResult { Success = true };
 
-    public static FormResult Fail(string errorMessage) => new FormResult { Success = false, ErrorMessage = errorMessage };
+    public static FormResult Fail(string errorMessage) 
+      => new FormResult { Success = false, ErrorMessage = errorMessage };
   }
 }

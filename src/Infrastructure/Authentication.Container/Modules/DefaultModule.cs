@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using Authentication.Core.NotificationHandlers.Contracts;
@@ -113,22 +114,58 @@ namespace Authentication.Container.Modules
       //////////////////////////////////////////
       builder.RegisterAssemblyTypes(assemblies)
         .Where(t => t.Name.EndsWith("RequestHandler"))
+        .Where(t =>
+        {
+          var @interface = t.GetInterfaces().FirstOrDefault(i => i.Name.StartsWith("IRequestHandler"));
+          return @interface != null && @interface.GenericTypeArguments.Length == 2;
+        })
         .AsClosedTypesOf(typeof(IRequestHandler<,>))
+        .AsSelf()
         .InstancePerLifetimeScope();
 
       builder.RegisterAssemblyTypes(assemblies)
         .Where(t => t.Name.EndsWith("RequestHandlerAsync"))
+        .Where(t =>
+        {
+          var @interface = t.GetInterfaces().FirstOrDefault(i => i.Name.StartsWith("IRequestHandlerAsync"));
+          return @interface != null && @interface.GenericTypeArguments.Length == 2;
+        })
         .AsClosedTypesOf(typeof(IRequestHandlerAsync<,>))
+        .AsSelf()
+        .InstancePerLifetimeScope();
+
+      builder.RegisterAssemblyTypes(assemblies)
+        .Where(t => t.Name.EndsWith("RequestHandler"))
+        .Where(t =>
+        {
+          var @interface = t.GetInterfaces().FirstOrDefault(i => i.Name.StartsWith("IRequestHandler"));
+          return @interface != null && @interface.GenericTypeArguments.Length == 1;
+        })
+        .AsClosedTypesOf(typeof(IRequestHandler<>))
+        .AsSelf()
+        .InstancePerLifetimeScope();
+
+      builder.RegisterAssemblyTypes(assemblies)
+        .Where(t => t.Name.EndsWith("RequestHandlerAsync"))
+        .Where(t =>
+        {
+          var @interface = t.GetInterfaces().FirstOrDefault(i => i.Name.StartsWith("IRequestHandlerAsync"));
+          return @interface != null && @interface.GenericTypeArguments.Length == 1;
+        })
+        .AsClosedTypesOf(typeof(IRequestHandlerAsync<>))
+        .AsSelf()
         .InstancePerLifetimeScope();
 
       builder.RegisterAssemblyTypes(assemblies)
         .Where(t => t.Name.EndsWith("NotificationHandler"))
         .AsClosedTypesOf(typeof(INotificationHandler<>))
+        .AsSelf()
         .InstancePerLifetimeScope();
 
       builder.RegisterAssemblyTypes(assemblies)
         .Where(t => t.Name.EndsWith("NotificationHandlerAsync"))
         .AsClosedTypesOf(typeof(INotificationHandlerAsync<>))
+        .AsSelf()
         .InstancePerLifetimeScope();
 
       base.Load(builder);

@@ -40,5 +40,22 @@ namespace Authentication.Controllers
       }
       return failure();
     }
+
+    internal async Task<IActionResult> FormAsync<TForm>(
+      TForm form,
+      IFormResultRequestAsync<TForm> request,
+      Func<IActionResult> success,
+      Func<Task<IActionResult>> failure)
+    {
+      if (ModelState.IsValid)
+      {
+        var formResult = await request.HandleAsync(form);
+        if (formResult.Success)
+          return success();
+
+        ModelState.AddModelError(String.Empty, formResult.ErrorMessage);
+      }
+      return await failure();
+    }
   }
 }

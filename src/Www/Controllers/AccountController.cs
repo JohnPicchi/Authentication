@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Authentication.Core.Requests;
 using Authentication.Core.Requests.Contracts;
-using Authentication.Core.ServiceContracts;
 using Authentication.PresentationModels.EditModels;
 using Authentication.PresentationModels.ViewModels;
 using Authentication.User.Stores;
@@ -150,7 +149,7 @@ namespace Authentication.Controllers
     // GET: /Account/VerifyCode
     [HttpGet]
     [AllowAnonymous]
-    public async Task<IActionResult> VerifyCode(string codeProvider, bool rememberMe, string returnUrl = null)
+    public IActionResult VerifyCode(string codeProvider, bool rememberMe, string returnUrl = null)
     {
       return View(new VerifyLoginCodeViewModel
       {
@@ -188,7 +187,10 @@ namespace Authentication.Controllers
     // GET: /Account/ResetPassword
     [HttpGet]
     [AllowAnonymous]
-    public async Task<IActionResult> ResetPassword(string code = null) => View(new ResetPasswordViewModel { Code = code });
+    public IActionResult ResetPassword(string email = null, string code = null)
+    {
+      return View(new ResetPasswordViewModel { Email = email ?? String.Empty, Code = code });
+    }
     
     // POST: /Account/ResetPassword
     [HttpPost]
@@ -204,7 +206,7 @@ namespace Authentication.Controllers
     // GET: /Account/ForgotPassword
     [HttpGet]
     [AllowAnonymous]
-    public async Task<IActionResult> ForgotPassword() => View();
+    public IActionResult ForgotPassword() => View();
 
     // POST: /Account/ForgotPassword
     [HttpPost]
@@ -215,20 +217,12 @@ namespace Authentication.Controllers
       return await FormAsync(form, request,
         success: () => RedirectToAction(nameof(AccountController.ForgotPasswordConfirmation)),
         failure: () => View(form as ForgotPasswordViewModel));
-
-      // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
-      // Send an email with this link
-      //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-      //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-      //await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-      //   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
-      //return View("ForgotPasswordConfirmation");
     }
 
     // GET: /Account/ForgotPasswordConfirmation
     [HttpGet]
     [AllowAnonymous]
-    public async Task<IActionResult> ForgotPasswordConfirmation() => View();
+    public IActionResult ForgotPasswordConfirmation() => View();
 
     // GET: /Account/VerifyEmail
     [HttpGet]
@@ -250,28 +244,44 @@ namespace Authentication.Controllers
 
     // GET: /Account/ConfirmEmail
     [HttpGet]
-    public async Task<IActionResult> ConfirmEmail()
+    public async Task<IActionResult> ConfirmEmail([FromServices] ConfirmEmailRequestAsync request)
     {
-      var user = await userManager.GetUserAsync(User);
-      var code = userManager.GenerateEmailConfirmationTokenAsync(user);
-      var callbackUrl = Url.Action(nameof(AccountController.VerifyEmail), new { userId = user.Id, code = code });
-
+      var result = await request.HandleAsync();
       return View();
     }
 
-    //// GET: /Account/ConfirmPhoneNumber
-    //[HttpGet]
-    //public async Task<IActionResult> ConfirmPhoneNumber()
-    //{
-    //
-    //}
-    //
-    //// POST: /Account/ConfirmPhoneNumber
-    //[HttpPost]
-    //public async Task<IActionResult> ConfirmPhoneNumber()
-    //{
-    //  
-    //}
+    // POST: /Accout/AddPhoneNumber
+    [HttpPost]
+    public async Task<IActionResult> AddPhoneNumber(AddPhoneNumberEditModel form,
+      [FromServices] IFormResultRequestAsync<AddPhoneNumberEditModel> request)
+    {
+      return await FormAsync(form, request,
+        success: () => RedirectToAction(nameof(AccountController.ConfirmPhoneNumber), new { PhoneNumber = form.PhoneNumber }),
+        failure: () => View(form as AddPhoneNumberViewModel));
+    }
+
+    // GET: /Account/ConfirmPhoneNumber
+    [HttpGet]
+    public IActionResult ConfirmPhoneNumber(string phoneNumber = null)
+    {
+      return View(new ConfirmPhoneNumberViewModel {PhoneNumber = phoneNumber ?? String.Empty});
+    }
+    
+    // POST: /Account/ConfirmPhoneNumber
+    [HttpPost]
+    public async Task<IActionResult> ConfirmPhoneNumber(ConfirmPhoneNumberEditModel form,
+      [FromServices] IFormResultRequestAsync<ConfirmPhoneNumberEditModel> request)
+    {
+      return await FormAsync(form, request,
+        success: () => RedirectToAction(nameof(AccountController.Settings)),
+        failure: async () =>
+        {
+          var user = await userManager.GetUserAsync(User);
+          var viewModel = form as ConfirmPhoneNumberViewModel ?? new ConfirmPhoneNumberViewModel();
+          viewModel.PhoneNumber = user.PhoneNumber;
+          return View(viewModel);
+        });
+    }
 
     // GET: /Account/Settings
     [HttpGet]

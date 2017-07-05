@@ -8,7 +8,7 @@ namespace Authentication.Controllers
 {
   public class AdminController : DefaultController
   {
-    public async Task<IActionResult> Index()
+    public IActionResult Index()
     {
         return View();
     }

@@ -38,12 +38,12 @@ namespace Authentication.Services
       ServerCertificateValidationCallback = (sender, X509Certificate, x509Chain, sslPolicyErrors) => true
     });
 
-    public async Task SendPasswordResetEmailAsync(string userEmail, string passwordResetUrl)
+    public async Task SendPasswordResetEmailAsync(string userEmail, string callbackUrl)
     {
       var messageBodyBuilder = new BodyBuilder
       {
         HtmlBody = 
-          $@"<h3><a href='{passwordResetUrl}'>Click here to reset your password....ya' dingus!</a></h3><br/><br/>" +
+          $@"<h3><a href='{callbackUrl}'>Click here to reset your password....ya' dingus!</a></h3><br/><br/>" +
           @"<3 bitbyte.io"
       };
 
@@ -59,10 +59,31 @@ namespace Authentication.Services
       message.From.Add(new MailboxAddress("bitbyte.io", applicationSettings.Email.NoReplyAddress));
       message.To.Add(new MailboxAddress(String.Empty, userEmail));
 
-      await SmtpClient.ConnectAsync(smtpHost, smtpPort, SecureSocketOptions.StartTls);
-      await SmtpClient.AuthenticateAsync(smtpUsername, smtpPassword);
-      await SmtpClient.SendAsync(message);
-      await SmtpClient.DisconnectAsync(true);
+      await SendEmailAsync(message);
+    }
+
+    public async Task SendEmailConfirmationEmailAsync(string userEmail, string callbackUrl)
+    {
+      var messageBodyBuilder = new BodyBuilder
+      {
+        HtmlBody =
+          $@"<h3><a href='{callbackUrl}'>Click here to confirm your email address.</a></h3><br/><br/>" +
+          @"<3 bitbyte.io"
+      };
+
+      var message = new MimeMessage
+      {
+        Subject = @"bitbyte.io - Email Confirmation",
+        Body = messageBodyBuilder.ToMessageBody(),
+        Priority = MessagePriority.Urgent,
+        Importance = MessageImportance.High,
+        XPriority = XMessagePriority.Highest
+      };
+
+      message.From.Add(new MailboxAddress("bitbyte.io", applicationSettings.Email.NoReplyAddress));
+      message.To.Add(new MailboxAddress(String.Empty, userEmail));
+
+      await SendEmailAsync(message);
     }
 
     public async Task SendMultiFactorAuthEmailAsync(string userEmail, string code)
@@ -70,5 +91,12 @@ namespace Authentication.Services
       throw new NotImplementedException();
     }
 
+    private async Task SendEmailAsync(MimeMessage message)
+    {
+      await SmtpClient.ConnectAsync(smtpHost, smtpPort, SecureSocketOptions.StartTls);
+      await SmtpClient.AuthenticateAsync(smtpUsername, smtpPassword);
+      await SmtpClient.SendAsync(message);
+      await SmtpClient.DisconnectAsync(true);
+    }
   }
 }
