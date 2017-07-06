@@ -7,8 +7,8 @@ namespace Authentication.PresentationModels.EditModels
 {
   public class AddPhoneNumberEditModel
   {
-    [Required]
-    [Phone]
+    [Required(ErrorMessage = "Phone Number is required")]
+    [DataType(DataType.PhoneNumber)]
     [Display(Name = "Phone Number")]
     public string PhoneNumber { get; set; }
   }

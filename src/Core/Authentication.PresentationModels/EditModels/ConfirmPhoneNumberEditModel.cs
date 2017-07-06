@@ -8,6 +8,7 @@ namespace Authentication.PresentationModels.EditModels
   public class ConfirmPhoneNumberEditModel
   {
     [Required]
-    public string Code { get; set; }
+    [Display(Name = "Security Code")]
+    public string SecurityCode { get; set; }
   }
 }

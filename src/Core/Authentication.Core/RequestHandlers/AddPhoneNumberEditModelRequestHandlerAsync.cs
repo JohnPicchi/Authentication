@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Amazon.Util.Internal.PlatformServices;
+using Authentication.Application.DomainModels.Contracts;
+using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
 using Authentication.Core.ServiceContracts;
 using Authentication.PresentationModels.EditModels;
@@ -12,7 +13,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Authentication.Core.RequestHandlers
 {
-  public class AddPhoneNumberEditModelRequestHandlerAsync : IFormResultRequestAsync<AddPhoneNumberEditModel>
+  public class AddPhoneNumberEditModelRequestHandlerAsync : IFormResultRequestHandlerAsync<AddPhoneNumberEditModel>
   {
     private readonly IApplicationSettings applicationSettings;
     private readonly UserManager<User.Models.User> userManager;
@@ -37,11 +38,14 @@ namespace Authentication.Core.RequestHandlers
 
       if (user != null)
       {
+        user.PhoneNumber = request.PhoneNumber;
+        user.PhoneNumberConfirmed = false;
+
         var code = await userManager.GenerateChangePhoneNumberTokenAsync(user, user.PhoneNumber);
         var subject = @"bitbyte.io - security code";
         var message = $"Your security code is: {code}";
 
-        var result = await smsService.SendSmsMessageAsync(user.PhoneNumber, subject, message);
+        var result = await smsService.SendSmsMessageAsync(request.PhoneNumber, subject, message);
 
         if (result != null && result.MessageId.HasValue())
           return FormResult.Ok;

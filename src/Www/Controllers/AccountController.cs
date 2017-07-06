@@ -250,6 +250,10 @@ namespace Authentication.Controllers
       return View();
     }
 
+    // GET: /Account/AddPhoneNumber
+    [HttpGet]
+    public IActionResult AddPhoneNumber() => View(new AddPhoneNumberViewModel());
+    
     // POST: /Accout/AddPhoneNumber
     [HttpPost]
     public async Task<IActionResult> AddPhoneNumber(AddPhoneNumberEditModel form,
