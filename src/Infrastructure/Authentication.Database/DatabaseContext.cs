@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Authentication.Database
 {
-  public class DatabaseContext : IdentityDbContext<User.Models.User, Role, Guid, IdentityUserClaim<Guid>, IdentityUserRole<Guid>, UserLogin, IdentityRoleClaim<Guid>, UserToken>
+  public class DatabaseContext : IdentityDbContext<User.Models.User, Role, Guid>
   {
     private IDbContextTransaction currentTransaction;
 

@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using Authentication.User.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Authentication.Database.EntityConfigurations
 {
-  public class UserTokenEntityConfiguration : EntityTypeConfiguration<UserToken>
+  public class UserTokenEntityConfiguration : EntityTypeConfiguration<IdentityUserToken<Guid>>
   {
-    public override void Configure(EntityTypeBuilder<UserToken> builder)
+    public override void Configure(EntityTypeBuilder<IdentityUserToken<Guid>> builder)
     {
       builder.ToTable(nameof(DatabaseContext.UserTokens));
     }

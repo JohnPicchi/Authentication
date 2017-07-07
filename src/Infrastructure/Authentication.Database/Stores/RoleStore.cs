@@ -5,9 +5,9 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Authentication.User.Models;
-using Authentication.User.Stores;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Authentication.User.Stores;
 
 namespace Authentication.Database.Stores
 {
