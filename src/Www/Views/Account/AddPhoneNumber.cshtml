@@ -1,6 +1,7 @@
 ﻿@using Authentication.Controllers
+@using Authentication.PresentationModels.Account.ViewModels
 @using Authentication.Utilities.Helpers
-@model Authentication.PresentationModels.ViewModels.AddPhoneNumberViewModel
+@model Authentication.PresentationModels.Account.ViewModels.AddPhoneNumberViewModel
 
 
 <form asp-controller=@(Helper.NameOfController<AccountController>()) asp-action=@(nameof(AccountController.AddPhoneNumber)) method="post" class="form-horizontal">

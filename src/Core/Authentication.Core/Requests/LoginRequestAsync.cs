@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Authentication.Core.RequestHandlers;
 using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
-using Authentication.PresentationModels.EditModels;
+using Authentication.PresentationModels.Account.EditModels;
 using Microsoft.AspNetCore.Identity;
 
 namespace Authentication.Core.Requests

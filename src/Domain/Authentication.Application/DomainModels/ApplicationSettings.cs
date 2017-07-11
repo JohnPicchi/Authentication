@@ -8,6 +8,7 @@ namespace Authentication.Application.DomainModels
 
     public ApplicationEmailSettings Email { get; set; }
 
-    public int MaxFailedLoginAttempts { get; set; }
+    public ApplicationSmsSettings Sms { get; set; }
+
   }
 }

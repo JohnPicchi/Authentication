@@ -12,9 +12,9 @@ using Authentication.User.Stores;
 
 namespace Authentication.Database.Stores
 {
-  public class UserStore : UserStore<User.Models.User, Role, DbContext, Guid>, IUserStore
+  public class UserStore : UserStore<User.Models.User, Role, DatabaseContext, Guid>, IUserStore
   {
-    public UserStore(DbContext context, IdentityErrorDescriber describer = null) : base(context, describer)
+    public UserStore(DatabaseContext context, IdentityErrorDescriber describer = null) : base(context, describer)
     {
     }
 

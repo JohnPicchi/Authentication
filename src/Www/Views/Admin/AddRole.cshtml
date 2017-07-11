@@ -1,0 +1,17 @@
+﻿@using Authentication.Controllers
+@using Authentication.Utilities.Helpers
+@model Authentication.PresentationModels.Admin.ViewModels.AddRoleViewModel
+
+<form asp-controller="@(Helper.NameOfController<AdminController>())" asp-action="@(nameof(AdminController.AddRole))" method="post">
+  <div class="form-group row">
+    <div class="col-md-7 offset-sm-1">
+      <input asp-for="RoleName" class="form-control form-control-sm" placeholder="Role Name" />
+      <span asp-validation-for="RoleName" class="text-danger"></span>
+    </div>
+    <div class="col-md-3">
+      <div class="col-md-3">
+        <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add Role </button>
+      </div>
+    </div>
+  </div>
+</form>

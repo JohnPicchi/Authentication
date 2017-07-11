@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Authentication.Core.Requests;
 using Authentication.Core.Requests.Contracts;
-using Authentication.PresentationModels.EditModels;
-using Authentication.PresentationModels.ViewModels;
+using Authentication.PresentationModels.Account.EditModels;
+using Authentication.PresentationModels.Account.ViewModels;
 using Authentication.User.Stores;
 using Authentication.Utilities.ExtensionMethods;
 using Microsoft.AspNetCore.Authorization;
@@ -46,22 +45,9 @@ namespace Authentication.Controllers
       return new JsonResult(claims);
     }
 
-    // GET: /Account/Register
-    [HttpGet]
-    [AllowAnonymous]
-    public IActionResult Register() => View(new RegisterViewModel());
 
-    // POST: /Account/Register
-    [HttpPost]
-    [AllowAnonymous]
-    public async Task<IActionResult> Register(RegisterEditModel form,
-      [FromServices] IFormResultRequestAsync<RegisterEditModel> request)
-    {
-      return await FormAsync(form, request,
-        success: () => RedirectToAction(nameof(AccountController.Login)),
-        failure: () => View(form as RegisterViewModel));
-    }
 
+  
     // GET & POST: /Account/CheckAccountId
     [AcceptVerbs("GET", "POST")]
     [AllowAnonymous]

@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using Authentication.Core.RequestHandlers;
 
 namespace Authentication.Core.Requests.Contracts
 {
   public interface IFormResult
   {
-    bool Success { get; }
+    FormResultKind Result { get; }
 
     string ErrorMessage { get; }
   }

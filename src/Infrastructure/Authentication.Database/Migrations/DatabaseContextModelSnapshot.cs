@@ -97,9 +97,8 @@ namespace Authentication.Database.Migrations
 
             modelBuilder.Entity("Authentication.User.Models.UserAddress", b =>
                 {
-                    b.Property<Guid>("Id");
-
-                    b.Property<Guid>("UserId");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("AddressLine1")
                         .IsRequired()
@@ -112,53 +111,21 @@ namespace Authentication.Database.Migrations
                         .IsRequired()
                         .HasMaxLength(256);
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(256);
+                    b.Property<string>("PostalCode")
+                        .HasMaxLength(64);
 
                     b.Property<string>("StateProvinceRegion")
                         .IsRequired()
                         .HasMaxLength(256);
 
-                    b.Property<string>("ZipCode")
-                        .HasMaxLength(64);
+                    b.Property<Guid>("UserId");
 
-                    b.HasKey("Id", "UserId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("UserAddresses");
-                });
-
-            modelBuilder.Entity("Authentication.User.Models.UserLogin", b =>
-                {
-                    b.Property<string>("LoginProvider");
-
-                    b.Property<string>("ProviderKey");
-
-                    b.Property<string>("ProviderDisplayName");
-
-                    b.Property<Guid>("UserId");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserLogins");
-                });
-
-            modelBuilder.Entity("Authentication.User.Models.UserToken", b =>
-                {
-                    b.Property<Guid>("UserId");
-
-                    b.Property<string>("LoginProvider");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("UserTokens");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<System.Guid>", b =>
@@ -197,6 +164,23 @@ namespace Authentication.Database.Migrations
                     b.ToTable("UserClaims");
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("ProviderKey");
+
+                    b.Property<string>("ProviderDisplayName");
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserLogins");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId");
@@ -210,19 +194,26 @@ namespace Authentication.Database.Migrations
                     b.ToTable("UserRoles");
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId");
+
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("UserTokens");
+                });
+
             modelBuilder.Entity("Authentication.User.Models.UserAddress", b =>
                 {
                     b.HasOne("Authentication.User.Models.User", "User")
-                        .WithMany("Address")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Authentication.User.Models.UserLogin", b =>
-                {
-                    b.HasOne("Authentication.User.Models.User")
-                        .WithMany("Logins")
-                        .HasForeignKey("UserId")
+                        .WithOne("Address")
+                        .HasForeignKey("Authentication.User.Models.UserAddress", "UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -238,6 +229,14 @@ namespace Authentication.Database.Migrations
                 {
                     b.HasOne("Authentication.User.Models.User")
                         .WithMany("Claims")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.HasOne("Authentication.User.Models.User")
+                        .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

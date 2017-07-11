@@ -7,5 +7,6 @@ namespace Authentication.User.Models
 {
   public class Role : IdentityRole<Guid>
   {
+
   }
 }

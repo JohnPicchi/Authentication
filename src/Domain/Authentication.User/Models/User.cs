@@ -7,6 +7,11 @@ namespace Authentication.User.Models
 {
   public class User : IdentityUser<Guid>
   {
+    public User()
+    {
+  
+    }
+
     public string FirstName { get; set; }
 
     public string LastName { get; set; }
