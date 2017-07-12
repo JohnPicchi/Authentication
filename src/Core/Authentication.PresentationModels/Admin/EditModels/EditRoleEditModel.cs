@@ -7,6 +7,7 @@ namespace Authentication.PresentationModels.Admin.EditModels
   public class EditRoleEditModel
   {
     [HiddenInput]
+    [Display(Name = "Role Id")]
     public Guid RoleId { get; set; }
 
     [Required(ErrorMessage = "Role name required")]

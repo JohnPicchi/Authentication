@@ -41,7 +41,13 @@ namespace Authentication.Controllers
     [HttpGet]
     public async Task<IActionResult> EditRole(string roleName = null)
     {
-      return View(new EditRoleViewModel());
+      var role = await roleStore.FindByNameAsync(roleName, new CancellationToken());
+      var viewModel = new EditRoleViewModel
+      {
+        RoleId = role.Id,
+        RoleName = role.Name
+      };
+      return View(viewModel);
     }
 
     // POST: /Admin/EditRole
