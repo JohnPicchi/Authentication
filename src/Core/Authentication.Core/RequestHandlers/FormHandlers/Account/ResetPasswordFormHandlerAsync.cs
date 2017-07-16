@@ -4,7 +4,7 @@ using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.Account.EditModels;
 using Microsoft.AspNetCore.Identity;
 
-namespace Authentication.Core.RequestHandlers.FormHandlers
+namespace Authentication.Core.RequestHandlers.FormHandlers.Account
 {
   public class ResetPasswordFormHandlerAsync : IFormHandlerAsync<ResetPasswordEditModel>
   {

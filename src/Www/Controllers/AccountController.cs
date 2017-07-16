@@ -32,7 +32,7 @@ namespace Authentication.Controllers
     // GET: /Account/Login
     [HttpGet]
     [AllowAnonymous]
-    public IActionResult Login(string returnUrl = null) => View(new LoginViewModel { ReturnUrl = returnUrl });
+    public IActionResult Login(string returnUrl = null) => View(new LoginEditModel { ReturnUrl = returnUrl });
     
     // POST: /Account/Login
     [HttpPost]
@@ -41,7 +41,6 @@ namespace Authentication.Controllers
       [FromServices] LoginRequestAsync request)
     {
       var result = await request.HandleAsync(form);
-
       if (result.Succeeded)
       {
         if (form.ReturnUrl.HasValue())
@@ -56,11 +55,11 @@ namespace Authentication.Controllers
       if (result.IsLockedOut)
       {
         ModelState.AddModelError(String.Empty, ACCOUNT_LOCKED);
-        return View(form as LoginViewModel);
+        return View(form);
       }
 
       ModelState.AddModelError(String.Empty, "Invalid username and/or password");
-      return View(form as LoginViewModel);
+      return View(form);
     }
 
     // GET: /Account/Logout
@@ -79,7 +78,6 @@ namespace Authentication.Controllers
     public async Task<IActionResult> SendCode(string returnUrl = null, bool rememberMe = false)
     {
       var user = await SignInManager.GetTwoFactorAuthenticationUserAsync();
-      
       if (user == null)
         return View("Error");
       
@@ -98,7 +96,9 @@ namespace Authentication.Controllers
       [FromServices] IFormResultRequestAsync<SendLoginCodeEditModel> request)
     {
       return await FormAsync(form, request,
-        success: () => RedirectToAction(nameof(AccountController.VerifyCode), new { CodeProvider = form.CodeProvider, RememberMe = form.RememberMe, ReturnUrl = form.ReturnUrl }),
+        success: () => RedirectToAction(
+          nameof(AccountController.VerifyCode), 
+          new { CodeProvider = form.CodeProvider, RememberMe = form.RememberMe, ReturnUrl = form.ReturnUrl }),
         failure: () => View(form as SendLoginCodeViewModel));
     }
 
@@ -107,7 +107,7 @@ namespace Authentication.Controllers
     [AllowAnonymous]
     public IActionResult VerifyCode(string codeProvider, bool rememberMe, string returnUrl = null)
     {
-      return View(new VerifyLoginCodeViewModel
+      return View(new VerifyLoginCodeEditModel
       {
         ReturnUrl = returnUrl,
         RememberMe = rememberMe,
@@ -122,7 +122,6 @@ namespace Authentication.Controllers
       [FromServices] VerifyLoginCodeRequestAsync request)
     {
       var result = await request.HandleAsync(form);
-
       if (result.Succeeded)
       {
         if (form.ReturnUrl.HasValue())
@@ -133,11 +132,11 @@ namespace Authentication.Controllers
       if (result.IsLockedOut)
       {
         ModelState.AddModelError(String.Empty, ACCOUNT_LOCKED);
-        return View(form as VerifyLoginCodeViewModel);
+        return View(form);
       }
 
       ModelState.AddModelError(String.Empty, "Invalid code");
-      return View(form as VerifyLoginCodeViewModel);
+      return View(form);
     }
 
     // GET: /Account/ResetPassword
@@ -145,7 +144,7 @@ namespace Authentication.Controllers
     [AllowAnonymous]
     public IActionResult ResetPassword(string email = null, string code = null)
     {
-      return View(new ResetPasswordViewModel { Email = email ?? String.Empty, Code = code });
+      return View(new ResetPasswordEditModel() { Email = email ?? String.Empty, Code = code });
     }
     
     // POST: /Account/ResetPassword
@@ -156,7 +155,7 @@ namespace Authentication.Controllers
     {
       return await FormAsync(form, request,
         success: () => RedirectToAction(nameof(AccountController.Login)),
-        failure: () => View(form as ResetPasswordViewModel));
+        failure: () => View(form));
     }
 
     // GET: /Account/ForgotPassword
@@ -172,7 +171,7 @@ namespace Authentication.Controllers
     {
       return await FormAsync(form, request,
         success: () => RedirectToAction(nameof(AccountController.ForgotPasswordConfirmation)),
-        failure: () => View(form as ForgotPasswordViewModel));
+        failure: () => View(form));
     }
 
     // GET: /Account/ForgotPasswordConfirmation
@@ -208,7 +207,7 @@ namespace Authentication.Controllers
 
     // GET: /Account/AddPhoneNumber
     [HttpGet]
-    public IActionResult AddPhoneNumber() => View(new AddPhoneNumberViewModel());
+    public IActionResult AddPhoneNumber() => View(new AddPhoneNumberEditModel());
     
     // POST: /Accout/AddPhoneNumber
     [HttpPost]
@@ -217,7 +216,7 @@ namespace Authentication.Controllers
     {
       return await FormAsync(form, request,
         success: () => RedirectToAction(nameof(AccountController.ConfirmPhoneNumber), new { PhoneNumber = form.PhoneNumber }),
-        failure: () => View(form as AddPhoneNumberViewModel));
+        failure: () => View(form));
     }
 
     // GET: /Account/ConfirmPhoneNumber
@@ -248,7 +247,7 @@ namespace Authentication.Controllers
     public async Task<IActionResult> Settings()
     {
       var user = await UserManager.GetUserAsync(User);
-      var viewModel = new AccountSettingsViewModel
+      var viewModel = new AccountSettingsEditModel
       {
         FirstName = user.FirstName,
         LastName = user.LastName,
@@ -266,7 +265,7 @@ namespace Authentication.Controllers
         success: () => RedirectToAction(nameof(AccountController.Index)),
         failure: () =>
         {
-          var viewModel = form as AccountSettingsViewModel;
+          var viewModel = form;
           return View(viewModel);
         });
     }

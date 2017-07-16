@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.PresentationModels.Account.EditModels;
 using Microsoft.AspNetCore.Identity;
 
-namespace Authentication.Core.RequestHandlers
+namespace Authentication.Core.RequestHandlers.FormHandlers.Account
 {
   public class VerifyLoginCodeRequestHandlerAsync : IRequestHandlerAsync<VerifyLoginCodeEditModel, SignInResult>
   {

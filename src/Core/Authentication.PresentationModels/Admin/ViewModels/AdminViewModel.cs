@@ -5,7 +5,10 @@ using Authentication.PresentationModels.Admin.EditModels;
 
 namespace Authentication.PresentationModels.Admin.ViewModels
 {
-  public class AdminViewModel : AdminEditModel
+  public class AdminViewModel
   {
+    public AddUserEditModel AddUser { get; set; } = new AddUserEditModel();
+
+    public AddRoleEditModel AddRole { get; set; } = new AddRoleEditModel();
   }
 }

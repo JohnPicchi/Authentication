@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 
-namespace Authentication.Core.RequestHandlers.FormHandlers
+namespace Authentication.Core.RequestHandlers.FormHandlers.Account
 {
   public class ForgotPasswordFormHandlerAsync : IFormHandlerAsync<ForgotPasswordEditModel>
   {

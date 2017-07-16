@@ -12,7 +12,7 @@ namespace Authentication.PresentationModels.Admin.ViewModels
 
     public AddRoleClaimEditModel RoleClaim { get; set; } = new AddRoleClaimEditModel();
 
-    public IEnumerable<RoleClaimViewModel> RoleClaims { get; set; }
+    public IEnumerable<RoleClaimViewModel> RoleClaims { get; set; } = new List<RoleClaimViewModel>();
 
     [Display(Name = "Date Created")]
     [DataType(DataType.Date)]

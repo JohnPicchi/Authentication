@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Authentication.Application.DomainModels.Contracts;
 using Authentication.Core.RequestHandlers.Contracts;
@@ -9,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 
-namespace Authentication.Core.RequestHandlers
+namespace Authentication.Core.RequestHandlers.FormHandlers.Account
 {
   public class ConfirmEmailRequestHandlerAsync : IRequestHandlerAsync<GenericResult>
   {

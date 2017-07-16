@@ -7,7 +7,7 @@ using Authentication.PresentationModels.Account.EditModels;
 using Authentication.Utilities.ExtensionMethods;
 using Microsoft.AspNetCore.Identity;
 
-namespace Authentication.Core.RequestHandlers.FormHandlers
+namespace Authentication.Core.RequestHandlers.FormHandlers.Account
 {
   public class AddPhoneNumberFormHandlerAsync : IFormHandlerAsync<AddPhoneNumberEditModel>
   {

@@ -5,7 +5,7 @@ using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.Admin.EditModels;
 using Microsoft.AspNetCore.Identity;
 
-namespace Authentication.Core.RequestHandlers.FormHandlers
+namespace Authentication.Core.RequestHandlers.FormHandlers.Admin
 {
   public class AddUserFormHandlerAsync : IFormHandlerAsync<AddUserEditModel>
   {

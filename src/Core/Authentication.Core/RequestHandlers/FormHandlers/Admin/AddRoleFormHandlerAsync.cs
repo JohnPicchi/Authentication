@@ -7,7 +7,7 @@ using Authentication.PresentationModels.Admin.EditModels;
 using Authentication.User.Models;
 using Authentication.User.Stores;
 
-namespace Authentication.Core.RequestHandlers.FormHandlers
+namespace Authentication.Core.RequestHandlers.FormHandlers.Admin
 {
   public class AddRoleFormHandlerAsync : IFormHandlerAsync<AddRoleEditModel>
   {

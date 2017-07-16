@@ -4,10 +4,8 @@ using Authentication.Core.RequestHandlers.FormHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.Admin.EditModels;
 using Authentication.User.Stores;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
-namespace Authentication.Core.RequestHandlers.FormHandlers
+namespace Authentication.Core.RequestHandlers.FormHandlers.Admin
 {
   public class EditRoleFormHandlerAsync : IFormHandlerAsync<EditRoleEditModel>
   {

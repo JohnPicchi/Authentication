@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Authentication.Core.RequestHandlers;
+using Authentication.Core.RequestHandlers.FormHandlers.Account;
 using Authentication.Core.Requests.Contracts;
 
 namespace Authentication.Core.Requests

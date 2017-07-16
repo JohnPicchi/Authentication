@@ -5,7 +5,7 @@ using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.Admin.EditModels;
 using Authentication.PresentationModels.Admin.ViewModels;
 
-namespace Authentication.Core.RequestHandlers.FormHandlers
+namespace Authentication.Core.RequestHandlers.FormHandlers.Admin
 {
   public class AdminSearchFormHandlerAsync : IFormHandlerAsync<AdminSearchViewModel>
   {
