@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Authentication.Core.FormHandlers.Contracts;
+using Authentication.Core.RequestHandlers.FormHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.Admin.EditModels;
 using Microsoft.AspNetCore.Identity;
 
-namespace Authentication.Core.FormHandlers
+namespace Authentication.Core.RequestHandlers.FormHandlers
 {
   public class AddUserFormHandlerAsync : IFormHandlerAsync<AddUserEditModel>
   {

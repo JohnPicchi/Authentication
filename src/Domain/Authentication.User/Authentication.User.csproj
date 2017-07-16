@@ -12,4 +12,8 @@
     <Folder Include="Configuration\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Authentication.Common\Authentication.Common.csproj" />
+  </ItemGroup>
+
 </Project>

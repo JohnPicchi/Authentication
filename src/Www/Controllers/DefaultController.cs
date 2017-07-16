@@ -15,6 +15,8 @@ namespace Authentication.Controllers
 
     public UserManager<User.Models.User> UserManager { get; set; }
 
+    public SignInManager<User.Models.User> SignInManager { get; set; }
+
     public IRoleStore RoleStore { get; set; }
 
     public IUserStore UserStore { get;set; }

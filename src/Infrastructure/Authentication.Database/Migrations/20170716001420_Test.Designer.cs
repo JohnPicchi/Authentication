@@ -8,8 +8,8 @@ using Authentication.Database;
 namespace Authentication.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20170708011134_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20170716001420_Test")]
+    partial class Test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,10 @@ namespace Authentication.Database.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<DateTime>("DateUpdated");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256);
@@ -50,6 +54,10 @@ namespace Authentication.Database.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<DateTime?>("DateCreated");
+
+                    b.Property<DateTime?>("DateUpdated");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -57,6 +65,8 @@ namespace Authentication.Database.Migrations
 
                     b.Property<string>("FirstName")
                         .HasMaxLength(128);
+
+                    b.Property<DateTime>("LastLogin");
 
                     b.Property<string>("LastName")
                         .HasMaxLength(128);
@@ -111,6 +121,10 @@ namespace Authentication.Database.Migrations
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasMaxLength(256);
+
+                    b.Property<DateTime?>("DateCreated");
+
+                    b.Property<DateTime?>("DateUpdated");
 
                     b.Property<string>("PostalCode")
                         .HasMaxLength(64);

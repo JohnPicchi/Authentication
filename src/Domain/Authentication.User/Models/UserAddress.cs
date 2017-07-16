@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Authentication.Common;
 
 namespace Authentication.User.Models
 {
-  public class UserAddress
+  public class UserAddress : TrackedPersistedEntity<Guid>
   {
-    public Guid Id { get; set; }
-
     public User User { get; set; }
 
     public Guid UserId { get; set; }
@@ -21,5 +20,6 @@ namespace Authentication.User.Models
     public string StateProvinceRegion { get; set; }
 
     public string Country { get; set; }
+
   }
 }

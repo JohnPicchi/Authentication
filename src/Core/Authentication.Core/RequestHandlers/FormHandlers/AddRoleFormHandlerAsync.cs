@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Authentication.Core.FormHandlers.Contracts;
+using Authentication.Core.RequestHandlers.FormHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.Admin.EditModels;
 using Authentication.User.Models;
 using Authentication.User.Stores;
 
-namespace Authentication.Core.FormHandlers
+namespace Authentication.Core.RequestHandlers.FormHandlers
 {
   public class AddRoleFormHandlerAsync : IFormHandlerAsync<AddRoleEditModel>
   {
@@ -27,7 +24,7 @@ namespace Authentication.Core.FormHandlers
         Name = request.RoleName,
         NormalizedName = request.RoleName.ToUpper()
       };
-      var result = await roleStore.CreateAsync(role, new CancellationToken());
+      var result = await roleStore.CreateAsync(role, CancellationToken.None);
 
     return result.Succeeded
         ? FormResult.Success

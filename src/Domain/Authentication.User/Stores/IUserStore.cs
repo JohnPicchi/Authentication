@@ -23,6 +23,6 @@ namespace Authentication.User.Stores
     IUserStore<Models.User>,
     IDisposable
   {
-    Task<bool> AccountExistsAsync(string email);
+    Task<bool> AccountNameExistsAsync(string email);
   }
 }

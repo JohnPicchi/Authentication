@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.ValueTuple" Version="4.4.0-preview2-25405-01" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Domain\Authentication.User\Authentication.User.csproj" />
     <ProjectReference Include="..\Authentication.Utilities\Authentication.Utilities.csproj" />
   </ItemGroup>

@@ -6,48 +6,72 @@ using System.Threading.Tasks;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.Admin.EditModels;
 using Authentication.PresentationModels.Admin.ViewModels;
-using Authentication.User.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.Controllers
 {
-  [Authorize]
+  //[Authorize]
   public class AdminController : DefaultController
   {
-    private readonly IRoleStore roleStore;
-
-    public AdminController(IRoleStore roleStore)
-    {
-      this.roleStore = roleStore;
-    }
-
     public IActionResult Index()
     {
       return View(new AdminViewModel());
     }
-   
+
+    // GET & POST: /Admin/VerifyAccountName
+    [AcceptVerbs("GET", "POST")]
+    [AllowAnonymous]
+    public async Task<IActionResult> VerifyAccountName(string email)
+    {
+      return await UserStore.AccountNameExistsAsync(email)
+        ? Json(data: "Account already exists")
+        : Json(data: true);
+    }
+
+    // GET & POST: /Admin/VerifyRoleName
+    [AcceptVerbs("GET", "POST")]
+    [AllowAnonymous]
+    public async Task<IActionResult> VerifyRoleName(string roleName)
+    {
+      return await RoleStore.RoleNameExistsAsync(roleName)
+        ? Json(data: "Role already exists")
+        : Json(data: true);
+    }
+
     // POST: /Admin/Role
     [HttpPost]
     public async Task<IActionResult> AddRole(AddRoleEditModel form,
       [FromServices] IFormResultRequestAsync<AddRoleEditModel> request)
     {
       return await FormAsync(form, request,
-        success: () => RedirectToAction(nameof(AdminController.EditRole), new {roleName = form.RoleName}),
+        success: () =>
+        {
+          var roleId = RoleStore.Roles
+          .Where(r => r.Name == form.RoleName)
+          .Select(r => r.Id);
+          return RedirectToAction(nameof(AdminController.EditRole), new {roleId = roleId});
+        },
         failure: () => View("Error"));
     }
 
     // GET: /Admin/EditRole
     [HttpGet]
-    public async Task<IActionResult> EditRole(string roleName = null)
+    public async Task<IActionResult> EditRole(Guid? roleId = null)
     {
-      var role = await roleStore.FindByNameAsync(roleName, new CancellationToken());
-      var viewModel = new EditRoleViewModel
+      if (roleId != null)
       {
-        RoleId = role.Id,
-        RoleName = role.Name
-      };
-      return View(viewModel);
+        var role = await RoleStore.FindByIdAsync(roleId.ToString(), CancellationToken.None);
+        var viewModel = new EditRoleViewModel
+        {
+          RoleId = role.Id,
+          DateCreated = role.DateCreated,
+          DateUpdated = role.DateUpdated 
+        };
+        return View(viewModel);
+      }
+      return RedirectToAction(nameof(AdminController.Index));
     }
 
     // POST: /Admin/EditRole
@@ -55,14 +79,28 @@ namespace Authentication.Controllers
       [FromServices] IFormResultRequestAsync<EditRoleEditModel> request)
     {
       return await FormAsync(form, request,
-        success: () => View(),
-        failure: () => View());
+        success: () => RedirectToAction(nameof(EditRole), new { roleId = form.Id}),
+        failure: () => View("Error"));
     }
 
-    // GET: /Account/AddUser
+    // POST: /Admin/AddRoleClaim
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<IActionResult> AddRoleClaim(AddRoleClaimEditModel form,
+      [FromServices] IFormResultRequestAsync<AddRoleClaimEditModel> request)
+    {
+      return await FormAsync(form, request,
+        success: () => RedirectToAction(nameof(AdminController.EditRole), new {roleId = form.RoleId}),
+        failure: () => View("Error"));
+    }
+
+    // GET: /Admin/EditRoleClaim
     [HttpGet]
     [AllowAnonymous]
-    public IActionResult AddUser() => View(new AddUserViewModel());
+    public IActionResult EditRoleClaim()
+    {
+      return View("Error");
+    }
 
     // POST: /Admin/AddUser
     [HttpPost]

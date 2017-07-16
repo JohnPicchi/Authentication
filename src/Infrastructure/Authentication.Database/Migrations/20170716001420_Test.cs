@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Authentication.Database.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,6 +15,8 @@ namespace Authentication.Database.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true)
                 },
@@ -30,9 +32,12 @@ namespace Authentication.Database.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
+                    DateCreated = table.Column<DateTime>(nullable: true),
+                    DateUpdated = table.Column<DateTime>(nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     FirstName = table.Column<string>(maxLength: 128, nullable: true),
+                    LastLogin = table.Column<DateTime>(nullable: false),
                     LastName = table.Column<string>(maxLength: 128, nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
@@ -93,6 +98,8 @@ namespace Authentication.Database.Migrations
                     AddressLine1 = table.Column<string>(maxLength: 256, nullable: false),
                     AddressLine2 = table.Column<string>(maxLength: 256, nullable: true),
                     Country = table.Column<string>(maxLength: 256, nullable: false),
+                    DateCreated = table.Column<DateTime>(nullable: true),
+                    DateUpdated = table.Column<DateTime>(nullable: true),
                     PostalCode = table.Column<string>(maxLength: 64, nullable: true),
                     StateProvinceRegion = table.Column<string>(maxLength: 256, nullable: false),
                     UserId = table.Column<Guid>(nullable: false)

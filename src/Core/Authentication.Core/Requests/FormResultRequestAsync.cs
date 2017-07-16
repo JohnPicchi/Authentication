@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Authentication.Core.FormHandlers.Contracts;
 using Authentication.Core.RequestHandlers.Contracts;
+using Authentication.Core.RequestHandlers.FormHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
 
 namespace Authentication.Core.Requests

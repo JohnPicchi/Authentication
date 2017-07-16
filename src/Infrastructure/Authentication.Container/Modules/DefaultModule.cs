@@ -4,8 +4,8 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Authentication.Core.FormHandlers.Contracts;
 using Authentication.Core.RequestHandlers.Contracts;
+using Authentication.Core.RequestHandlers.FormHandlers.Contracts;
 using Authentication.Core.Requests;
 using Authentication.Core.Requests.Contracts;
 

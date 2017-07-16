@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Authentication.Core.FormHandlers.Contracts;
+using Authentication.Core.RequestHandlers.FormHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
 using Authentication.Core.ServiceContracts;
 using Authentication.PresentationModels.Account.EditModels;
@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 
-namespace Authentication.Core.FormHandlers
+namespace Authentication.Core.RequestHandlers.FormHandlers
 {
   public class ForgotPasswordFormHandlerAsync : IFormHandlerAsync<ForgotPasswordEditModel>
   {

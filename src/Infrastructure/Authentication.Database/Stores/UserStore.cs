@@ -18,9 +18,6 @@ namespace Authentication.Database.Stores
     {
     }
 
-    public async Task<bool> AccountExistsAsync(string email)
-    {
-      return await Users.AnyAsync(u => u.Email == email);
-    }
+    public Task<bool> AccountNameExistsAsync(string email) => Users.AnyAsync(u => u.Email == email);
   }
 }

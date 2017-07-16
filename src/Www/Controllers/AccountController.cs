@@ -6,10 +6,8 @@ using Authentication.Core.Requests;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.Account.EditModels;
 using Authentication.PresentationModels.Account.ViewModels;
-using Authentication.User.Stores;
 using Authentication.Utilities.ExtensionMethods;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Authentication.Controllers
@@ -19,44 +17,16 @@ namespace Authentication.Controllers
   {
     public const string ACCOUNT_LOCKED = "Account is locked";
 
-    private readonly SignInManager<User.Models.User> signInManager;
-    private readonly UserManager<User.Models.User> userManager;
-    private readonly IUserStore userStore;
-
-    public AccountController(
-      SignInManager<User.Models.User> signInManager,
-      UserManager<User.Models.User> userManager,
-      IUserStore userStore)
-    {
-      this.signInManager = signInManager;
-      this.userManager = userManager;
-      this.userStore = userStore;
-    }
-
     // GET: /Account
     public async Task<IActionResult> Index()
     {
-      var user = await userManager.GetUserAsync(User);
-      var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+      var user = await UserManager.GetUserAsync(User);
+      var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
 
       var claims = User.Claims
         .Select(c => new { c.Type, c.Value });
 
       return new JsonResult(claims);
-    }
-
-
-
-  
-    // GET & POST: /Account/CheckAccountId
-    [AcceptVerbs("GET", "POST")]
-    [AllowAnonymous]
-    public async Task<IActionResult> CheckAccountId(string email)
-    {
-      var userExists = await userStore.AccountExistsAsync(email);
-      return userExists
-        ? Json(data: "Account already exists")
-        : Json(data: true);
     }
 
     // GET: /Account/Login
@@ -108,7 +78,7 @@ namespace Authentication.Controllers
     [AllowAnonymous]
     public async Task<IActionResult> SendCode(string returnUrl = null, bool rememberMe = false)
     {
-      var user = await signInManager.GetTwoFactorAuthenticationUserAsync();
+      var user = await SignInManager.GetTwoFactorAuthenticationUserAsync();
       
       if (user == null)
         return View("Error");
@@ -117,7 +87,7 @@ namespace Authentication.Controllers
       {
         ReturnUrl = returnUrl,
         RememberMe = rememberMe,
-        CodeProviders = await userManager.GetValidTwoFactorProvidersAsync(user)
+        CodeProviders = await UserManager.GetValidTwoFactorProvidersAsync(user)
       });
     }
 
@@ -217,10 +187,10 @@ namespace Authentication.Controllers
     {
       if (userId.HasValue() && code.HasValue())
       {
-        var user = await userManager.FindByIdAsync(userId);
+        var user = await UserManager.FindByIdAsync(userId);
         if (user != null)
         {
-          var result = await userManager.ConfirmEmailAsync(user, code);
+          var result = await UserManager.ConfirmEmailAsync(user, code);
           if (result.Succeeded)
             return View();
         }
@@ -266,7 +236,7 @@ namespace Authentication.Controllers
         success: () => RedirectToAction(nameof(AccountController.Settings)),
         failure: async () =>
         {
-          var user = await userManager.GetUserAsync(User);
+          var user = await UserManager.GetUserAsync(User);
           var viewModel = form as ConfirmPhoneNumberViewModel ?? new ConfirmPhoneNumberViewModel();
           viewModel.PhoneNumber = user.PhoneNumber;
           return View(viewModel);
@@ -277,7 +247,7 @@ namespace Authentication.Controllers
     [HttpGet]
     public async Task<IActionResult> Settings()
     {
-      var user = await userManager.GetUserAsync(User);
+      var user = await UserManager.GetUserAsync(User);
       var viewModel = new AccountSettingsViewModel
       {
         FirstName = user.FirstName,

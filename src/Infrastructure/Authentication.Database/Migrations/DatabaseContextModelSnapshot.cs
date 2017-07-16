@@ -24,6 +24,10 @@ namespace Authentication.Database.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<DateTime>("DateUpdated");
+
                     b.Property<string>("Name")
                         .HasMaxLength(256);
 
@@ -49,6 +53,10 @@ namespace Authentication.Database.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<DateTime?>("DateCreated");
+
+                    b.Property<DateTime?>("DateUpdated");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -56,6 +64,8 @@ namespace Authentication.Database.Migrations
 
                     b.Property<string>("FirstName")
                         .HasMaxLength(128);
+
+                    b.Property<DateTime>("LastLogin");
 
                     b.Property<string>("LastName")
                         .HasMaxLength(128);
@@ -110,6 +120,10 @@ namespace Authentication.Database.Migrations
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasMaxLength(256);
+
+                    b.Property<DateTime?>("DateCreated");
+
+                    b.Property<DateTime?>("DateUpdated");
 
                     b.Property<string>("PostalCode")
                         .HasMaxLength(64);

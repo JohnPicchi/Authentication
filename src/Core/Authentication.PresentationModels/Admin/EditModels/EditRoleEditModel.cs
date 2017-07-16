@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
+using Authentication.PresentationModels.Validation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Authentication.PresentationModels.Admin.EditModels
@@ -8,26 +11,11 @@ namespace Authentication.PresentationModels.Admin.EditModels
   {
     [HiddenInput]
     [Display(Name = "Role Id")]
-    public Guid RoleId { get; set; }
+    public Guid Id { get; set; }
 
-    [Required(ErrorMessage = "Role name required")]
+    [UniqueRoleName]
+    [Required(ErrorMessage = "Role name is required")]
     [Display(Name = "Role Name")]
-    public string RoleName { get; set; }
-
-    public RoleClaimEditModel RoleClaim { get; set; }
-  }
-
-  public class RoleClaimEditModel
-  {
-    [HiddenInput]
-    public string Id { get; set; }
-
-    [Required(ErrorMessage = "Claim type is required")]
-    [Display(Name = "Claim Type")]
-    public string ClaimType { get; set; }
-
-    [Required (ErrorMessage = "Claim value is required")]
-    [Display(Name = "Claim Value")]
-    public string ClaimValue { get; set; }
+    public string Name { get; set; }
   }
 }

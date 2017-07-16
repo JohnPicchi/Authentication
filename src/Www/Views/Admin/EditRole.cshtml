@@ -14,12 +14,12 @@
         <form asp-controller="@(Helper.NameOfController<AdminController>())" asp-action="@(nameof(AdminController.EditRole))" method="post">
           <input asp-for="RoleId"/>
           <strong>
-            <label asp-for="RoleName" class="form-control-label text-muted"></label>
+            <label asp-for="Role.Name" class="form-control-label text-muted"></label>
           </strong>
           <div class="form-group row">
             <div class="col-md-7">
-              <input asp-for="RoleName" class="form-control form-control-sm"/>
-              <span asp-validation-for="RoleName" class="text-danger"></span>
+              <input asp-for="Role.Name" class="form-control form-control-sm"/>
+              <span asp-validation-for="Role.Name" class="text-danger"></span>
             </div>
             <div class="col-md-1">
               <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> Update Name </button>
@@ -45,7 +45,7 @@
             </strong>
           </div>
           <p>
-            @Model.DateUpdated
+            @Model.DateCreated
           </p>
         </div>
 
@@ -72,24 +72,24 @@
       </div>
       <div class="card-block">
         <div>
-          <form asp-controller="@(Helper.NameOfController<AdminController>())" asp-action="@(nameof(AdminController))" method="post">
+          <form asp-controller="@(Helper.NameOfController<AdminController>())" asp-action="@(nameof(AdminController.AddRoleClaim))" method="post">
             <input asp-for="RoleId"/>
             <strong>
-              <label asp-for="RoleClaim.ClaimType" class="form-control-label text-muted"></label>
+              <label asp-for="RoleClaim.Type" class="form-control-label text-muted"></label>
             </strong>
             <div class="form-group row">
               <div class="col-md-12">
-                <input asp-for="RoleClaim.ClaimType" class="form-control form-control-sm"/>
-                <span asp-validation-for="RoleClaim.ClaimType" class="text-danger"></span>
+                <input asp-for="RoleClaim.Type" class="form-control form-control-sm"/>
+                <span asp-validation-for="RoleClaim.Type" class="text-danger"></span>
               </div>
             </div>
             <strong>
-              <label asp-for="RoleClaim.ClaimValue" class="form-control-label text-muted"></label>
+              <label asp-for="RoleClaim.Value" class="form-control-label text-muted"></label>
             </strong>
             <div class="form-group row">
               <div class="col-md-12">
-                <input asp-for="RoleClaim.ClaimValue" class="form-control form-control-sm"/>
-                <span asp-validation-for="RoleClaim.ClaimValue" class="text-danger"></span>
+                <input asp-for="RoleClaim.Value" class="form-control form-control-sm"/>
+                <span asp-validation-for="RoleClaim.Value" class="text-danger"></span>
               </div>
             </div>
             <div class="form-group row">

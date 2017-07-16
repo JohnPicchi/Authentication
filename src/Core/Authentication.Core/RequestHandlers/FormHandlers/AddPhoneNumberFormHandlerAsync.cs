@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Authentication.Application.DomainModels.Contracts;
-using Authentication.Core.FormHandlers.Contracts;
+using Authentication.Core.RequestHandlers.FormHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
 using Authentication.Core.ServiceContracts;
 using Authentication.PresentationModels.Account.EditModels;
 using Authentication.Utilities.ExtensionMethods;
 using Microsoft.AspNetCore.Identity;
 
-namespace Authentication.Core.FormHandlers
+namespace Authentication.Core.RequestHandlers.FormHandlers
 {
   public class AddPhoneNumberFormHandlerAsync : IFormHandlerAsync<AddPhoneNumberEditModel>
   {

@@ -5,8 +5,10 @@ using Authentication.PresentationModels.Admin.EditModels;
 
 namespace Authentication.PresentationModels.Admin.ViewModels
 {
-  public class AddRoleViewModel : AddRoleEditModel
+  public class RoleClaimViewModel : RoleClaimEditModel
   {
-    
+    public string ClaimType { get; set; }
+
+    public string ClaimValue { get; set; }
   }
 }
