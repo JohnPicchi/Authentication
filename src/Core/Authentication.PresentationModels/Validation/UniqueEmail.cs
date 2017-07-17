@@ -4,8 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Authentication.PresentationModels.EditModels;
-using Authentication.User.Stores;
+using Authentication.PresentationModels.Admin.EditModels;
+using Authentication.Utilities.ExtensionMethods;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.PresentationModels.Validation
 {
@@ -13,12 +15,16 @@ namespace Authentication.PresentationModels.Validation
   {
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-     var registerEditModel = (RegisterEditModel) validationContext.ObjectInstance;
-     var userStore = (IUserStore) validationContext.GetService(typeof(IUserStore));
-     
-     return userStore.AccountExistsAsync(registerEditModel.Email).Result
-       ? new ValidationResult("Account already exists", new List<string> {"Email"})
+     var form = validationContext.ObjectInstance as AddUserEditModel;
+     var userManager = validationContext.GetService(typeof(UserManager<User.Models.User>)) as UserManager<User.Models.User>;
+      if (form?.Email?.HasValue() ?? false)
+        return userManager.Users.AnyAsync(u => u.Email == form.Email).GetAwaiter().GetResult()
+       ? new ValidationResult("Account already exists", new List<string> {nameof(AddUserEditModel.Email)})
        : ValidationResult.Success;
+
+      return new ValidationResult(
+        "Unable to verify if account already exists",
+        new List<string> {nameof(AddUserEditModel.Email)});
     }
   }
 }

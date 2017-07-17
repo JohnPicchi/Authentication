@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Data;
+using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Authentication.Database.EntityConfigurations;
+using Authentication.Common;
 using Authentication.User.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Authentication.Database
 {
-  public class DatabaseContext : IdentityDbContext<User.Models.User, Role, Guid, IdentityUserClaim<Guid>, IdentityUserRole<Guid>, UserLogin, IdentityRoleClaim<Guid>, UserToken>
+  public class DatabaseContext : IdentityDbContext<User.Models.User, Role, Guid>
   {
     private IDbContextTransaction currentTransaction;
 
@@ -24,16 +26,18 @@ namespace Authentication.Database
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+      //Run ASP.Net's EF identity configuration
       base.OnModelCreating(modelBuilder);
 
-      modelBuilder.AddConfiguration(new UserAddressEntityConfiguration());
-      modelBuilder.AddConfiguration(new RoleClaimEntityConfiguration());
-      modelBuilder.AddConfiguration(new RoleEntityConfiguration());
-      modelBuilder.AddConfiguration(new UserClaimEntityConfiguration());
-      modelBuilder.AddConfiguration(new UserEntityConfiguration());
-      modelBuilder.AddConfiguration(new UserLoginEntityConfiguration());
-      modelBuilder.AddConfiguration(new UserRoleEntityConfiguration());
-      modelBuilder.AddConfiguration(new UserTokenEntityConfiguration());
+      //Override any ASP.Net EF identity configuration shit 
+      //we don't like, like the table names.
+      typeof(EntityTypeConfiguration<>).GetTypeInfo()
+        .Assembly.GetTypes()
+        .Where(t => !t.GetTypeInfo().IsAbstract && t.GetTypeInfo().IsClass)
+        .Where(t => t.GetTypeInfo().BaseType.Name.StartsWith(typeof(EntityTypeConfiguration<>).Name))
+        .Select(t => Activator.CreateInstance(t) as IEntityConfiguration)
+        .ToList()
+        .ForEach(i => i.Configure(modelBuilder));
     }
 
     public void BeginTransaction()
@@ -82,28 +86,31 @@ namespace Authentication.Database
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
-      //SetEntityTimeStamps();
+      SetEntityTimeStamps();
       return base.SaveChangesAsync(cancellationToken);
     }
 
     public override int SaveChanges()
     {
-      //SetEntityTimeStamps();
+      SetEntityTimeStamps();
       return base.SaveChanges();
     }
 
-    //private void SetEntityTimeStamps()
-    //{
-    //  ChangeTracker.Entries<ITrackedEntity>()
-    //    .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified)
-    //    .ToList()
-    //    .ForEach(e =>
-    //    {
-    //      if (e.State == EntityState.Added && e.Entity.DateCreated == null)
-    //        e.Entity.DateCreated = DateTime.UtcNow;
-    //      else
-    //        e.Entity.DateUpdated = DateTime.UtcNow;
-    //    });
-    //}
+    private void SetEntityTimeStamps()
+    {
+      ChangeTracker.Entries<ITrackedPersistedEntity>()
+        .Where(e => e.State is EntityState.Added || e.State is EntityState.Modified)
+        .ToList()
+        .ForEach(e =>
+        {
+          if (e.State == EntityState.Added)
+          {
+            e.Entity.DateCreated = DateTime.UtcNow;
+            e.Entity.DateUpdated = DateTime.UtcNow;
+          }
+          else
+            e.Entity.DateUpdated = DateTime.UtcNow;
+        });
+    }
   }
 }

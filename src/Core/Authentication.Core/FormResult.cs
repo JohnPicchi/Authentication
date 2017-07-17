@@ -1,17 +1,19 @@
 ﻿using Authentication.Core.Requests.Contracts;
 
-namespace Authentication.Core.RequestHandlers
+namespace Authentication.Core
 {
-  public class FormResult : IFormResult
+  public enum FormResultKind
   {
-    public bool Success { get; set; }
+    Fail = 0,
+    Success = 1,
+  }
 
-    public string ErrorMessage { get; set; }
-
-    public static FormResult Ok 
-      => new FormResult { Success = true };
+  public class FormResult : AbstractResult<FormResultKind>, IFormResult
+  {
+    public static FormResult Success 
+      => new FormResult { Result = FormResultKind.Success };
 
     public static FormResult Fail(string errorMessage) 
-      => new FormResult { Success = false, ErrorMessage = errorMessage };
+      => new FormResult { Result = FormResultKind.Fail, ErrorMessage = errorMessage };
   }
 }

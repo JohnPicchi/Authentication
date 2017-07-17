@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication", "src\Www\Authentication.csproj", "{B243A93A-108B-4CC4-AE04-0AB44124C4F2}"
 EndProject
@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Services", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Application", "src\Domain\Authentication.Application\Authentication.Application.csproj", "{048EBDFA-09B1-48D2-BBE6-BE22B8338F82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.User", "src\Domain\Authentication.User\Authentication.User.csproj", "{8A40AE25-F294-4827-ABDC-3B9B5626FD71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.User", "src\Domain\Authentication.User\Authentication.User.csproj", "{8A40AE25-F294-4827-ABDC-3B9B5626FD71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Common", "src\Domain\Authentication.Common\Authentication.Common.csproj", "{FBFB7484-805E-4182-A20F-B864B3A032DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{8A40AE25-F294-4827-ABDC-3B9B5626FD71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A40AE25-F294-4827-ABDC-3B9B5626FD71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A40AE25-F294-4827-ABDC-3B9B5626FD71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBFB7484-805E-4182-A20F-B864B3A032DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBFB7484-805E-4182-A20F-B864B3A032DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBFB7484-805E-4182-A20F-B864B3A032DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBFB7484-805E-4182-A20F-B864B3A032DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,5 +91,6 @@ Global
 		{C40A243B-04F2-4AAD-B454-310CAE84FC35} = {600F3B15-F9BB-44D5-A061-2471F493D3B8}
 		{048EBDFA-09B1-48D2-BBE6-BE22B8338F82} = {051990A9-1803-479C-B427-C550B0E8D964}
 		{8A40AE25-F294-4827-ABDC-3B9B5626FD71} = {051990A9-1803-479C-B427-C550B0E8D964}
+		{FBFB7484-805E-4182-A20F-B864B3A032DF} = {051990A9-1803-479C-B427-C550B0E8D964}
 	EndGlobalSection
 EndGlobal

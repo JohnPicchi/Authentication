@@ -56,6 +56,7 @@ namespace Authentication
         opts.Filters.Add(typeof(AutoValidateAntiforgeryTokenAttribute));
         opts.Filters.Add(typeof(DatabaseContextTransactionFilter));
         opts.Filters.Add(typeof(SecurityHeadersFilter));
+        opts.Filters.Add(typeof(DefaultControllerPropertiesFilter));
       });
 
       services.AddDbContext<DatabaseContext>(opts =>
@@ -89,8 +90,8 @@ namespace Authentication
         // User settings
         opts.User.RequireUniqueEmail = true;
       })
-      .AddUserStore<UserStore>()
       .AddRoleStore<RoleStore>()
+      .AddUserStore<UserStore>()
       .AddDefaultTokenProviders();
 
       services.AddIdentityServer(opts =>

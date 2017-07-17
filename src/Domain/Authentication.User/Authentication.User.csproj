@@ -10,7 +10,10 @@
 
   <ItemGroup>
     <Folder Include="Configuration\" />
-    <Folder Include="Stores\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Authentication.Common\Authentication.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 ﻿@using Authentication.Controllers
+@using Authentication.PresentationModels.Account.ViewModels
 @using Authentication.Utilities.Helpers
-@model Authentication.PresentationModels.ViewModels.AccountSettingsViewModel
+@model Authentication.PresentationModels.Account.EditModels.AccountSettingsEditModel
 
 <form asp-controller=@(Helper.NameOfController<AccountController>()) asp-action=@(nameof(AccountController.Settings)) method="post" class="form-horizontal">
 
@@ -17,14 +18,6 @@
     <div>
       <input asp-for="LastName" class="form-control" placeholder="Last Name" />
       <span asp-validation-for="LastName" class="text-danger"></span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label asp-for="PhoneNumber" class="control-label"></label>
-    <div>
-      <input asp-for="PhoneNumber" class="form-control" />
-      <span asp-validation-for="PhoneNumber" class="text-danger"></span>
     </div>
   </div>
 
