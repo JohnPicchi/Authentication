@@ -22,7 +22,7 @@ namespace Authentication.PresentationModels.Validation
           : ValidationResult.Success;
 
       return new ValidationResult(
-        "Unable to verify if role already exists due to invalid form values", 
+        "Unable to verify if role already exists", 
         new List<string> {nameof(BaseRoleEditModel.Name)});
     }
   }
