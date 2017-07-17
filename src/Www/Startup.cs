@@ -2,7 +2,6 @@
 using Authentication.Application.DomainModels;
 using Authentication.Controllers;
 using Authentication.Database;
-using Authentication.Database.Stores;
 using Authentication.Filters;
 using Authentication.Services;
 using Authentication.User.Models;
@@ -90,8 +89,6 @@ namespace Authentication
         // User settings
         opts.User.RequireUniqueEmail = true;
       })
-      .AddUserStore<UserStore>()
-      .AddRoleStore<RoleStore>()
       .AddDefaultTokenProviders();
 
       services.AddIdentityServer(opts =>

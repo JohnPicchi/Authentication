@@ -1,7 +1,7 @@
 @using Authentication.Controllers
 @using Authentication.PresentationModels.Account.ViewModels
 @using Authentication.Utilities.Helpers
-@model Authentication.PresentationModels.Account.ViewModels.LoginViewModel
+@model Authentication.PresentationModels.Account.EditModels.LoginEditModel
 
 
 <form asp-controller="@(Helper.NameOfController<AccountController>())" asp-action="@(nameof(AccountController.Login))" method="post" class="form-horizontal">

@@ -5,28 +5,24 @@ using Authentication.Core.RequestHandlers.FormHandlers.Contracts;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.Admin.EditModels;
 using Authentication.User.Models;
-using Authentication.User.Stores;
+using Microsoft.AspNetCore.Identity;
 
 namespace Authentication.Core.RequestHandlers.FormHandlers.Admin
 {
   public class AddRoleFormHandlerAsync : IFormHandlerAsync<AddRoleEditModel>
   {
-    private readonly IRoleStore roleStore;
-    public AddRoleFormHandlerAsync(IRoleStore roleStore)
+    private readonly RoleManager<Role> roleManager;
+
+    public AddRoleFormHandlerAsync(RoleManager<Role> roleManager)
     {
-      this.roleStore = roleStore;
+      this.roleManager = roleManager;
     }
 
     public async Task<IFormResult> HandleAsync(AddRoleEditModel request)
     {
-      var role = new Role
-      {
-        Name = request.RoleName,
-        NormalizedName = request.RoleName.ToUpper()
-      };
-      var result = await roleStore.CreateAsync(role, CancellationToken.None);
-
-    return result.Succeeded
+      var role = new Role { Name = request.Name };
+      var result = await roleManager.CreateAsync(role);
+      return result.Succeeded
         ? FormResult.Success
         : FormResult.Fail(result.Errors.FirstOrDefault()?.Description ?? "There was an error creating the role");
     }

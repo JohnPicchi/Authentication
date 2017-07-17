@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Authentication.Application.DomainModels.Contracts;
 using Authentication.Core;
 using Authentication.Core.Requests.Contracts;
-using Authentication.User.Stores;
+using Authentication.User.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,9 +17,7 @@ namespace Authentication.Controllers
 
     public SignInManager<User.Models.User> SignInManager { get; set; }
 
-    public IRoleStore RoleStore { get; set; }
-
-    public IUserStore UserStore { get;set; }
+    public RoleManager<Role> RoleManager { get; set; }
 
     internal async Task<IActionResult> FormAsync<TForm>(
       TForm form,

@@ -12,13 +12,13 @@
       </div>
       <div class="card-block">
         <form asp-controller="@(Helper.NameOfController<AdminController>())" asp-action="@(nameof(AdminController.EditRole))" method="post">
-          <input asp-for="RoleId"/>
+          <input asp-for="Role.Id" name="Id"/>
           <strong>
             <label asp-for="Role.Name" class="form-control-label text-muted"></label>
           </strong>
           <div class="form-group row">
             <div class="col-md-7">
-              <input asp-for="Role.Name" class="form-control form-control-sm"/>
+              <input asp-for="Role.Name" class="form-control form-control-sm" name="Name"/>
               <span asp-validation-for="Role.Name" class="text-danger"></span>
             </div>
             <div class="col-md-1">
@@ -30,11 +30,11 @@
         <div>
           <div>
             <strong>
-              <label asp-for="RoleId" class="form-control-label text-muted"></label>
+              <label asp-for="Role.Id" class="form-control-label text-muted"></label>
             </strong>
           </div>
           <p>
-            @Model.RoleId
+            @Model.Role.Id
           </p>
         </div>
 
@@ -73,7 +73,7 @@
       <div class="card-block">
         <div>
           <form asp-controller="@(Helper.NameOfController<AdminController>())" asp-action="@(nameof(AdminController.AddRoleClaim))" method="post">
-            <input asp-for="RoleId"/>
+            <input asp-for="RoleClaim.RoleId"/>
             <strong>
               <label asp-for="RoleClaim.Type" class="form-control-label text-muted"></label>
             </strong>

@@ -1,6 +1,6 @@
 @using Authentication.Controllers
 @using Authentication.Utilities.Helpers
-@model Authentication.PresentationModels.Admin.ViewModels.AddUserViewModel
+@model Authentication.PresentationModels.Admin.EditModels.AddUserEditModel
 
 
 <form asp-controller="@(Helper.NameOfController<AdminController>())" asp-action="@(nameof(AdminController.AddUser))" method="post" class="form-horizontal">

@@ -8,11 +8,11 @@ namespace Authentication.PresentationModels.Admin.ViewModels
 {
   public class EditRoleViewModel
   {
-    public EditRoleEditModel Role { get; set; } = new EditRoleEditModel();
+    public EditRoleEditModel Role { get; set; }
 
-    public AddRoleClaimEditModel RoleClaim { get; set; } = new AddRoleClaimEditModel();
+    public AddRoleClaimEditModel RoleClaim { get; set; }
 
-    public IEnumerable<RoleClaimViewModel> RoleClaims { get; set; } = new List<RoleClaimViewModel>();
+    public IEnumerable<RoleClaimViewModel> RoleClaims { get; set; }
 
     [Display(Name = "Date Created")]
     [DataType(DataType.Date)]
@@ -21,11 +21,5 @@ namespace Authentication.PresentationModels.Admin.ViewModels
     [Display(Name = "Date Updated")]
     [DataType(DataType.Date)]
     public DateTime? DateUpdated { get; set; }
-
-    public Guid RoleId
-    {
-      get => Role.Id;
-      set => (Role.Id, RoleClaim.RoleId) = (value, value);
-    }
   }
 }

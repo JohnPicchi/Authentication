@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Authentication.Application.DomainModels.Contracts;
 using Authentication.Controllers;
-using Authentication.User.Stores;
+using Authentication.User.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -15,21 +15,18 @@ namespace Authentication.Filters
     private readonly IApplicationContext applicationContext;
     private readonly UserManager<User.Models.User> userManager;
     private readonly SignInManager<User.Models.User> signInManager;
-    private readonly IRoleStore roleStore;
-    private readonly IUserStore userStore;
+    private readonly RoleManager<Role> roleManager;
 
     public DefaultControllerPropertiesFilter(
       IApplicationContext applicationContext,
       UserManager<User.Models.User> userManager,
       SignInManager<User.Models.User> signInManager,
-      IRoleStore roleStore,
-      IUserStore userStore)
+      RoleManager<Role> roleManager)
     {
       this.applicationContext = applicationContext;
       this.userManager = userManager;
       this.signInManager = signInManager;
-      this.roleStore = roleStore;
-      this.userStore = userStore;
+      this.roleManager = roleManager;
     }
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -40,8 +37,7 @@ namespace Authentication.Filters
         controller.ApplicationContext = applicationContext;
         controller.UserManager = userManager;
         controller.SignInManager = signInManager;
-        controller.RoleStore = roleStore;
-        controller.UserStore = userStore;
+        controller.RoleManager = roleManager;
       }
       await next();
     }

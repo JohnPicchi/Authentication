@@ -7,15 +7,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Authentication.PresentationModels.Admin.EditModels
 {
-  public class EditRoleEditModel
+  public abstract class BaseRoleEditModel
   {
     [HiddenInput]
     [Display(Name = "Role Id")]
     public Guid Id { get; set; }
 
+    public abstract string Name { get; set; }
+  }
+
+  public class EditRoleEditModel : BaseRoleEditModel
+  {
     [UniqueRoleName]
     [Required(ErrorMessage = "Role name is required")]
     [Display(Name = "Role Name")]
-    public string Name { get; set; }
+    public override string Name { get; set; }
   }
 }
