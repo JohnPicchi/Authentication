@@ -1,5 +1,6 @@
 ﻿using System;
 using Authentication.Application.DomainModels;
+using Authentication.Authorization;
 using Authentication.Controllers;
 using Authentication.Database;
 using Authentication.Database.Stores;
@@ -8,6 +9,7 @@ using Authentication.Services;
 using Authentication.User.Models;
 using Authentication.Utilities.Helpers;
 using IdentityServer4.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -59,11 +61,18 @@ namespace Authentication
         opts.Filters.Add(typeof(DefaultControllerPropertiesFilter));
       });
 
+      services.AddAuthorization(opts =>
+      {
+        opts.AddPolicy("UserManagement", policy => policy.Requirements.Add(new UserManagementRequirement()));
+      });
+
       services.AddDbContext<DatabaseContext>(opts =>
       {
         //opts.UseLoggerFactory()
         opts.UseSqlServer(Configuration.GetConnectionString("Default"));
       });
+
+      services.AddSingleton<IAuthorizationHandler, UserManagementRequirementHandler>();
 
       services.AddIdentity<User.Models.User, Role>(opts =>
       {

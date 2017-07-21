@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 
-namespace Authentication.Core.RequestHandlers.FormHandlers.Account
+namespace Authentication.Core.RequestHandlers
 {
   public class ConfirmEmailRequestHandlerAsync : IRequestHandlerAsync<GenericResult>
   {

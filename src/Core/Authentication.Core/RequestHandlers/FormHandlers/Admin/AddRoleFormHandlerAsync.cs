@@ -22,9 +22,14 @@ namespace Authentication.Core.RequestHandlers.FormHandlers.Admin
     {
       var role = new Role { Name = request.Name };
       var result = await roleManager.CreateAsync(role);
-      return result.Succeeded
-        ? FormResult.Success
-        : FormResult.Fail(result.Errors.FirstOrDefault()?.Description ?? "There was an error creating the role");
+      if (result.Succeeded)
+      {
+        // Set the role id so we can pass it into the redirect
+        // after the handler returns
+        request.Id = role.Id;  
+        return FormResult.Success;
+      }
+      return FormResult.Fail(result.Errors?.FirstOrDefault()?.Description ?? "There was an error creating the role");
     }
   }
 }

@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.Admin.EditModels;
 using Authentication.PresentationModels.Admin.ViewModels;
+using Authentication.Utilities.ExtensionMethods;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.Controllers
 {
   //[Authorize]
+  [Authorize(Policy = "UserManagement")]
   public class AdminController : DefaultController
   {
     public IActionResult Index()
@@ -23,16 +26,16 @@ namespace Authentication.Controllers
     [AcceptVerbs("GET", "POST")]
     public async Task<IActionResult> VerifyAccountName(string email)
     {
-      return await UserManager.Users.AnyAsync(u => u.Email == email)
+      return email.HasValue() && await UserManager.Users.AnyAsync(u => u.Email == email)
         ? Json(data: "Account already exists")
         : Json(data: true);
     }
 
     // GET & POST: /Admin/VerifyRoleName
     [AcceptVerbs("GET", "POST")]
-    public async Task<IActionResult> VerifyRoleName(string roleName)
+    public async Task<IActionResult> VerifyRoleName(string name)
     {
-      return await RoleManager.RoleExistsAsync(roleName)
+      return name.HasValue() && await RoleManager.RoleExistsAsync(name)
         ? Json(data: "Role already exists")
         : Json(data: true);
     }
@@ -51,21 +54,25 @@ namespace Authentication.Controllers
     [HttpGet]
     public async Task<IActionResult> EditRole(Guid? roleId = null)
     {
-      if (roleId != null)
+      if (roleId != null && roleId != Guid.Empty)
       {
-        var role = await RoleManager.FindByIdAsync(roleId.ToString());
+        var role = await RoleManager.Roles
+          .Where(r => r.Id == roleId)
+          .Include(r => r.Claims)   //Lazy loading still not implemented?....what the fuck
+          .SingleAsync();
+
         if (role != null)
         {
           var viewModel = new EditRoleViewModel
           {
             DateCreated = role.DateCreated,
             DateUpdated = role.DateUpdated,
-            RoleClaims = role.Claims.Select(c => new RoleClaimViewModel
+            RoleClaims = role.Claims.OrderBy(c => c.ClaimValue).Select(c => new RoleClaimViewModel
             {
               Id = c.Id,
               ClaimValue = c.ClaimValue,
               ClaimType = c.ClaimType
-            }),
+            }).ToList(),
             Role = new EditRoleEditModel{ Id = role.Id, Name = role.Name },
             RoleClaim = new AddRoleClaimEditModel { RoleId = role.Id}
           };
@@ -82,6 +89,19 @@ namespace Authentication.Controllers
       return await FormAsync(form, request,
         success: () => RedirectToAction(nameof(EditRole), new { roleId = form.Id}),
         failure: () => View("Error"));
+    }
+
+    //POST: /Admin/DeleteRole
+    public async Task<IActionResult> DeleteRole(Guid roleId)
+    {
+      var role = await RoleManager.FindByIdAsync(roleId.ToString());
+      if (role != null)
+      {
+        var result = await RoleManager.DeleteAsync(role);
+        if (result.Succeeded)
+          return RedirectToAction(nameof(AdminController.Index));
+      }
+      return View("Error");
     }
 
     // POST: /Admin/AddRoleClaim
@@ -116,13 +136,17 @@ namespace Authentication.Controllers
         failure: () => View("Error"));
     }
 
-    // POST: /Admin/DeleteRoleClaim
+    // GET: /Admin/DeleteRoleClaim
     [HttpPost]
     public async Task<IActionResult> DeleteRoleClaim(DeleteRoleClaimEditModel form)
     {
-      var role = await RoleManager.FindByIdAsync(form.Id.ToString());
+      var role = await RoleManager.Roles
+        .Where(r => r.Id == form.RoleId)
+        .Include(r => r.Claims)
+        .SingleAsync();
+        
       var claim = role.Claims
-        .Single(r => r.Id == form.Id)
+        .Single(r => r.Id == form.RoleClaimId)
         .ToClaim();
 
       var result = await RoleManager.RemoveClaimAsync(role, claim);
@@ -131,7 +155,6 @@ namespace Authentication.Controllers
 
       return View("Error");
     }
-
 
     // POST: /Admin/AddUser
     [HttpPost]

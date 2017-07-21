@@ -3,7 +3,7 @@ using Authentication.Core.RequestHandlers.Contracts;
 using Authentication.PresentationModels.Account.EditModels;
 using Microsoft.AspNetCore.Identity;
 
-namespace Authentication.Core.RequestHandlers.FormHandlers.Account
+namespace Authentication.Core.RequestHandlers
 {
   public class LoginRequestHandlerAsync : IRequestHandlerAsync<LoginEditModel, SignInResult>
   {
