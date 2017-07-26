@@ -11,6 +11,6 @@ namespace Authentication.PresentationModels.Admin.EditModels
     [Remote(action: "VerifyRoleName", controller: "Admin")]
     [Required(ErrorMessage = "Role Name Required")]
     [Display(Name = "Role Name")]
-    public override string Name { get; set; }
+    public override string RoleName { get; set; }
   }
 }

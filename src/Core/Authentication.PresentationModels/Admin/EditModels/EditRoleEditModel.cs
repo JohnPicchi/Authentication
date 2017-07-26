@@ -11,9 +11,9 @@ namespace Authentication.PresentationModels.Admin.EditModels
   {
     [HiddenInput]
     [Display(Name = "Role Id")]
-    public Guid Id { get; set; }
+    public Guid RoleId { get; set; }
 
-    public abstract string Name { get; set; }
+    public abstract string RoleName { get; set; }
   }
 
   public class EditRoleEditModel : BaseRoleEditModel
@@ -21,6 +21,6 @@ namespace Authentication.PresentationModels.Admin.EditModels
     [UniqueRoleName]
     [Required(ErrorMessage = "Role name is required")]
     [Display(Name = "Role Name")]
-    public override string Name { get; set; }
+    public override string RoleName { get; set; }
   }
 }

@@ -2,46 +2,58 @@
 
 
 <div class="row">
-  <div class="col-md-7">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title text-primary"> <i class="fa fa-user-plus"></i> Add User </h3>
-      </div>
-      <div class="card-block">
-        @Html.Partial("_AddUser", Model.AddUser)
-      </div>
-    </div>
-  </div><!--/col-->
+  <div class="col-sm-12">
+    <h3><i class="fa fa-search"></i> Search</h3>
+  </div> <!--/col-->
 
-  <div class="col-md-5">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title text-primary"> <i class="fa fa-id-card"></i> Add Role </h3>
-      </div>
-      <div class="card-block">
-        @Html.Partial("_AddRole", Model.AddRole)
-      </div>
-    </div>
+  <div class="col-sm-6">
+    @Html.Partial("_Search", Model.AddUser)
   </div><!--/col-->
 </div><!--/row-->
 
-<hr/>
+<br/>
+<br/>
 
 <div class="row">
-  <div class="col-md-12">
-    <ul class="list-inline">
-      <li class="list-inline-item">
-        <form class="form-inline">
-          <input type="text" class="form-control form-control-sm" placeholder="User Search"/>
-          <div class="input-group-btn">
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-primary btn-sm">
-                <span class="fa fa-search" aria-hidden="true"></span>
-              </button>
-            </div>
-          </div>
-        </form>
-      </li>
-    </ul>
+  <div class="col-sm-12">
+    <h3><i class="fa fa-user-plus"></i> Add User</h3>
+  </div><!--/col-->
+
+  <div class="col-sm-6">
+    @Html.Partial("_AddUser", Model.AddUser)
+  </div><!--/col-->
+</div><!--/row-->
+
+<br/>
+<br/>
+
+<div class="row">
+  <div class="col-sm-12">
+    <h3><i class="fa fa-plus"></i> Add Role</h3>
+  </div><!--/col-->
+
+  <div class="col-sm-6">
+    @Html.Partial("_AddRole", Model.AddRole)
+  </div><!--/col-->
+</div><!--/row-->
+
+<br/>
+<br/>
+
+<div class="row">
+  <div class="col-sm-6">
+    <h3><i class="fa fa-users"></i> Recent Users</h3>
+  </div><!--/col-->
+
+  <div class="col-sm-6">
+    <h3><i class="fa fa-unlock-alt"></i> Recent Roles</h3>
+  </div><!--/col-->
+
+  <div class="col-sm-6">
+    @Html.Partial("_UserSummary", Model.AddRole)
+  </div><!--/col-->
+
+  <div class="col-sm-6">
+    @Html.Partial("_RoleSummary", Model.AddRole)
   </div><!--/col-->
 </div><!--/row-->

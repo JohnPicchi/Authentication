@@ -6,8 +6,11 @@ using Authentication.PresentationModels.Admin.EditModels;
 
 namespace Authentication.PresentationModels.Admin.ViewModels
 {
+
   public class EditRoleViewModel
   {
+    //It feels like this code is just....wrong
+    //can it be cleaned up?
     public EditRoleEditModel Role { get; set; }
 
     public AddRoleClaimEditModel RoleClaim { get; set; }

@@ -20,15 +20,14 @@ namespace Authentication.Core.RequestHandlers.FormHandlers.Admin
 
     public async Task<IFormResult> HandleAsync(EditRoleEditModel request)
     {
-      var role = await roleManager.FindByIdAsync(request.Id.ToString());
-      if (role.Name != request.Name)
+      var role = await roleManager.FindByIdAsync(request.RoleId.ToString());
+      if (role.Name != request.RoleName)
       {
-        var result = await roleManager.SetRoleNameAsync(role, request.Name);
+        var result = await roleManager.SetRoleNameAsync(role, request.RoleName);
         return result.Succeeded
           ? FormResult.Success
           : FormResult.Fail(result.Errors?.FirstOrDefault()?.Description ?? "Unable to set role name");
       }
-
       return FormResult.Success;
     }
   }

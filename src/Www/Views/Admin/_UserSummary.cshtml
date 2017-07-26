@@ -1,0 +1,46 @@
+﻿@using Authentication.Controllers
+@using Authentication.Utilities.Helpers
+<div class="row">
+  <div class="col-sm-12">
+    <form asp-controller="@(Helper.NameOfController<AdminController>())" method="post">
+      @{
+        <div class="list-group">
+
+          <div class="list-group-item flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+              <h4 class="mb-0">Username Here</h4>
+              <div class="btn-group">
+                <button class="btn btn-secondary btn-sm" type="button"> <i class="fa fa-edit"></i> </button>
+                <button class="btn btn-secondary btn-sm" type="submit"> <i class="fa fa-trash"></i> </button>
+              </div>
+            </div>
+            <div>
+              <h5 class="mb-2"> Full Name </h5>
+              <p class="mb-0"> Account Status </p>
+              <p class="mb-1">Last Login Time</p>
+              <small>Date Created</small>
+            </div>
+          </div><!--/item-->
+
+          <div class="list-group-item flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+              <h4 class="mb-0">Username Here</h4>
+              <div class="btn-group">
+                <button class="btn btn-secondary btn-sm" type="button"> <i class="fa fa-edit"></i> </button>
+                <button class="btn btn-secondary btn-sm" type="submit"> <i class="fa fa-trash"></i> </button>
+              </div>
+            </div>
+            <div>
+              <h5 class="mb-2"> Full Name </h5>
+              <p class="mb-0"> Account Status </p>
+              <p class="mb-1">Last Login Time</p>
+              <small>Date Created</small>
+            </div>
+          </div><!--/item-->
+
+
+        </div>
+      }
+    </form>
+  </div><!--/col-->
+</div><!--/row-->

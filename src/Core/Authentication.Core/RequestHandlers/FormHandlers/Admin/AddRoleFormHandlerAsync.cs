@@ -20,13 +20,13 @@ namespace Authentication.Core.RequestHandlers.FormHandlers.Admin
 
     public async Task<IFormResult> HandleAsync(AddRoleEditModel request)
     {
-      var role = new Role { Name = request.Name };
+      var role = new Role { Name = request.RoleName };
       var result = await roleManager.CreateAsync(role);
       if (result.Succeeded)
       {
         // Set the role id so we can pass it into the redirect
         // after the handler returns
-        request.Id = role.Id;  
+        request.RoleId = role.Id;  
         return FormResult.Success;
       }
       return FormResult.Fail(result.Errors?.FirstOrDefault()?.Description ?? "There was an error creating the role");

@@ -2,23 +2,19 @@
 @using Authentication.Utilities.Helpers
 @model Authentication.PresentationModels.Admin.EditModels.AddRoleEditModel
 
-<form asp-controller="@(Helper.NameOfController<AdminController>())" asp-action="@(nameof(AdminController.AddRole))" method="post">
-  <div class="row">
-    <div class="col-md-12">
+<div class="row">
+  <div class="col-sm-12">
+    <form asp-controller="@(Helper.NameOfController<AdminController>())" asp-action="@(nameof(AdminController.AddRole))" method="post">
       <strong>
         <label asp-for="Name" class="form-control-label text-muted"></label>
       </strong>
-      <div class="form-group row">
-        <div class="col-md-8">
-          <input asp-for="Name" class="form-control form-control-sm"/>
-          <span asp-validation-for="Name" class="text-danger"></span>
-        </div><!--/col-->
-        <div class="col-md-3">
-          <div class="col-md-3">
-            <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add Role </button>
-          </div>
-        </div><!--/col-->
+      <div class="col-sm-12 form-group row">
+        <input asp-for="Name" class="form-control form-control" placeholder="Ex. Administrator"/>
+        <div class="input-group-btn">
+          <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i> Add</button>
+        </div>
       </div>
-    </div><!--/col-->
-  </div><!--/row-->
-</form>
+      <span asp-validation-for="Name" class="text-danger"></span>
+    </form>
+  </div><!--/col-->
+</div><!--/row-->

@@ -9,41 +9,98 @@
     <h3 class="">
       <i class="fa fa-info-circle"></i> Role Information
     </h3>
-  </div>
-  <div class="col-md-6">
+  </div><!--/col-->
 
+  <div class="col-sm-6">
     <form asp-controller="@(Helper.NameOfController<AdminController>())" asp-action="@(nameof(AdminController.EditRole))" method="post">
-      <input asp-for="Role.Id" name="@(nameof(EditRoleEditModel.Id))"/>
+      <input asp-for="Role.RoleId" name="@(nameof(EditRoleEditModel.RoleId))"/>
       <strong>
-        <label asp-for="Role.Name" class="form-control-label text-muted"></label>
+        <label asp-for="Role.RoleName" class="form-control-label text-muted"></label>
       </strong>
 
-      <div class="form-group row col-md-12">
+      <div class="form-group row col-sm-12">
         <div class="input-group">
-          <input asp-for="Role.Name" class="form-control form-control-sm" name="@(nameof(EditRoleEditModel.Name))"/>
-          <span asp-validation-for="Role.Name" class="text-danger"></span>
+          <input asp-for="Role.RoleName" class="form-control form-control-sm" name="@(nameof(EditRoleEditModel.RoleName))"/>
+          <span asp-validation-for="Role.RoleName" class="text-danger"></span>
           <span class="input-group-btn">
             <button class="btn btn-success btn-sm" type="submit"><span class="fa fa-edit"></span> Edit</button>
           </span>
-      </div>
-      </div>
+        </div>
+      </div><!--/col-->
     </form>
 
-    <strong>
-      <label asp-for="Role.Id" class="form-control-label text-muted"></label>
-    </strong>
-    <p> @Model.Role.Id </p>
+    <dl class="row">
+      <dt class="col-sm-12">
+        <label asp-for="Role.RoleId" class="form-control-label text-muted"></label>
+      </dt>
+      <dd class="col-sm-12">
+        @Model.Role.RoleId
+      </dd>
 
-    <strong>
-      <label asp-for="DateCreated" class="form-control-label text-muted"></label>
-    </strong>
-    <p> @Model.DateCreated </p>
+      <dt class="col-sm-12">
+        <label asp-for="DateCreated" class="form-control-label text-muted"></label>
+      </dt>
+      <dd class="col-sm-12">
+        @Model.DateCreated
+      </dd>
 
-    <strong>
-      <label asp-for="DateUpdated" class="form-control-label text-muted"></label>
-    </strong>
-    <p> @Model.DateUpdated </p>
+      <dt class="col-sm-12">
+        <label asp-for="DateUpdated" class="form-control-label text-muted"></label>
+      </dt>
+      <dd class="col-sm-12">
+        @Model.DateUpdated
+      </dd>
+    </dl><!--/row-->
 
+  </div><!--/col-->
+</div><!--/row-->
+
+<br/>
+<br/>
+
+<div class="row">
+
+  <div class="col-sm-12">
+    <h3 class="">
+      <i class="fa fa-plus"></i> Add Role Claim
+    </h3>
+  </div><!--/col-->
+
+  <div class="col-sm-6">
+    <form asp-controller="@(Helper.NameOfController<AdminController>())" asp-action="@(nameof(AdminController.AddRoleClaim))" method="post">
+      <input asp-for="RoleClaim.RoleId" name="@(nameof(AddRoleClaimEditModel.RoleId))"/>
+      <div class="row">
+        <div class="col-sm-6">
+          <strong>
+            <label asp-for="RoleClaim.Type" class="form-control-label text-muted"></label>
+          </strong>
+        </div><!--/col-->
+
+        <div class="col-sm-6">
+          <strong>
+            <label asp-for="RoleClaim.Value" class="form-control-label text-muted"></label>
+          </strong>
+        </div><!--/col-->
+      </div><!--/row-->
+
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <input asp-for="RoleClaim.Type" class="form-control form-control-sm" name="@(nameof(AddRoleClaimEditModel.Type))"/>
+          <span asp-validation-for="RoleClaim.Type" class="text-danger"></span>
+        </div><!--/col-->
+
+        <div class="col-sm-6">
+          <input asp-for="RoleClaim.Value" class="form-control form-control-sm" name="@(nameof(AddRoleClaimEditModel.Value))"/>
+          <span asp-validation-for="RoleClaim.Value" class="text-danger"></span>
+        </div><!--/col-->
+      </div><!--/row-->
+
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add Role Claim</button>
+        </div><!--/col-->
+      </div><!--/row-->
+    </form>
   </div><!--/col-->
 </div><!--/row-->
 
@@ -53,83 +110,53 @@
 <div class="row">
   <div class="col-sm-12">
     <h3 class="">
-      <i class="fa fa-plus"></i> Add Role Claim
-    </h3>
-  </div>
-
-  <div class="col-sm-6">
-    <form asp-controller="@(Helper.NameOfController<AdminController>())" asp-action="@(nameof(AdminController.AddRoleClaim))" method="post">
-      <input asp-for="RoleClaim.RoleId" name="@(nameof(AddRoleClaimEditModel.RoleId))"/>
-      <strong>
-        <label asp-for="RoleClaim.Type" class="form-control-label text-muted"></label>
-      </strong>
-      <div class="form-group row">
-        <div class="col-md-12">
-          <input asp-for="RoleClaim.Type" class="form-control form-control-sm" name="@(nameof(AddRoleClaimEditModel.Type))"/>
-          <span asp-validation-for="RoleClaim.Type" class="text-danger"></span>
-        </div>
-      </div>
-      <strong>
-        <label asp-for="RoleClaim.Value" class="form-control-label text-muted"></label>
-      </strong>
-      <div class="form-group row">
-        <div class="col-md-12">
-          <input asp-for="RoleClaim.Value" class="form-control form-control-sm" name="@(nameof(AddRoleClaimEditModel.Value))"/>
-          <span asp-validation-for="RoleClaim.Value" class="text-danger"></span>
-        </div>
-      </div>
-      <div class="form-group row">
-        <div class="col-md-1">
-          <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Add Role Claim</button>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
-
-<br/>
-<br/>
-
-<div class="row">
-  <div class="col-md-12">
-    <h3 class="">
       <i class="fa fa-edit"></i> Role Claims
     </h3>
   </div><!--/col-->
   <div class="col-sm-12">
     <form asp-controller="@(Helper.NameOfController<AdminController>())" method="post">
-    @{
-      <table class="table table-sm table-striped">
-        <thead>
-        <tr>
-          <th>#</th>
-          <th>Claim Type</th>
-          <th>Claim Value</th>
-          <th>Edit / Delete</th>
-        </tr>
-        </thead>
-        <tbody>
-        @for (var i = 0; i < Model.RoleClaims.Count(); i++)
+      <div class="list-group col-sm-6">
+        @for (var i = 0; i < Model.RoleClaims.Count; i++)
         {
-          <tr>
-            <th scope="row">@(i + 1)</th>
-            <td>@Model.RoleClaims[i].ClaimType</td>
-            <td>@Model.RoleClaims[i].ClaimValue</td>
-            <td>
-              <button class="btn btn-success btn-sm" type="submit"
-                      formaction="DeleteRoleClaim?roleClaimId=@Model.RoleClaims[i].Id&roleId=@Model.Role.Id">
-                <i class="fa fa-edit"></i> Edit
-              </button>
-              <button class="btn btn-danger btn-sm" type="submit"
-                      formaction="DeleteRoleClaim?roleClaimId=@Model.RoleClaims[i].Id&roleId=@Model.Role.Id">
-                <i class="fa fa-trash"></i> Delete
-              </button>
-            </td>
-          </tr>
+          <div class="list-group-item flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+              <small><strong># @(i + 1)</strong></small>
+              <div class="btn-group">
+                <button class="btn btn-secondary btn-sm btn-success disabled" 
+                        type="button"
+                        formaction="DeleteRoleClaim?roleClaimId=@Model.RoleClaims[i].Id&roleId=@Model.Role.RoleId">
+                  <i class="fa fa-edit"></i>
+                </button>
+                <button class="btn btn-secondary btn-sm btn-danger" 
+                        type="submit"
+                        formaction="DeleteRoleClaim?roleClaimId=@Model.RoleClaims[i].Id&roleId=@Model.Role.RoleId">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </div>
+            </div>
+            <div class="col-sm-12">
+            <dl class="row col-sm-12">
+            <dt class="col-sm-3">
+              <small><strong>Claim Value</strong></small>
+            </dt>
+            <dd class="col-sm-9">
+              <h5>@Model.RoleClaims[i].ClaimType</h5>
+            </dd>
+
+            <dt class="col-sm-3">
+              <small><strong>Claim Type</strong></small>
+            </dt>
+            <dd class="col-sm-9">
+              <h5>@Model.RoleClaims[i].ClaimValue</h5>
+            </dd>
+          </dl><!--/row-->
+              
+     
+            </div>
+          </div>
+          <!--/item-->
         }
-        </tbody>
-      </table>
-    }
+      </div>
     </form>
   </div><!--/col-->
 </div><!--/row-->
@@ -139,13 +166,15 @@
 
 <div class="row">
   <div class="col-sm-2 offset-9">
-    <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</button>
+    <form asp-controller="@(Helper.NameOfController<AdminController>())" asp-action="@(nameof(AdminController.DeleteRole))" method="post">
+      <input asp-for="Role.RoleId" name="@(nameof(DeleteRoleEditModel.RoleId))"/>
+      <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</button>
+    </form>
   </div><!--/col-->
+
   <div class="col-sm-1">
-    <a asp-controller="@(Helper.NameOfController<AdminController>())"
-       asp-action="@(nameof(AdminController.Index))"
-       class="btn btn-primary">
+    <a asp-controller="@(Helper.NameOfController<AdminController>())" asp-action="@(nameof(AdminController.Index))" class="btn btn-primary">
       <i class="fa fa-mail-reply"></i> Done
     </a>
-  </div>
+  </div><!--/col-->
 </div><!--/row-->

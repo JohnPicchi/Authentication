@@ -46,7 +46,7 @@ namespace Authentication.Controllers
       [FromServices] IFormResultRequestAsync<AddRoleEditModel> request)
     {
       return await FormAsync(form, request,
-        success: () => RedirectToAction(nameof(AdminController.EditRole), new {roleId = form.Id}),
+        success: () => RedirectToAction(nameof(AdminController.EditRole), new {roleId = form.RoleId}),
         failure: () => View("Error"));
     }
 
@@ -73,7 +73,7 @@ namespace Authentication.Controllers
               ClaimValue = c.ClaimValue,
               ClaimType = c.ClaimType
             }).ToList(),
-            Role = new EditRoleEditModel{ Id = role.Id, Name = role.Name },
+            Role = new EditRoleEditModel{ RoleId = role.Id, RoleName = role.Name },
             RoleClaim = new AddRoleClaimEditModel { RoleId = role.Id}
           };
           return View(viewModel);
@@ -87,21 +87,17 @@ namespace Authentication.Controllers
       [FromServices] IFormResultRequestAsync<EditRoleEditModel> request)
     {
       return await FormAsync(form, request,
-        success: () => RedirectToAction(nameof(EditRole), new { roleId = form.Id}),
+        success: () => RedirectToAction(nameof(EditRole), new { roleId = form.RoleId}),
         failure: () => View("Error"));
     }
 
     //POST: /Admin/DeleteRole
-    public async Task<IActionResult> DeleteRole(Guid roleId)
+    public async Task<IActionResult> DeleteRole(DeleteRoleEditModel form,
+      [FromServices] IFormResultRequestAsync<DeleteRoleEditModel> request)
     {
-      var role = await RoleManager.FindByIdAsync(roleId.ToString());
-      if (role != null)
-      {
-        var result = await RoleManager.DeleteAsync(role);
-        if (result.Succeeded)
-          return RedirectToAction(nameof(AdminController.Index));
-      }
-      return View("Error");
+      return await FormAsync(form, request,
+        success: () => RedirectToAction(nameof(AdminController.Index)),
+        failure: () => View("Error"));
     }
 
     // POST: /Admin/AddRoleClaim
@@ -122,7 +118,6 @@ namespace Authentication.Controllers
       {
         
       }
-
       return View("Error");
     }
 
@@ -136,24 +131,14 @@ namespace Authentication.Controllers
         failure: () => View("Error"));
     }
 
-    // GET: /Admin/DeleteRoleClaim
+    // POST: /Admin/DeleteRoleClaim
     [HttpPost]
-    public async Task<IActionResult> DeleteRoleClaim(DeleteRoleClaimEditModel form)
+    public async Task<IActionResult> DeleteRoleClaim(DeleteRoleClaimEditModel form,
+      [FromServices] IFormResultRequestAsync<DeleteRoleClaimEditModel> request)
     {
-      var role = await RoleManager.Roles
-        .Where(r => r.Id == form.RoleId)
-        .Include(r => r.Claims)
-        .SingleAsync();
-        
-      var claim = role.Claims
-        .Single(r => r.Id == form.RoleClaimId)
-        .ToClaim();
-
-      var result = await RoleManager.RemoveClaimAsync(role, claim);
-      if (result.Succeeded)
-        return RedirectToAction(nameof(AdminController.EditRole), new {roleId = form.RoleId});
-
-      return View("Error");
+      return await FormAsync(form, request,
+        success: () => RedirectToAction(nameof(AdminController.EditRole), new {roleId = form.RoleId}),
+        failure: () => View("Error"));
     }
 
     // POST: /Admin/AddUser
@@ -168,7 +153,7 @@ namespace Authentication.Controllers
 
     // GET: /Admin/EditUser
     [HttpGet]
-    public async Task<IActionResult> EditUser(string userEmail = null)
+    public async Task<IActionResult> EditUser(Guid? userId = null)
     {
       return View();
     }

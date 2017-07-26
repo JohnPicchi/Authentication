@@ -16,14 +16,14 @@ namespace Authentication.PresentationModels.Validation
     {
       var form = validationContext.ObjectInstance as BaseRoleEditModel;
       var roleManager= validationContext.GetService(typeof(RoleManager<Role>)) as RoleManager<Role>;
-      if(form?.Name?.HasValue() ?? false)
-        return roleManager.Roles.AnyAsync(r => r.Name == form.Name && r.Id != form.Id).GetAwaiter().GetResult()
-          ? new ValidationResult("Account already exists", new List<string> {nameof(BaseRoleEditModel.Name)})
+      if(form?.RoleName?.HasValue() ?? false)
+        return roleManager.Roles.AnyAsync(r => r.Name == form.RoleName && r.Id != form.RoleId).GetAwaiter().GetResult()
+          ? new ValidationResult("Account already exists", new List<string> {nameof(BaseRoleEditModel.RoleName)})
           : ValidationResult.Success;
 
       return new ValidationResult(
         "Unable to verify if role already exists", 
-        new List<string> {nameof(BaseRoleEditModel.Name)});
+        new List<string> {nameof(BaseRoleEditModel.RoleName)});
     }
   }
 }

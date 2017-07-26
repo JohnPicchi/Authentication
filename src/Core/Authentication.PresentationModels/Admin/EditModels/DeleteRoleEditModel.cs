@@ -4,10 +4,8 @@ using System.Text;
 
 namespace Authentication.PresentationModels.Admin.EditModels
 {
-  public class DeleteRoleClaimEditModel
+  public class DeleteRoleEditModel
   {
-    public int RoleClaimId { get; set; }
-
     public Guid RoleId { get; set; }
   }
 }
