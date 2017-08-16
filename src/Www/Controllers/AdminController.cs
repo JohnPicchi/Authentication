@@ -30,9 +30,9 @@ namespace Authentication.Controllers
 
     // GET & POST: /Admin/VerifyRoleName
     [AcceptVerbs("GET", "POST")]
-    public async Task<IActionResult> VerifyRoleName(string roleName)
+    public async Task<IActionResult> VerifyRoleName(string name)
     {
-      return await RoleManager.RoleExistsAsync(roleName)
+      return await RoleManager.RoleExistsAsync(name)
         ? Json(data: "Role already exists")
         : Json(data: true);
     }
@@ -43,8 +43,13 @@ namespace Authentication.Controllers
       [FromServices] IFormResultRequestAsync<AddRoleEditModel> request)
     {
       return await FormAsync(form, request,
-        success: () => RedirectToAction(nameof(AdminController.EditRole), new {roleId = form.Id}),
-        failure: () => View("Error"));
+        success: async () =>
+        {
+          var roleId = await RoleManager.FindByNameAsync(form.Name);
+          return RedirectToAction(nameof(AdminController.EditRole), new {roleId = roleId.Id});
+        },
+
+    failure: () => View("Error"));
     }
 
     // GET: /Admin/EditRole
@@ -65,7 +70,7 @@ namespace Authentication.Controllers
               Id = c.Id,
               ClaimValue = c.ClaimValue,
               ClaimType = c.ClaimType
-            }),
+            }).ToList(),
             Role = new EditRoleEditModel{ Id = role.Id, Name = role.Name },
             RoleClaim = new AddRoleClaimEditModel { RoleId = role.Id}
           };

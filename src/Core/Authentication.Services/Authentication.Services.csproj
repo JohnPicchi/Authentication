@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.3.0.20" />
+    <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.3.0.21" />
     <PackageReference Include="IdentityServer4" Version="1.5.2" />
-    <PackageReference Include="MailKit" Version="1.16.2" />
+    <PackageReference Include="MailKit" Version="1.18.0" />
   </ItemGroup>
 
   <ItemGroup>

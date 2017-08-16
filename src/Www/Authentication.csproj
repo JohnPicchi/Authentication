@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\**" />
+    <Content Remove="Services\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -35,7 +42,6 @@
 	<DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0-msbuild3-final" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\" />
     <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>

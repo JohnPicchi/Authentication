@@ -27,21 +27,21 @@ namespace Authentication.Core.RequestHandlers.FormHandlers.Account
 
     public async Task<IFormResult> HandleAsync(AddPhoneNumberEditModel request)
     {
-      var user = applicationContext.User;
-      if (user != null)
-      {
-        user.PhoneNumber = request.PhoneNumber;
-        user.PhoneNumberConfirmed = false;
-
-        var code = await userManager.GenerateChangePhoneNumberTokenAsync(user, user.PhoneNumber);
-        var subject = @"bitbyte.io - security code";
-        var message = $"Your security code is: {code}";
-
-        var result = await smsService.SendSmsMessageAsync(request.PhoneNumber, subject, message);
-
-        if (result != null && result.MessageId.HasValue())
-          return FormResult.Success;
-      }
+      //var user = applicationContext.User;
+      //if (user != null)
+      //{
+      //  user.PhoneNumber = request.PhoneNumber;
+      //  user.PhoneNumberConfirmed = false;
+      //
+      //  var code = await userManager.GenerateChangePhoneNumberTokenAsync(user, user.PhoneNumber);
+      //  var subject = @"bitbyte.io - security code";
+      //  var message = $"Your security code is: {code}";
+      //
+      //  var result = await smsService.SendSmsMessageAsync(request.PhoneNumber, subject, message);
+      //
+      //  if (result != null && result.MessageId.HasValue())
+      //    return FormResult.Success;
+      //}
       return FormResult.Fail("Unable to send sercurity code");
     }
   }
