@@ -15,8 +15,8 @@ namespace Authentication.PresentationModels.Validation
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
       var form = validationContext.ObjectInstance as BaseRoleEditModel;
-      var roleManager= validationContext.GetService(typeof(RoleManager<Role>)) as RoleManager<Role>;
-      if(form?.RoleName?.HasValue() ?? false)
+      var roleManager = validationContext.GetService(typeof(RoleManager<Role>)) as RoleManager<Role>;
+      if((form?.RoleName?.HasValue() ?? false) && (roleManager != null))
         return roleManager.Roles.AnyAsync(r => r.Name == form.RoleName && r.Id != form.RoleId).GetAwaiter().GetResult()
           ? new ValidationResult("Account already exists", new List<string> {nameof(BaseRoleEditModel.RoleName)})
           : ValidationResult.Success;

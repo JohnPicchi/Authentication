@@ -17,7 +17,7 @@ namespace Authentication.PresentationModels.Validation
     {
      var form = validationContext.ObjectInstance as AddUserEditModel;
      var userManager = validationContext.GetService(typeof(UserManager<User.Models.User>)) as UserManager<User.Models.User>;
-      if (form?.Email?.HasValue() ?? false)
+      if ((form?.Email?.HasValue() ?? false) && (userManager != null))
         return userManager.Users.AnyAsync(u => u.Email == form.Email).GetAwaiter().GetResult()
        ? new ValidationResult("Account already exists", new List<string> {nameof(AddUserEditModel.Email)})
        : ValidationResult.Success;
