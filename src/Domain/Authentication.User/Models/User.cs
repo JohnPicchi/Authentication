@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Authentication.Common;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Authentication.User.Models
@@ -13,9 +14,14 @@ namespace Authentication.User.Models
   
     }
 
+    public bool IsNew => this.Id == Guid.Empty;
+
     public DateTime? DateCreated { get; set; }
 
     public DateTime? DateUpdated { get; set; }
+    public virtual IList<IdentityUserClaim<Guid>> Claims { get; private set; } = new List<IdentityUserClaim<Guid>>();
+
+    public virtual IList<IdentityUserLogin<Guid>> Logins { get; private set; } = new List<IdentityUserLogin<Guid>>();
 
     public DateTime LastLogin { get; set; }
 
@@ -27,6 +33,6 @@ namespace Authentication.User.Models
 
     public UserAddress Address { get; set; }
 
-    public bool IsNew => this.Id == Guid.Empty;
+
   }
 }

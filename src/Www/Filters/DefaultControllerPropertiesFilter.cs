@@ -15,18 +15,15 @@ namespace Authentication.Filters
     private readonly IApplicationContext applicationContext;
     private readonly UserManager<User.Models.User> userManager;
     private readonly SignInManager<User.Models.User> signInManager;
-    private readonly RoleManager<Role> roleManager;
 
     public DefaultControllerPropertiesFilter(
       IApplicationContext applicationContext,
       UserManager<User.Models.User> userManager,
-      SignInManager<User.Models.User> signInManager,
-      RoleManager<Role> roleManager)
+      SignInManager<User.Models.User> signInManager)
     {
       this.applicationContext = applicationContext;
       this.userManager = userManager;
       this.signInManager = signInManager;
-      this.roleManager = roleManager;
     }
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -36,8 +33,7 @@ namespace Authentication.Filters
       {
         controller.ApplicationContext = applicationContext;
         controller.UserManager = userManager;
-        controller.SignInManager = signInManager;
-        controller.RoleManager = roleManager;
+        controller.SignInManager = signInManager;;
       }
       await next();
     }

@@ -1,13 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.Core" Version="3.3.17.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.1.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,12 +14,6 @@
     <ProjectReference Include="..\..\Domain\Authentication.User\Authentication.User.csproj" />
     <ProjectReference Include="..\Authentication.PresentationModels\Authentication.PresentationModels.csproj" />
     <ProjectReference Include="..\Authentication.Utilities\Authentication.Utilities.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="AWSSDK.SimpleNotificationService">
-      <HintPath>..\..\..\..\..\Users\John\.nuget\packages\awssdk.simplenotificationservice\3.3.0.18\lib\netstandard1.3\AWSSDK.SimpleNotificationService.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

@@ -6,13 +6,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using Authentication.Common;
 using Authentication.User.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Configuration;
 
 namespace Authentication.Database
 {
-  public class DatabaseContext : IdentityDbContext<User.Models.User, Role, Guid>
+  public class DatabaseContext : IdentityUserContext<User.Models.User, Guid>
   {
     private IDbContextTransaction currentTransaction;
 
@@ -21,8 +24,20 @@ namespace Authentication.Database
 
     }
 
-
     public DbSet<UserAddress> UserAddresses { get; set; }
+
+    //public DbSet<User.Models.User> Users { get; set; }
+    ////
+    //// Summary:
+    ////     Gets or sets the Microsoft.EntityFrameworkCore.DbSet`1 of User claims.
+    //public DbSet<IdentityUserClaim<Guid>> UserClaims { get; set; }
+    //
+    //public DbSet<IdentityUserLogin<Guid>> UserLogins { get; set; }
+    //
+    //public DbSet<IdentityUserToken<Guid>> UserTokens { get; set; }
+
+
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -113,4 +128,19 @@ namespace Authentication.Database
         });
     }
   }
+
+  //public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<DatabaseContext>
+  //{
+  //  public DatabaseContext CreateDbContext(string[] args)
+  //  {
+  //    var configuration = new ConfigurationBuilder()
+  //      .AddJsonFile(@"~\appsettings.json", optional: true, reloadOnChange: true)
+  //      .AddEnvironmentVariables()
+  //      .Build();
+  //
+  //    var optionsBuilder = new DbContextOptionsBuilder();
+  //    optionsBuilder.UseSqlServer("Server = (localdb)\\mssqllocaldb; Database = Authentication.Dev; Trusted_Connection = True;");
+  //    return new DatabaseContext(optionsBuilder.Options);
+  //  }
+  //}
 }

@@ -17,8 +17,6 @@ namespace Authentication.Controllers
 
     public SignInManager<User.Models.User> SignInManager { get; set; }
 
-    public RoleManager<Role> RoleManager { get; set; }
-
     internal async Task<IActionResult> FormAsync<TForm>(
       TForm form,
       IFormResultRequestAsync<TForm> request,

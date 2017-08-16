@@ -14,17 +14,18 @@ namespace Authentication.PresentationModels.Validation
   {
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
-      var form = validationContext.ObjectInstance as BaseRoleEditModel;
-      var roleManager= validationContext.GetService(typeof(RoleManager<Role>)) as RoleManager<Role>;
-
-      if(form?.Name?.HasValue() ?? false)
-        return roleManager.Roles.AnyAsync(r => r.Name == form.Name && r.Id != form.Id).GetAwaiter().GetResult()
-          ? new ValidationResult("Account already exists", new List<string> {nameof(BaseRoleEditModel.Name)})
-          : ValidationResult.Success;
-
-      return new ValidationResult(
-        "Unable to verify if role already exists", 
-        new List<string> {nameof(BaseRoleEditModel.Name)});
+      //var form = validationContext.ObjectInstance as BaseRoleEditModel;
+      //var roleManager= validationContext.GetService(typeof(RoleManager<Role>)) as RoleManager<Role>;
+      //
+      //if(form?.Name?.HasValue() ?? false)
+      //  return roleManager.Roles.AnyAsync(r => r.Name == form.Name && r.Id != form.Id).GetAwaiter().GetResult()
+      //    ? new ValidationResult("Account already exists", new List<string> {nameof(BaseRoleEditModel.Name)})
+      //    : ValidationResult.Success;
+      //
+      //return new ValidationResult(
+      //  "Unable to verify if role already exists", 
+      //  new List<string> {nameof(BaseRoleEditModel.Name)});
+      return ValidationResult.Success;
     }
   }
 }
