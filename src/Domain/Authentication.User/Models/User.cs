@@ -9,11 +9,6 @@ namespace Authentication.User.Models
 {
   public class User : IdentityUser<Guid>, ITrackedPersistedEntity<Guid>
   {
-    public User()
-    {
-  
-    }
-
     public bool IsNew => this.Id == Guid.Empty;
 
     public DateTime? DateCreated { get; set; }
@@ -32,7 +27,5 @@ namespace Authentication.User.Models
     public string FullName => $"{FirstName} {LastName}";
 
     public UserAddress Address { get; set; }
-
-
   }
 }

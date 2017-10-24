@@ -129,18 +129,18 @@ namespace Authentication.Database
     }
   }
 
-  //public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<DatabaseContext>
-  //{
-  //  public DatabaseContext CreateDbContext(string[] args)
-  //  {
-  //    var configuration = new ConfigurationBuilder()
-  //      .AddJsonFile(@"~\appsettings.json", optional: true, reloadOnChange: true)
-  //      .AddEnvironmentVariables()
-  //      .Build();
-  //
-  //    var optionsBuilder = new DbContextOptionsBuilder();
-  //    optionsBuilder.UseSqlServer("Server = (localdb)\\mssqllocaldb; Database = Authentication.Dev; Trusted_Connection = True;");
-  //    return new DatabaseContext(optionsBuilder.Options);
-  //  }
-  //}
+  public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<DatabaseContext>
+  {
+    public DatabaseContext CreateDbContext(string[] args)
+    {
+      var configuration = new ConfigurationBuilder()
+        .AddJsonFile(@"~\appsettings.json", optional: true, reloadOnChange: true)
+        .AddEnvironmentVariables()
+        .Build();
+  
+      var optionsBuilder = new DbContextOptionsBuilder();
+      optionsBuilder.UseSqlServer("Server = (localdb)\\mssqllocaldb; Database = Authentication.Dev; Trusted_Connection = True;");
+      return new DatabaseContext(optionsBuilder.Options);
+    }
+  }
 }

@@ -23,6 +23,14 @@ namespace Authentication.Database.EntityConfigurations
       builder.Property(p => p.LastName)
         .HasMaxLength(Helper.MaxLength.LastName)
         .IsRequired(false);
+
+      builder.HasMany(p => p.Claims)
+        .WithOne()
+        .HasForeignKey(p => p.UserId);
+
+      builder.HasMany(p => p.Logins)
+        .WithOne()
+        .HasForeignKey(p => p.UserId);
     }
   }
 }

@@ -20,7 +20,9 @@ namespace Authentication.Filters
       {
         databaseContext.BeginTransaction();
 
-        await next();
+        var result = await next();
+        if(!result.ExceptionHandled)
+          throw new Exception();
 
         await databaseContext.CommitTransactionAsync();
       }

@@ -20,6 +20,5 @@ namespace Authentication.User.Models
     public string StateProvinceRegion { get; set; }
 
     public string Country { get; set; }
-
   }
 }
