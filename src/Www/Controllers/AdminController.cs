@@ -42,7 +42,8 @@ namespace Authentication.Controllers
     [HttpGet]
     public async Task<IActionResult> EditUser(string userEmail = null)
     {
-      return View();
+      var viewModel = new EditUserViewModel();
+      return View(viewModel);
     }
    
     // POST: /Admin/EditUser

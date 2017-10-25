@@ -1,6 +1,80 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Rendering
-<div class ="row">
-  <div class="col-sm-12">
-    
-  </div><!--/col-->
-</div><!--/row-->
+@model Authentication.PresentationModels.Admin.ViewModels.EditUserViewModel
+
+<form method="post">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row">
+        <div class="col-sm-12">
+          <h3 class="text-primary">Account Information</h3>
+          <dl class = "row mt-3">
+            <dt class="col-sm-3"><label asp-for="UserId"></label></dt>
+            <dd class="col-sm-9 mb-3">@Model.UserId</dd>
+            
+            <dt class="col-sm-3"><label>Username</label></dt>
+            <dd class="col-sm-9 mb-3">@Model.Email</dd>
+
+            <dt class="col-sm-3"><label asp-for="DateCreated"></label></dt>
+            <dd class="col-sm-9 mb-3">@Model.DateCreated</dd>
+            
+            <dt class="col-sm-3"><label asp-for="DateUpdated"></label></dt>
+            <dd class="col-sm-9 mb-3">@Model.DateUpdated</dd>
+          
+            <dt class="col-sm-3"><label asp-for="LastLogin"></label></dt>
+            <dd class="col-sm-9 mb-3">@Model.LastLogin</dd>
+
+            <dt class="col-sm-3"><label asp-for="FailedAccessCount"></label></dt>
+            <dd class="col-sm-9 mb-3">@Model.FailedAccessCount</dd>
+            
+            <dt class="col-sm-3"><label asp-for="EnableMultiFactorAuth"></label></dt>
+            <dd class="col-sm-9 mb-3"><input asp-for="EnableMultiFactorAuth" class="form-check"></dd>
+            
+            <dt class="col-sm-3"><label asp-for="LockAccount"></label></dt>
+            <dd class="col-sm-9 mb-3"><input asp-for="LockAccount" class="form-check"></dd>
+
+            <dt class="col-sm-3"><label asp-for="LockoutEndDate"></label></dt>
+            <dd class="col-sm-9 mb-3"><input asp-for="LockoutEndDate" class="form-control-sm"></dd>
+          </dl>
+        </div><!--/col-->
+      </div><!--/row-->
+
+      <div class="row mt-3">
+        <div class="col-sm-12">
+          <h3 class="text-primary">User Information</h3>
+          <dl class = "row mt-3">
+            <dt class="col-sm-3"><label asp-for="FirstName" ></label></dt>
+            <dd class="col-sm-9 mb-3"><input asp-for="FirstName" class="form-control-sm col-sm-10"></dd>
+            
+            <dt class="col-sm-3"><label asp-for="LastName"></label></dt>
+            <dd class="col-sm-9 mb-3"><input asp-for="LastName" class="form-control-sm col-sm-10"></dd>
+            
+            <dt class="col-sm-3"><label asp-for="Email"></label></dt>
+            <dd class="col-sm-9 mb-3"><input asp-for="Email" class="form-control-sm col-sm-10">
+              <span asp-validation-for="Email" class="text-danger"></span>
+            </dd>
+
+            <dt class="col-sm-3"><label asp-for="PhoneNumber"></label></dt>
+            <dd class="col-sm-9 mb-3"><input asp-for="PhoneNumber" class="form-control-sm col-sm-10"></dd>
+
+            <dt class="col-sm-3"><label>Street Address</label></dt>
+            <dd class="col-sm-9 mb-3"><input asp-for="Address.AddressLine1" class="form-control-sm col-sm-10" placeholder="Street and number, P.O. box, c/o."></dd>
+            
+            <dt class="col-sm-3"></dt>
+            <dd class="col-sm-9 mb-3"><input asp-for="Address.AddressLine2" class="form-control-sm col-sm-10" placeholder="Apartment, suite, unit, building, floor, etc."></dd>
+            
+            <dt class="col-sm-3"><label asp-for="Address.City"></label></dt>
+            <dd class="col-sm-9 mb-3"><input asp-for="Address.City" class="form-control-sm col-sm-10"></dd>
+            
+            <dt class="col-sm-3"><label asp-for="Address.StateProvinceRegion"></label></dt>
+            <dd class="col-sm-9 mb-3"><input asp-for="Address.StateProvinceRegion" class="form-control-sm col-sm-10"></dd>
+
+            <dt class="col-sm-3"><label asp-for="Address.PostalCode"></label></dt>
+            <dd class="col-sm-9 mb-3"><input asp-for="Address.PostalCode" class="form-control-sm col-sm-10"></dd>
+
+          </dl>
+        </div><!--/col-->
+      </div><!--/row-->
+
+    </div><!--/col-->
+  </div><!--/row-->
+</form>

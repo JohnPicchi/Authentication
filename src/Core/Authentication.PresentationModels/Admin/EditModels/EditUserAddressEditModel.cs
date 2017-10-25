@@ -13,12 +13,15 @@ namespace Authentication.PresentationModels.Admin.EditModels
     [Display(Name = "Address Line 2")]
     public string AddressLine2 { get; set; }
 
+    [DataType(DataType.Text)]
+    public string City { get; set; }
+
+    [Display(Name = "State / Province / Region")]
+    public string StateProvinceRegion { get; set; }
+
     [DataType(DataType.PostalCode)]
     [Display(Name = "Postal Code")]
     public string PostalCode { get; set; }
-
-    [Display(Name = "State/Province/Region")]
-    public string StateProvinceRegion { get; set; }
 
     public string Country { get; set; }
   }

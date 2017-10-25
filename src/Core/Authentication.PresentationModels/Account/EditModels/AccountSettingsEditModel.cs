@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Authentication.Utilities.Helpers;
 
@@ -6,6 +7,9 @@ namespace Authentication.PresentationModels.Account.EditModels
 {
   public class AccountSettingsEditModel
   {
+    [Display(Name = "User Id")]
+    public Guid UserId { get; set; }
+
     [MaxLength(Helper.MaxLength.FirstName, ErrorMessage = "Input cannot exceed 128 characters")]
     [DisplayName("First Name")]
     public string FirstName { get; set; }
@@ -14,30 +18,16 @@ namespace Authentication.PresentationModels.Account.EditModels
     [DisplayName("Last Name")]
     public string LastName { get; set; }
 
+    [Display(Name = "E-Mail")]
+    [DataType(DataType.EmailAddress)]
+    [Required(ErrorMessage = "E-Mail Address Required")]
+    public string Email { get; set; }
+
     [DataType(DataType.PhoneNumber)]
     [DisplayName("Phone Number")]
     public string PhoneNumber { get; set; }
 
-    [MaxLength(Helper.MaxLength.AddressLine1, ErrorMessage = "Input cannot exceed 256 characters")]
-    [DisplayName("Address")]
-    public string AddressLine1 { get; set; }
-
-    [MaxLength(Helper.MaxLength.AddressLine1, ErrorMessage = "Input cannot exceed 256 characters")]
-    public string AddressLine2 { get; set; }
-
-    [MaxLength(Helper.MaxLength.Country, ErrorMessage = "Input cannot exceed 256 characters")]
-    public string Country { get; set; }
-
-    [MaxLength(Helper.MaxLength.StateProvinceRegion, ErrorMessage = "Input cannot exceed 256 characters")]
-    [DisplayName("State / Province / Region")]
-    public string StateProvinceRegion { get; set; }
-
-    [DataType(DataType.PostalCode)]
-    [MaxLength(Helper.MaxLength.ZipCode, ErrorMessage = "Input cannot exceed 64 characters")]
-    [DisplayName("Postal Code")]
-    public string PostalCode { get; set; }
-
-    [DisplayName("Two Factor Authentication")]
-    public bool TwoFactorEnabled { get; set; }
+    [DisplayName("Enable Multi-Factor Authentication")]
+    public bool EnableMultiFactorAuth { get; set; }
   }
 }

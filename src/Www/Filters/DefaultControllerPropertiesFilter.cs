@@ -12,16 +12,14 @@ namespace Authentication.Filters
 {
   public class DefaultControllerPropertiesFilter : IAsyncActionFilter
   {
-    private readonly IApplicationContext applicationContext;
     private readonly UserManager<User.Models.User> userManager;
     private readonly SignInManager<User.Models.User> signInManager;
 
     public DefaultControllerPropertiesFilter(
-      IApplicationContext applicationContext,
+
       UserManager<User.Models.User> userManager,
       SignInManager<User.Models.User> signInManager)
     {
-      this.applicationContext = applicationContext;
       this.userManager = userManager;
       this.signInManager = signInManager;
     }
@@ -31,7 +29,6 @@ namespace Authentication.Filters
       var controller = context.Controller as DefaultController;
       if (controller != null)
       {
-        controller.ApplicationContext = applicationContext;
         controller.UserManager = userManager;
         controller.SignInManager = signInManager;;
       }

@@ -12,18 +12,15 @@ namespace Authentication.Core.RequestHandlers.FormHandlers.Account
 {
   public class ConfirmEmailRequestHandlerAsync : IRequestHandlerAsync<GenericResult>
   {
-    private readonly IApplicationContext applicationContext;
     private readonly UserManager<User.Models.User> userManager;
     private readonly HttpContext httpContext;
     private readonly IEmailService emailService;
 
     public ConfirmEmailRequestHandlerAsync(
-      IApplicationContext applicationContext,
       UserManager<User.Models.User> userManager,
       IHttpContextAccessor httpContext,
       IEmailService emailService)
     {
-      this.applicationContext = applicationContext;
       this.userManager = userManager;
       this.httpContext = httpContext.HttpContext;
       this.emailService = emailService;
@@ -31,13 +28,13 @@ namespace Authentication.Core.RequestHandlers.FormHandlers.Account
 
     public async Task<GenericResult> HandleAsync()
     {
-      var user = applicationContext.User;
-      if (user != null)
-      {
-        var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
-        var callbackUrl = BuildCallbackUrl(user.Id.ToString(), code);
-        await emailService.SendEmailConfirmationEmailAsync(user.Email, callbackUrl);
-      }
+      //var user = applicationContext.User;
+      //if (user != null)
+      //{
+      //  var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+      //  var callbackUrl = BuildCallbackUrl(user.Id.ToString(), code);
+      //  await emailService.SendEmailConfirmationEmailAsync(user.Email, callbackUrl);
+      //}
       return GenericResult.Success;
     }
    

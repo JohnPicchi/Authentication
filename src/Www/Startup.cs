@@ -66,29 +66,29 @@ namespace Authentication
       });
 
       services.AddIdentityCore<User.Models.User>(opts =>
-        {
-          // Password settings
-          opts.Password.RequireDigit = false;
-          opts.Password.RequiredLength = 1;
-          opts.Password.RequireNonAlphanumeric = false;
-          opts.Password.RequireUppercase = false;
-          opts.Password.RequireLowercase = false;
+      {
+        // Password settings
+        opts.Password.RequireDigit = false;
+        opts.Password.RequiredLength = 1;
+        opts.Password.RequireNonAlphanumeric = false;
+        opts.Password.RequireUppercase = false;
+        opts.Password.RequireLowercase = false;
 
-          // Lockout settings
-          opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(60);
-          opts.Lockout.MaxFailedAccessAttempts = 5;
+        // Lockout settings
+        opts.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(60);
+        opts.Lockout.MaxFailedAccessAttempts = 5;
 
-          // SignIn settings
-          opts.SignIn.RequireConfirmedEmail = false;
-          opts.SignIn.RequireConfirmedPhoneNumber = false;
+        // SignIn settings
+        opts.SignIn.RequireConfirmedEmail = false;
+        opts.SignIn.RequireConfirmedPhoneNumber = false;
 
-          // User settings
-          opts.User.RequireUniqueEmail = true;
-        })
-        .AddDefaultTokenProviders()
-        .AddSignInManager<SignInManager<User.Models.User>>()
-        .AddUserManager<UserManager<User.Models.User>>()
-        .AddUserStore<UserOnlyStore<User.Models.User, DatabaseContext, Guid>>();
+        // User settings
+        opts.User.RequireUniqueEmail = true;
+      })
+      .AddDefaultTokenProviders()
+      .AddSignInManager<SignInManager<User.Models.User>>()
+      .AddUserManager<UserManager<User.Models.User>>()
+      .AddUserStore<UserOnlyStore<User.Models.User, DatabaseContext, Guid>>();
 
       services.AddAuthentication(opts =>
       {

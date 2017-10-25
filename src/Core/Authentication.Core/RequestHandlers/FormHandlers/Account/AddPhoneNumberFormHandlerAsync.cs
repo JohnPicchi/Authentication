@@ -11,16 +11,13 @@ namespace Authentication.Core.RequestHandlers.FormHandlers.Account
 {
   public class AddPhoneNumberFormHandlerAsync : IFormHandlerAsync<AddPhoneNumberEditModel>
   {
-    private readonly IApplicationContext applicationContext;
     private readonly UserManager<User.Models.User> userManager;
     private readonly ISmsService smsService;
 
     public AddPhoneNumberFormHandlerAsync(
-      IApplicationContext applicationContext,
       UserManager<User.Models.User> userManager,
       ISmsService smsService)
     {
-      this.applicationContext = applicationContext;
       this.userManager = userManager;
       this.smsService = smsService;
     }

@@ -22,11 +22,6 @@ namespace Authentication.Container.Modules
      //   .As<IUser>()
      //   .InstancePerLifetimeScope();
 
-      builder.RegisterType<ApplicationContext>()
-        .AsSelf()
-        .As<IApplicationContext>()
-        .InstancePerLifetimeScope();
-
       base.Load(builder);
     }
   }

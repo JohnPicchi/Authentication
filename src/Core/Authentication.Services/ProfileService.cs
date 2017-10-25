@@ -19,7 +19,7 @@ namespace Authentication.Services
         new Claim(JwtClaimTypes.Role, "Administrator"),
         new Claim(JwtClaimTypes.GivenName, "John")
       };
-      context.AddFilteredClaims(claims);
+      context.AddRequestedClaims(claims);
       return Task.FromResult(0);
     }
 
