@@ -5,11 +5,11 @@ using Authentication.Core.Requests.Contracts;
 
 namespace Authentication.Core.Requests
 {
-  public class FormResultRequestAsync<TForm> : IFormResultRequestAsync<TForm>
+  public class FormResultRequest<TForm> : IFormResultRequest<TForm>
   {
-    private readonly IFormHandlerAsync<TForm> requestHandler;
+    private readonly IFormHandler<TForm> requestHandler;
 
-    public FormResultRequestAsync(IFormHandlerAsync<TForm> requestHandler)
+    public FormResultRequest(IFormHandler<TForm> requestHandler)
     {
       this.requestHandler = requestHandler;
     }

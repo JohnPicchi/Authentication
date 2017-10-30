@@ -11,13 +11,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Authentication.Core.RequestHandlers.FormHandlers.Account
 {
-  public class ForgotPasswordFormHandlerAsync : IFormHandlerAsync<ForgotPasswordEditModel>
+  public class ForgotPasswordFormHandler : IFormHandler<ForgotPasswordEditModel>
   {
     private readonly UserManager<User.Models.User> userManager;
     private readonly HttpContext httpContext;
     private readonly IEmailService emailService;
 
-    public ForgotPasswordFormHandlerAsync(
+    public ForgotPasswordFormHandler(
       UserManager<User.Models.User> userManager, 
       IHttpContextAccessor httpContext,
       IEmailService emailService)

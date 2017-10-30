@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Authentication.Core.RequestHandlers.FormHandlers.Account
 {
-  public class ResetPasswordFormHandlerAsync : IFormHandlerAsync<ResetPasswordEditModel>
+  public class ResetPasswordFormHandler : IFormHandler<ResetPasswordEditModel>
   {
     private readonly UserManager<User.Models.User> userManager;
 
-    public ResetPasswordFormHandlerAsync(UserManager<User.Models.User> userManager)
+    public ResetPasswordFormHandler(UserManager<User.Models.User> userManager)
     {
       this.userManager = userManager;
     }

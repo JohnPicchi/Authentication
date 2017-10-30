@@ -9,12 +9,12 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Authentication.Core.RequestHandlers.FormHandlers.Account
 {
-  public class AddPhoneNumberFormHandlerAsync : IFormHandlerAsync<AddPhoneNumberEditModel>
+  public class AddPhoneNumberFormHandler : IFormHandler<AddPhoneNumberEditModel>
   {
     private readonly UserManager<User.Models.User> userManager;
     private readonly ISmsService smsService;
 
-    public AddPhoneNumberFormHandlerAsync(
+    public AddPhoneNumberFormHandler(
       UserManager<User.Models.User> userManager,
       ISmsService smsService)
     {

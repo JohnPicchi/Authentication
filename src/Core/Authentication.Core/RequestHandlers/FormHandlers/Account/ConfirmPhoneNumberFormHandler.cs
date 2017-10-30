@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Authentication.Core.RequestHandlers.FormHandlers.Account
 {
-  public class ConfirmPhoneNumberFormHandlerAsync : IFormHandlerAsync<ConfirmPhoneNumberEditModel>
+  public class ConfirmPhoneNumberFormHandler : IFormHandler<ConfirmPhoneNumberEditModel>
   {
     private readonly UserManager<User.Models.User> userManager;
 
-    public ConfirmPhoneNumberFormHandlerAsync(
+    public ConfirmPhoneNumberFormHandler(
       UserManager<User.Models.User> userManager)
     {
       this.userManager = userManager;

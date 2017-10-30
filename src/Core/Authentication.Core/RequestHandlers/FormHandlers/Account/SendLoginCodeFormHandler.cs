@@ -6,7 +6,7 @@ using Authentication.PresentationModels.Account.EditModels;
 
 namespace Authentication.Core.RequestHandlers.FormHandlers.Account
 {
-  public class SendLoginCodeFormHandlerAsync : IFormHandlerAsync<SendLoginCodeEditModel>
+  public class SendLoginCodeFormHandler : IFormHandler<SendLoginCodeEditModel>
   {
     public async Task<IFormResult> HandleAsync(SendLoginCodeEditModel request)
     {

@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Authentication.Core.RequestHandlers;
 using Authentication.Core.RequestHandlers.FormHandlers.Account;
 using Authentication.Core.Requests.Contracts;
 
 namespace Authentication.Core.Requests
 {
-  public class ConfirmEmailRequestAsync : IRequestAsync<GenericResult>
+  public class ConfirmEmailRequest : IRequest<GenericResult>
   {
-    private readonly ConfirmEmailRequestHandlerAsync requestHandler;
+    private readonly ConfirmEmailRequestHandler requestHandler;
 
-    public ConfirmEmailRequestAsync(ConfirmEmailRequestHandlerAsync requestHandler)
+    public ConfirmEmailRequest(ConfirmEmailRequestHandler requestHandler)
     {
       this.requestHandler = requestHandler;
     }

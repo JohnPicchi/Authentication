@@ -2,7 +2,7 @@
 
 namespace Authentication.Core.Requests.Contracts
 {
-  public interface IFormResultRequestAsync<TRequest> : IRequestAsync<IFormResult, TRequest>
+  public interface IFormResultRequest<TRequest> : IRequest<IFormResult, TRequest>
   {
   }
 }

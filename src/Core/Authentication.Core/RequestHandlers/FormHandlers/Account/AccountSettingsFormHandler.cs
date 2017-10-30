@@ -6,7 +6,7 @@ using Authentication.PresentationModels.Account.EditModels;
 
 namespace Authentication.Core.RequestHandlers.FormHandlers.Account
 {
-  public class AccountSettingsFormHandlerAsync : IFormHandlerAsync<AccountSettingsEditModel>
+  public class AccountSettingsFormHandler : IFormHandler<AccountSettingsEditModel>
   {
     public async Task<IFormResult> HandleAsync(AccountSettingsEditModel request)
     {

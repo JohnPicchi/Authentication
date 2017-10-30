@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Authentication.Core.RequestHandlers.FormHandlers.Admin
 {
-  public class AddUserFormHandlerAsync : IFormHandlerAsync<AddUserEditModel>
+  public class AddUserFormHandler : IFormHandler<AddUserEditModel>
   {
     public const string ACCOUNT_REGISTRATION_ERROR = "Unable to register account due to an error.";
 
     private readonly UserManager<User.Models.User> userManager;
 
-    public AddUserFormHandlerAsync(UserManager<User.Models.User> userManager)
+    public AddUserFormHandler(UserManager<User.Models.User> userManager)
     {
       this.userManager = userManager;
     }

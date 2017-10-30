@@ -9,6 +9,7 @@ using Authentication.PresentationModels.Account.ViewModels;
 using Authentication.Utilities.ExtensionMethods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace Authentication.Controllers
 {
@@ -38,7 +39,7 @@ namespace Authentication.Controllers
     [HttpPost]
     [AllowAnonymous]
     public async Task<IActionResult> Login(LoginEditModel form,
-      [FromServices] LoginRequestAsync request)
+      [FromServices] IRequest<SignInResult, LoginEditModel> request)
     {
       var result = await request.HandleAsync(form);
       if (result.Succeeded)
@@ -93,7 +94,7 @@ namespace Authentication.Controllers
     [HttpPost]
     [AllowAnonymous]
     public async Task<IActionResult> SendCode(SendLoginCodeEditModel form,
-      [FromServices] IFormResultRequestAsync<SendLoginCodeEditModel> request)
+      [FromServices] IFormResultRequest<SendLoginCodeEditModel> request)
     {
       return await FormAsync(form, request,
         success: () => RedirectToAction(
@@ -119,7 +120,7 @@ namespace Authentication.Controllers
     [HttpPost]
     [AllowAnonymous]
     public async Task<IActionResult> VerifyCode(VerifyLoginCodeEditModel form,
-      [FromServices] VerifyLoginCodeRequestAsync request)
+      [FromServices] IRequest<SignInResult, VerifyLoginCodeEditModel> request)
     {
       var result = await request.HandleAsync(form);
       if (result.Succeeded)
@@ -144,14 +145,14 @@ namespace Authentication.Controllers
     [AllowAnonymous]
     public IActionResult ResetPassword(string email = null, string code = null)
     {
-      return View(new ResetPasswordEditModel() { Email = email ?? String.Empty, Code = code });
+      return View(new ResetPasswordEditModel { Email = email ?? String.Empty, Code = code });
     }
     
     // POST: /Account/ResetPassword
     [HttpPost]
     [AllowAnonymous]
     public async Task<IActionResult> ResetPassword(ResetPasswordEditModel form,
-      [FromServices] IFormResultRequestAsync<ResetPasswordEditModel> request)
+      [FromServices] IFormResultRequest<ResetPasswordEditModel> request)
     {
       return await FormAsync(form, request,
         success: () => RedirectToAction(nameof(AccountController.Login)),
@@ -167,7 +168,7 @@ namespace Authentication.Controllers
     [HttpPost]
     [AllowAnonymous]
     public async Task<IActionResult> ForgotPassword(ForgotPasswordEditModel form, 
-      [FromServices] IFormResultRequestAsync<ForgotPasswordEditModel> request)
+      [FromServices] IFormResultRequest<ForgotPasswordEditModel> request)
     {
       return await FormAsync(form, request,
         success: () => RedirectToAction(nameof(AccountController.ForgotPasswordConfirmation)),
@@ -199,7 +200,7 @@ namespace Authentication.Controllers
 
     // GET: /Account/ConfirmEmail
     [HttpGet]
-    public async Task<IActionResult> ConfirmEmail([FromServices] ConfirmEmailRequestAsync request)
+    public async Task<IActionResult> ConfirmEmail([FromServices] ConfirmEmailRequest request)
     {
       var result = await request.HandleAsync();
       return View();
@@ -212,7 +213,7 @@ namespace Authentication.Controllers
     // POST: /Accout/AddPhoneNumber
     [HttpPost]
     public async Task<IActionResult> AddPhoneNumber(AddPhoneNumberEditModel form,
-      [FromServices] IFormResultRequestAsync<AddPhoneNumberEditModel> request)
+      [FromServices] IFormResultRequest<AddPhoneNumberEditModel> request)
     {
       return await FormAsync(form, request,
         success: () => RedirectToAction(nameof(AccountController.ConfirmPhoneNumber), new { PhoneNumber = form.PhoneNumber }),
@@ -229,7 +230,7 @@ namespace Authentication.Controllers
     // POST: /Account/ConfirmPhoneNumber
     [HttpPost]
     public async Task<IActionResult> ConfirmPhoneNumber(ConfirmPhoneNumberEditModel form,
-      [FromServices] IFormResultRequestAsync<ConfirmPhoneNumberEditModel> request)
+      [FromServices] IFormResultRequest<ConfirmPhoneNumberEditModel> request)
     {
       return await FormAsync(form, request,
         success: () => RedirectToAction(nameof(AccountController.Settings)),
@@ -259,7 +260,7 @@ namespace Authentication.Controllers
     // POST: /Account/Settings
     [HttpPost]
     public async Task<IActionResult> Settings(AccountSettingsEditModel form,
-      [FromServices] IFormResultRequestAsync<AccountSettingsEditModel> request)
+      [FromServices] IFormResultRequest<AccountSettingsEditModel> request)
     {
       return await FormAsync(form, request,
         success: () => RedirectToAction(nameof(AccountController.Index)),

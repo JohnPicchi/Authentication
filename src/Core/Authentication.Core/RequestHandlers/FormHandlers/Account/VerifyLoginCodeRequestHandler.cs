@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Authentication.Core.RequestHandlers.FormHandlers.Account
 {
-  public class VerifyLoginCodeRequestHandlerAsync : IRequestHandlerAsync<VerifyLoginCodeEditModel, SignInResult>
+  public class VerifyLoginCodeRequestHandler : IRequestHandler<VerifyLoginCodeEditModel, SignInResult>
   {
     public async Task<SignInResult> HandleAsync(VerifyLoginCodeEditModel request)
     {

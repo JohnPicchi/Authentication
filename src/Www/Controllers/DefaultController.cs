@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Authentication.Application.DomainModels.Contracts;
 using Authentication.Core;
 using Authentication.Core.Requests.Contracts;
 using Microsoft.AspNetCore.Identity;
@@ -16,7 +15,7 @@ namespace Authentication.Controllers
 
     internal async Task<IActionResult> FormAsync<TForm>(
       TForm form,
-      IFormResultRequestAsync<TForm> request,
+      IFormResultRequest<TForm> request,
       Func<IActionResult> success,
       Func<IActionResult> failure)
     {
@@ -33,7 +32,7 @@ namespace Authentication.Controllers
 
     internal async Task<IActionResult> FormAsync<TForm>(
       TForm form,
-      IFormResultRequestAsync<TForm> request,
+      IFormResultRequest<TForm> request,
       Func<Task<IActionResult>> success,
       Func<IActionResult> failure)
     {
@@ -50,7 +49,7 @@ namespace Authentication.Controllers
 
     internal async Task<IActionResult> FormAsync<TForm>(
       TForm form,
-      IFormResultRequestAsync<TForm> request,
+      IFormResultRequest<TForm> request,
       Func<IActionResult> success,
       Func<Task<IActionResult>> failure)
     {

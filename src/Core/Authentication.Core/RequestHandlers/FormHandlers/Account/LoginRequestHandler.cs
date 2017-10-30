@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Authentication.Core.RequestHandlers.FormHandlers.Account
 {
-  public class LoginRequestHandlerAsync : IRequestHandlerAsync<LoginEditModel, SignInResult>
+  public class LoginRequestHandler : IRequestHandler<LoginEditModel, SignInResult>
   {
     private readonly SignInManager<User.Models.User> signInManager;
 
-    public LoginRequestHandlerAsync(SignInManager<User.Models.User> signInManager)
+    public LoginRequestHandler(SignInManager<User.Models.User> signInManager)
     {
       this.signInManager = signInManager;
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Authentication.Core;
 using Authentication.Core.Requests.Contracts;
 using Authentication.PresentationModels.Admin.EditModels;
 using Authentication.PresentationModels.Admin.ViewModels;
@@ -31,42 +32,33 @@ namespace Authentication.Controllers
     // POST: /Admin/AddUser
     [HttpPost]
     public async Task<IActionResult> AddUser(AddUserEditModel form,
-      [FromServices] IFormResultRequestAsync<AddUserEditModel> request)
+      [FromServices] IFormResultRequest<AddUserEditModel> request)
     {
       return await FormAsync(form, request,
-        success: () => RedirectToAction(nameof(AdminController.EditUser), new {userEmail = form.Email}),
+        success: async () =>
+        {
+          var user = await UserManager.FindByEmailAsync(form.Email);
+          return RedirectToAction(nameof(AdminController.EditUser), new {userId = user.Id});
+        },
         failure: () => View("Error"));
     }
 
     // GET: /Admin/EditUser
     [HttpGet]
-    public async Task<IActionResult> EditUser(string userEmail = null)
+    public async Task<IActionResult> EditUser(Guid userId,
+      [FromServices] IViewModelFactoryAsync<EditUserViewModel> factory)
     {
-      var viewModel = new EditUserViewModel();
+      var viewModel = await factory.BuildAsync(userId);
       return View(viewModel);
     }
    
     // POST: /Admin/EditUser
     [HttpPost]
     public async Task<IActionResult> EditUser(EditUserEditModel form,
-      [FromServices] IFormResultRequestAsync<EditUserEditModel> request)
+      [FromServices] IFormResultRequest<EditUserEditModel> request)
     {
       return await FormAsync(form, request,
         success: () => View(),
-        failure: () => View());
-    }
-
-    // GET: /Admin/Search
-    [HttpGet]
-    public async Task<IActionResult> Search(AdminSearchEditModel form,
-      [FromServices] IFormResultRequestAsync<AdminSearchViewModel> request)
-    {
-      if (form.Query == null || form.Kind == null)
-        return View(new AdminSearchViewModel());
-
-      var viewModel = form as AdminSearchViewModel;
-      return await FormAsync(viewModel, request,
-        success: () => View(viewModel),
         failure: () => View());
     }
   }

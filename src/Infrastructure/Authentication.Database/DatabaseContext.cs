@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Authentication.Common;
 using Authentication.User.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -25,18 +24,6 @@ namespace Authentication.Database
     }
 
     public DbSet<UserAddress> UserAddresses { get; set; }
-
-    //public DbSet<User.Models.User> Users { get; set; }
-    ////
-    //// Summary:
-    ////     Gets or sets the Microsoft.EntityFrameworkCore.DbSet`1 of User claims.
-    //public DbSet<IdentityUserClaim<Guid>> UserClaims { get; set; }
-    //
-    //public DbSet<IdentityUserLogin<Guid>> UserLogins { get; set; }
-    //
-    //public DbSet<IdentityUserToken<Guid>> UserTokens { get; set; }
-
-
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

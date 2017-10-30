@@ -10,13 +10,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Authentication.Core.RequestHandlers.FormHandlers.Account
 {
-  public class ConfirmEmailRequestHandlerAsync : IRequestHandlerAsync<GenericResult>
+  public class ConfirmEmailRequestHandler : IRequestHandler<GenericResult>
   {
     private readonly UserManager<User.Models.User> userManager;
     private readonly HttpContext httpContext;
     private readonly IEmailService emailService;
 
-    public ConfirmEmailRequestHandlerAsync(
+    public ConfirmEmailRequestHandler(
       UserManager<User.Models.User> userManager,
       IHttpContextAccessor httpContext,
       IEmailService emailService)
